@@ -2,10 +2,13 @@ package kw.test.music;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -23,26 +26,28 @@ import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
+    private float mHeaderWidth;
     private ActivityMainBinding binding;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ViewItemNavBinding navView = binding.navView;
-
-
+        ImageView shadow = binding.shadow;
+        shadow.setColorFilter(R.color.nullshadow);
         final ViewTreeObserver vto = navView.getRoot().getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                float mHeaderWidth = navView.getRoot().getMeasuredWidth();
-                float mHeaderHeight = navView.getRoot().getMeasuredHeight();
+                mHeaderWidth = navView.getRoot().getMeasuredWidth();
                 //在API16之后removeOnGlobalLayoutListener代替了removeGlobalOnLayoutListener
                 if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     navView.getRoot().getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -52,13 +57,46 @@ public class MainActivity extends AppCompatActivity {
                 navView.getRoot().setX(-mHeaderWidth);
                 float[] mm = {-mHeaderWidth,0};
                 Animator animator = ObjectAnimator.ofFloat(navView.getRoot(),"translationX",mm);
+                animator.setDuration(1000);
                 animator.start();
-//                Animation animation = new TranslateAnimation(80,100,0,100);
-//                animation.setDuration(4000);
-//                navView.getRoot().setAnimation(animation);
+                binding.shadow.setEnabled(true);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(binding.shadow, "alpha", 0, 0.5f);
+                anim.setDuration(1000);
+                anim.start();
+
+                binding.navView.getRoot().setEnabled(true);
+            }
+        });
+        binding.shadow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.shadow.setEnabled(false);
+                float[] mm = {0,-mHeaderWidth};
+                Animator animator = ObjectAnimator.ofFloat(navView.getRoot(),"translationX",mm);
+                animator.setDuration(1000);
+                animator.start();
+
+
+                ObjectAnimator anim = ObjectAnimator.ofFloat(binding.shadow, "alpha", 0.5f, 0.0f);
+                anim.setDuration(1000);
+                anim.start();
             }
         });
 
+        binding.actionBar.navItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ObjectAnimator anim = ObjectAnimator.ofFloat(binding.shadow, "alpha", 0, 0.5f);
+                anim.setDuration(1000);
+                anim.start();
+                float[] mm = {-mHeaderWidth,0};
+                Animator animator = ObjectAnimator.ofFloat(navView.getRoot(),"translationX",mm);
+                animator.setDuration(1000);
+                animator.start();
+                binding.shadow.setEnabled(true);
+                binding.navView.getRoot().setEnabled(true);
+            }
+        });
 
     }
 
@@ -84,10 +122,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }

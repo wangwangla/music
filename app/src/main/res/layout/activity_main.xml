@@ -7,11 +7,19 @@
     tools:context=".MainActivity">
 
 
-    <include layout="@layout/action_bar"></include>
+    <include layout="@layout/content_main" />
 
+    <ImageView
+        android:id="@+id/shadow"
+        android:src="@drawable/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY">
+
+    </ImageView>
     <include layout="@layout/view_item_nav"
         android:id="@+id/nav_view" ></include>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/action_bar" android:id="@+id/action_bar"></include>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
