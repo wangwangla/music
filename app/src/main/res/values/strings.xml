@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Music</string>
+    <string name="song">歌曲</string>
+    <string name="play_order">播放列表</string>
+    <string name="dir">文件夹</string>
+    <string name="albm">专辑</string>
+    <string name="songer">歌手</string>
+ </resources>
