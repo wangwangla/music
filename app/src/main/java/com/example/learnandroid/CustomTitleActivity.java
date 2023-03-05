@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.main.SectionsPagerAdapter;
+import com.example.learnandroid.adapter.SectionsPagerAdapter;
 import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.google.android.material.tabs.TabLayout;
