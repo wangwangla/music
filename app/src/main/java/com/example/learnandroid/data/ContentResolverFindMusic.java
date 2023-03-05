@@ -87,7 +87,9 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
                 long artistId = mCursor.getInt(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST_ID));
                 long albumId = mCursor.getLong(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
 
-                final MusicBean song = new MusicBean(id, albumId, artistId, title, artist, album, duration, trackNumber);
+                String path = mCursor.getString(mCursor.getColumnIndexOrThrow((MediaStore.Audio.Media.DATA)));
+
+                final MusicBean song = new MusicBean(id, albumId, artistId, title, artist, album, duration, trackNumber,path);
 
                 musicBeans.add(song);
             } while (mCursor.moveToNext());

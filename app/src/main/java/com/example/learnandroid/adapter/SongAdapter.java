@@ -1,4 +1,4 @@
-package com.example.learnandroid;
+package com.example.learnandroid.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.utils.MusicUtils;
 
 import java.util.List;
@@ -30,7 +32,6 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         MusicBean musicBean=getItem(position);//得到当前项的 Fruit 实例
-        System.out.println(musicBean.toString()+" ----------------- ");
         //为每一个子项加载设定的布局
         View view= LayoutInflater.from(getContext()).inflate(R.layout.songlist_view_layout,parent,false);
         //分别获取 image view 和 textview 的实例
@@ -39,13 +40,23 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         TextView fruitprice=view.findViewById(R.id.song_songer);
         // 设置要显示的图片和文字
         Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-        String encodedPath = albumArtUri.getEncodedPath();
-        System.out.println(encodedPath+" ---------------- ");
         Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
         fruitimage.setImageBitmap(bitmap);
         fruitname.setText(musicBean.getTitle());
         fruitprice.setText(musicBean.getArtistName());
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (musicBean.getId() == MusicManager.getId()){
+                    return;
+                }
+                //播放
+                MusicManager.setData(musicBean.getPath());
+                MusicManager.play();
+                MusicManager.setCurrentPlayId(musicBean.getId());
+                MusicManager.setIndex(position);
+            }
+        });
         return view;
     }
-
 }

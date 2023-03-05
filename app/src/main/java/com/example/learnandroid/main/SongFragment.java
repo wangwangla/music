@@ -4,15 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.learnandroid.R;
-import com.example.learnandroid.SongAdapter;
+import com.example.learnandroid.adapter.SongAdapter;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.constant.Constant;
+import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.ContentResolverFindMusic;
 import com.example.learnandroid.data.SaoMiaoMusicInterface;
 
@@ -34,26 +37,49 @@ public class SongFragment extends Fragment {
         saoMiaoMusicInterface = new ContentResolverFindMusic(getContext());
         saoMiaoMusicInterface.findMusic();
         ArrayList<MusicBean> musicBeans = saoMiaoMusicInterface.getMusicBeans();
-        for (MusicBean musicBean : musicBeans) {
-            System.out.println(musicBean.toString());
-        }
         ListView songList = view.findViewById(R.id.songlist);
-//        ArrayAdapter<String> adapter
-//                =new ArrayAdapter<>(
-//                getContext()
-//                ,android.R.layout.simple_list_item_1,data);
         SongAdapter adapter
                 = new SongAdapter(
                         getContext(),
                         R.layout.songlist_view_layout,
                 musicBeans
                 );
+        MusicManager.setSongList(musicBeans);
         songList.setAdapter(adapter);
+        TextView shuffePlayer = view.findViewById(R.id.shuffle_player);
+        shuffePlayer.setText("顺序播放");
+        View shuffle = view.findViewById(R.id.shuffle_btn);
+        shuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                index ++;
+                if (index>=2){
+                    index = 0;
+                }
+                if (index == 0){
+                    shuffePlayer.setText("顺序播放");
+                    Constant.playStyle = 0;
+                }else if (index == 1){
+                    shuffePlayer.setText("随机播放");
+                    Constant.playStyle = 1;
+                }
+            }
+        });
+
     }
 
+    private int index = 0;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        saoMiaoMusicInterface = new ContentResolverFindMusic(getContext());
+        saoMiaoMusicInterface.findMusic();
+        ArrayList<MusicBean> musicBeans = saoMiaoMusicInterface.getMusicBeans();
+        MusicManager.setSongList(musicBeans);
+    }
 }

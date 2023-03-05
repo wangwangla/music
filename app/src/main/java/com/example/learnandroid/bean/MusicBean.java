@@ -1,7 +1,6 @@
 package com.example.learnandroid.bean;
 
 public class MusicBean {
-
     private final long albumId;
     private final String albumName;
     private final long artistId;
@@ -10,6 +9,7 @@ public class MusicBean {
     private final long id;
     private final String title;
     private final int trackNumber;
+    private final String path;
 
     public MusicBean() {
         this.id = -1;
@@ -20,9 +20,10 @@ public class MusicBean {
         this.albumName = "";
         this.duration = -1;
         this.trackNumber = -1;
+        this.path = "";
     }
 
-    public MusicBean(long _id, long _albumId, long _artistId, String _title, String _artistName, String _albumName, int _duration, int _trackNumber) {
+    public MusicBean(long _id, long _albumId, long _artistId, String _title, String _artistName, String _albumName, int _duration, int _trackNumber,String path) {
         this.id = _id;
         this.albumId = _albumId;
         this.artistId = _artistId;
@@ -31,6 +32,7 @@ public class MusicBean {
         this.albumName = _albumName;
         this.duration = _duration;
         this.trackNumber = _trackNumber;
+        this.path = path;
     }
 
     @Override
@@ -77,5 +79,9 @@ public class MusicBean {
 
     public int getTrackNumber() {
         return trackNumber;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

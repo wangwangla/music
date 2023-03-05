@@ -5,6 +5,9 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
 
+import com.example.learnandroid.constant.MusicManager;
+
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,13 +19,28 @@ public class MusicControl extends Binder {
       this.context = context;
    }
 
+   public void setData(String path){
+      try {
+         player.reset();
+         player.setDataSource(path);
+      } catch (IOException e) {
+         throw new RuntimeException(e);
+      }
+   }
 
    public void play() {
       try {
-         player.reset();//重置音乐播放器
+//         player.reset();//重置音乐播放器
          //加载多媒体文件
 //         player = MediaPlayer.create(context, R.raw.music);
+         player.prepare();
          player.start();//播放音乐
+         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+               MusicManager.playNext();
+            }
+         });
          addTimer();     //添加计时器
       } catch (Exception e) {
          e.printStackTrace();

@@ -42,15 +42,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         if (position==0){
             fragment = new SongFragment();
         }else if (position == 1){
-            fragment = new ToolbarLayoutSencondFragment();
+            fragment = new PlayerOrderFragment();
         }else if (position == 2){
-            fragment = new ToolbarLayoutSencondFragment();
+            fragment = new DirFragment();
         }else if (position == 3){
-            fragment = new ToolbarLayoutSencondFragment();
+            fragment = new AlbmFragment();
         }else if (position == 4){
-            fragment = new ToolbarLayoutSencondFragment();
+            fragment = new SongerFragment();
         }else {
-            fragment = new ToolbarLayoutSencondFragment();
+            fragment = new SongFragment();
         }
         return fragment;
     }
