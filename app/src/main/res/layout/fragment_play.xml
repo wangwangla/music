@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@color/black"
     android:layout_height="match_parent">
 
     <ImageView
@@ -31,9 +32,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
@@ -58,55 +91,44 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="00:00"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_weight="1"
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btn_continue_play"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_notification_play"/>
-        <Button
-            android:id="@+id/btn_pause"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_notification_pause"/>
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btn_play"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_notification_play" />
-        <Button
-            android:id="@+id/btn_pre"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_notification_previous"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/btn_play"/>
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ucrop_ic_next"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/btn_play"/>
-        <Button
-            android:id="@+id/btn_exit"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_song_manager"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/btn_next"/>
+        </ImageView>
 
-    </RelativeLayout>
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_lyrics_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+    </LinearLayout>
+
 </LinearLayout>
