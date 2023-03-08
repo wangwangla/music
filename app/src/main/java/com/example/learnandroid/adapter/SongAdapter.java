@@ -41,7 +41,9 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         // 设置要显示的图片和文字
         Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
-        fruitimage.setImageBitmap(bitmap);
+        if (bitmap!=null) {
+            fruitimage.setImageBitmap(bitmap);
+        }
         fruitname.setText(musicBean.getTitle());
         fruitprice.setText(musicBean.getArtistName());
         view.setOnClickListener(new View.OnClickListener() {

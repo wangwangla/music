@@ -21,26 +21,20 @@ public class CustomTitleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_title);
-
         Intent intent = new Intent(this, MusicService.class);//创建意图对象
         conn = new MyServiceConn();                       //创建服务连接对象
         bindService(intent, conn, BIND_AUTO_CREATE);  //绑定服务
-
-
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
-
     }
 
     class MyServiceConn implements ServiceConnection { //用于实现连接服务
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicManager.musicControl = (MusicControl) service;
-            System.out.println("-----------------------------------");
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {

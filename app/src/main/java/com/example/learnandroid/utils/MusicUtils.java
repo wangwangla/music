@@ -103,21 +103,22 @@ public class MusicUtils {
                     stream = context.getContentResolver().openInputStream(uri);
                     bitmap = BitmapFactory.decodeStream(stream, null, options);
                 } catch (Exception e) {
-                    Bitmap albumPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.img);
-                    //music1是从歌曲文件读取不出来专辑图片时用来代替的默认专辑图片
-                    int width = albumPicture.getWidth();
-                    int height = albumPicture.getHeight();
-                    //Log.w("DisplayActivity","width = "+width+" height = "+height);
-                    // 创建操作图片用的Matrix对象
-                    Matrix matrix = new Matrix();
-                    // 计算缩放比例
-                    float sx = ((float) 120 / width);
-                    float sy = ((float) 120 / height);
-                    // 设置缩放比例
-                    matrix.postScale(sx, sy);
-                    // 建立新的bitmap，其内容是对原bitmap的缩放后的图
-                    bitmap = Bitmap.createBitmap(albumPicture, 0, 0, width, height, matrix, false);
-                    Log.w("resolveUriForBitmap", "Unable to open content: " + uri, e);
+                    bitmap = null;
+//                    Bitmap albumPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.img);
+//                    //music1是从歌曲文件读取不出来专辑图片时用来代替的默认专辑图片
+//                    int width = albumPicture.getWidth();
+//                    int height = albumPicture.getHeight();
+//                    //Log.w("DisplayActivity","width = "+width+" height = "+height);
+//                    // 创建操作图片用的Matrix对象
+//                    Matrix matrix = new Matrix();
+//                    // 计算缩放比例
+//                    float sx = ((float) 120 / width);
+//                    float sy = ((float) 120 / height);
+//                    // 设置缩放比例
+//                    matrix.postScale(sx, sy);
+//                    // 建立新的bitmap，其内容是对原bitmap的缩放后的图
+//                    bitmap = Bitmap.createBitmap(albumPicture, 0, 0, width, height, matrix, false);
+//                    Log.w("resolveUriForBitmap", "Unable to open content: " + uri, e);
                 } finally {
                     if (stream != null) {
                         try {

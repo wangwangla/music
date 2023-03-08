@@ -21,7 +21,7 @@
 
             <TextView
                 android:layout_weight="1"
-                android:text="title"
+                android:text="歌曲"
                 android:layout_gravity="center"
                 android:gravity="right"
                 android:layout_width="match_parent"
@@ -30,13 +30,14 @@
             </TextView>
             <TextView
                 android:layout_weight="1"
-                android:text="title"
+                android:text="歌词"
                 android:gravity="left"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </TextView>
+
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

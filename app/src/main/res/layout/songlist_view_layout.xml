@@ -7,7 +7,7 @@
         android:id="@+id/song_pic"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_launcher_background">
+        android:src="@drawable/default_image2">
 
     </ImageView>
     <LinearLayout

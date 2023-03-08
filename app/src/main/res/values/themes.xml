@@ -13,4 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="musicTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">#ff0eeeee</item>
+    </style>
 </resources>
