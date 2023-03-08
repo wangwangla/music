@@ -52,13 +52,13 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PlayActivity.class);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, PlayActivity.class);
+//                context.startActivity(intent);
                 if (musicBean.getId() == MusicManager.getId()){
                     return;
                 }
                 //播放
-                MusicManager.setData(musicBean.getPath());
+                MusicManager.setData(position);
                 MusicManager.play();
                 MusicManager.setCurrentPlayId(musicBean.getId());
                 MusicManager.setIndex(position);

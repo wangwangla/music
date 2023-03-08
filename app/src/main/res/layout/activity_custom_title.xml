@@ -24,6 +24,6 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout="@layout/bottom_play_layout"></include>
+    <include android:id="@+id/bottom_play_view" layout="@layout/bottom_play_layout"></include>
 
 </LinearLayout>

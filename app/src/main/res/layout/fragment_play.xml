@@ -1,81 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/black"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/iv_music"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="3200dp"
+        android:layout_height= "320dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="15dp"
         android:src="@drawable/metal"/>
+
     <TextView
-        android:layout_gravity="center"
         android:id="@+id/song_name"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="歌曲名"
-        android:textSize="20sp"
-        />
-    <TextView
+        android:layout_below="@+id/iv_music"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="歌曲名"
+        android:textSize="30sp" />
+
+    <TextView
+        android:gravity="center"
         android:id="@+id/song_namer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/song_name"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:text="歌手"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
+
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/bottom_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:orientation="horizontal">
 
         <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:src="@drawable/repeat_all">
 
         </ImageView>
 
         <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:src="@drawable/pref">
 
         </ImageView>
 
         <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:src="@drawable/play">
 
         </ImageView>
 
         <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:src="@drawable/next">
 
         </ImageView>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/list">
+
+        </ImageView>
+
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_view"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
+
         <TextView
             android:id="@+id/tv_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:00"/>
+            android:text="00:00" />
 
         <SeekBar
             android:id="@+id/sb"
@@ -85,50 +115,13 @@
             android:layout_marginEnd="25dp"
             android:layout_toStartOf="@+id/tv_total"
             android:layout_toEndOf="@+id/tv_progress" />
+
         <TextView
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="00:00"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </ImageView>
-
-        <ImageView
-            android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </ImageView>
-
-        <ImageView
-            android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </ImageView>
-
-        <ImageView
-            android:layout_weight="1"
-            android:src="@drawable/ic_lyrics_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </ImageView>
+            android:text="00:00" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

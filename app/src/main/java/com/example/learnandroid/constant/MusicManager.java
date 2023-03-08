@@ -1,7 +1,10 @@
 package com.example.learnandroid.constant;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
+import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.service.MusicControl;
 
@@ -13,8 +16,15 @@ public class MusicManager {
     private static int position;
     private static ArrayList<MusicBean> musicBeans;
 
-    public static void setData(String path){
-        musicControl.setData(path);
+    public static void setData(int index) {
+        position = index;
+        MusicBean musicBean = musicBeans.get(index);
+        musicControl.setData(musicBean.getPath());
+
+        Message message = new Message();
+        message.what = Constant.PLAY;
+        message.arg1 = index;
+        CustomTitleActivity.conhandler.sendMessage(message);
     }
 
     public static void play() {
@@ -50,11 +60,11 @@ public class MusicManager {
     }
 
     public static void setSongList(ArrayList<MusicBean> _musicBeans) {
-        musicBeans  = _musicBeans;
+        musicBeans = _musicBeans;
     }
 
     public static void playNext() {
-        if (musicBeans.size()<=0)return;
+        if (musicBeans.size() <= 0) return;
         MusicBean musicBean = null;
         int index = 0;
         if (Constant.playStyle == 0) {
@@ -63,13 +73,17 @@ public class MusicManager {
                 position = 0;
             }
             index = position;
-        }else {
+        } else {
             int size = musicBeans.size();
-            position = (int)Math.random() * (size - 1);
+            position = (int) Math.random() * (size - 1);
             index = position;
         }
         musicBean = musicBeans.get(index);
-        setData(musicBean.getPath());
+        setData(index);
         play();
+    }
+
+    public static ArrayList<MusicBean> getMusicBeans() {
+        return musicBeans;
     }
 }

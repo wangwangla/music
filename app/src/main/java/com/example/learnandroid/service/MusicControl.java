@@ -4,7 +4,10 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
+import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 
 import java.io.IOException;
@@ -14,6 +17,7 @@ import java.util.TimerTask;
 public class MusicControl extends Binder {
    private MediaPlayer player;
    private Context context;
+   private boolean isCanPlay;
    public MusicControl(Context context,MediaPlayer player) {
       this.player = player;
       this.context = context;
@@ -23,9 +27,15 @@ public class MusicControl extends Binder {
       try {
          player.reset();
          player.setDataSource(path);
+         isCanPlay = true;
       } catch (IOException e) {
+         isCanPlay = false;
          throw new RuntimeException(e);
       }
+   }
+
+   public boolean isCanPlay() {
+      return isCanPlay;
    }
 
    public void play() {
@@ -41,11 +51,32 @@ public class MusicControl extends Binder {
                MusicManager.playNext();
             }
          });
+
          addTimer();     //添加计时器
       } catch (Exception e) {
          e.printStackTrace();
       }
    }
+
+   public void continueMusic() {
+      try {
+//         player.reset();//重置音乐播放器
+         //加载多媒体文件
+//         player = MediaPlayer.create(context, R.raw.music);
+         player.start();//播放音乐
+         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+               MusicManager.playNext();
+            }
+         });
+         addTimer();     //添加计时器
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+   }
+
+
    public void pausePlay() {
       player.pause();           //暂停播放音乐
    }
@@ -81,4 +112,7 @@ public class MusicControl extends Binder {
       }
    }
 
+   public boolean isPlaying() {
+      return player.isPlaying();
+   }
 }
