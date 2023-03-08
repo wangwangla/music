@@ -1,4 +1,4 @@
-package com.example.learnandroid.main;
+package com.example.learnandroid.adapter;
 
 import android.content.Context;
 
@@ -9,6 +9,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.learnandroid.R;
+import com.example.learnandroid.main.AlbmFragment;
+import com.example.learnandroid.main.DirFragment;
+import com.example.learnandroid.main.PlayerOrderFragment;
+import com.example.learnandroid.main.SongFragment;
+import com.example.learnandroid.main.SongerFragment;
 
 
 /**

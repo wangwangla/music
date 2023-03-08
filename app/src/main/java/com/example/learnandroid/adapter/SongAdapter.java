@@ -1,6 +1,7 @@
 package com.example.learnandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.example.learnandroid.PlayActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
@@ -23,9 +25,10 @@ import com.example.learnandroid.utils.MusicUtils;
 import java.util.List;
 
 public class SongAdapter extends ArrayAdapter<MusicBean> {
-
+    private Context context;
     public SongAdapter(@NonNull Context context, int resource, @NonNull List<MusicBean> objects) {
         super(context, resource, objects);
+        this.context = context;
     }
 
     @NonNull
@@ -49,6 +52,8 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(context, PlayActivity.class);
+                context.startActivity(intent);
                 if (musicBean.getId() == MusicManager.getId()){
                     return;
                 }
@@ -57,6 +62,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                 MusicManager.play();
                 MusicManager.setCurrentPlayId(musicBean.getId());
                 MusicManager.setIndex(position);
+
             }
         });
         return view;
