@@ -53,6 +53,8 @@ public class CustomTitleActivity extends AppCompatActivity {
                     Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
                     if (bitmap!=null) {
                         songPic.setImageBitmap(bitmap);
+                    }else {
+                        songPic.setImageResource(R.drawable.default_image2);
                     }
                     break;
                 }
