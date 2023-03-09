@@ -1,6 +1,5 @@
 package com.example.learnandroid;
 
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,6 +25,7 @@ import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
+import com.example.learnandroid.data.ContentResolverFindMusic;
 import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
@@ -43,13 +43,39 @@ public class CustomTitleActivity extends AppCompatActivity {
             switch (msg.what){
                 case Constant.PLAY: {
                     int index = (int) msg.arg1;
-                    initBottomPlayData(index);
+//                    initBottomPlayData(index);
+                    break;
+                }
+                case Constant.INIT:{
+                    initBottomPlayData(0);
+                    break;
+                }
+                case Constant.PAUSE:{
+                    pause();
+                    break;
+                }
+                case Constant.UPDATE:{
+                    pause();
                     break;
                 }
             }
-            return false;
+            return true;
         }
     });
+
+    private void pause() {
+        ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);
+        if (!MusicManager.musicControl.isPlaying()) {
+            if (MusicManager.musicControl.isCanPlay()) {
+
+                playOrStop.setImageResource(R.drawable.play);
+            }
+        }else {
+            if (MusicManager.musicControl.isCanPlay()) {
+                playOrStop.setImageResource(R.drawable.pause);
+            }
+        }
+    }
 
     private void initBottomPlayData(int index) {
         ArrayList<MusicBean> musicBeans = MusicManager.getMusicBeans();
@@ -57,7 +83,7 @@ public class CustomTitleActivity extends AppCompatActivity {
         MusicBean musicBean = musicBeans.get(index);
         ImageView songPic = findViewById(R.id.bottom_song_pic);
         ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);
-        if (MusicManager.musicControl.isCanPlay()) {
+        if (MusicManager.musicControl.isPlaying()) {
             playOrStop.setImageResource(R.drawable.pause);
         }
         TextView songSonger = findViewById(R.id.bottom_song_songer);
@@ -69,6 +95,7 @@ public class CustomTitleActivity extends AppCompatActivity {
         if (bitmap!=null) {
             songPic.setImageBitmap(bitmap);
         }
+        MusicManager.setData(index);
     }
 
     @Override
@@ -85,9 +112,9 @@ public class CustomTitleActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-
-        initBottomPlayData(MusicManager.getPosition());
-
+        Constant.contentResolverFindMusic = new ContentResolverFindMusic(getBaseContext());
+        Constant.contentResolverFindMusic.findMusic();
+        MusicManager.setSongList(Constant.contentResolverFindMusic.getMusicBeans());
         ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);
         playOrStop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,15 +157,15 @@ public class CustomTitleActivity extends AppCompatActivity {
                 Resources resources = getResources();
                 int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
                 int bottomStatusHeight = resources.getDimensionPixelSize(resourceId);
-                bottomPlayView.setY(screenHeight-height-bottomStatusHeight);
-                TranslateAnimation animation = new TranslateAnimation(
-                        0,0,
-                        screenHeight-height-bottomStatusHeight,
-                        screenHeight-height-bottomStatusHeight+590
-                );
-                animation.setFillAfter(true);
-                animation.setDuration(5000);
-                bottomPlayView.startAnimation(animation);
+//                bottomPlayView.setY(0);
+//                TranslateAnimation animation = new TranslateAnimation(
+//                        0,0,
+//                        screenHeight-bottomStatusHeight,
+//                        screenHeight-height-bottomStatusHeight
+//                );
+//                animation.setFillAfter(true);
+//                animation.setDuration(1000);
+//                bottomPlayView.startAnimation(animation);
             }
         });
     }
@@ -147,6 +174,10 @@ public class CustomTitleActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicManager.musicControl = (MusicControl) service;
+
+            Message message = new Message();
+            message.what = Constant.INIT;
+            CustomTitleActivity.conhandler.sendMessage(message);
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {

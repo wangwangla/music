@@ -6,6 +6,7 @@ import android.os.Message;
 
 import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.data.ContentResolverFindMusic;
 import com.example.learnandroid.service.MusicControl;
 
 import java.util.ArrayList;
@@ -20,15 +21,15 @@ public class MusicManager {
         position = index;
         MusicBean musicBean = musicBeans.get(index);
         musicControl.setData(musicBean.getPath());
-
-        Message message = new Message();
-        message.what = Constant.PLAY;
-        message.arg1 = index;
-        CustomTitleActivity.conhandler.sendMessage(message);
     }
 
     public static void play() {
         musicControl.play();
+
+        Message message = new Message();
+        message.what = Constant.PLAY;
+        message.arg1 = position;
+        CustomTitleActivity.conhandler.sendMessage(message);
     }
 
     public static void pausePlay() {
@@ -94,5 +95,9 @@ public class MusicManager {
 
     public static boolean isPlaying(){
         return musicControl.isPlaying();
+    }
+
+    public static void playAndSetData() {
+
     }
 }

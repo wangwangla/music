@@ -3,6 +3,7 @@ package com.example.learnandroid.main;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.TimeUtils;
 
 public class PlayFragment extends Fragment {
 
@@ -32,7 +35,7 @@ public class PlayFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView ivMusic = view.findViewById(R.id.iv_music);
+        ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
         MusicBean musicBean = MusicManager.getMusicBean();
         if (musicBean==null)return;
         Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
@@ -40,14 +43,16 @@ public class PlayFragment extends Fragment {
         if (bitmap!=null) {
             ivMusic.setImageBitmap(bitmap);
         }
-        TextView songName = view.findViewById(R.id.song_name);
+        TextView songName = view.findViewById(R.id.play_song_name);
         songName.setText(musicBean.getTitle());
-        TextView songSonger = view.findViewById(R.id.song_namer);
+        TextView songSonger = view.findViewById(R.id.play_song_namer);
         songSonger.setText(musicBean.getArtistName());
-        ImageView songPlayBtn = view.findViewById(R.id.song_playBtn);
+        ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
         if (MusicManager.isPlaying()) {
             songPlayBtn.setImageResource(R.drawable.pause);
         }
+        TextView duration = view.findViewById(R.id.play_alltime);
+        duration.setText(TimeUtils.longToTime(musicBean.getDuration()));
         songPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +69,11 @@ public class PlayFragment extends Fragment {
                     if (MusicManager.musicControl.isCanPlay()) {
                         MusicManager.musicControl.pausePlay();
                         songPlayBtn.setImageResource(R.drawable.play);
-                    }
+                       }
                 }
+                Message message = new Message();
+                message.what = Constant.UPDATE;
+                CustomTitleActivity.conhandler.sendMessage(message);
             }
         });
     }

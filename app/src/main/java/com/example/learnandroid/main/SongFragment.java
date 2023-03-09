@@ -34,9 +34,11 @@ public class SongFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        saoMiaoMusicInterface = new ContentResolverFindMusic(getContext());
+        saoMiaoMusicInterface = Constant.contentResolverFindMusic;
         saoMiaoMusicInterface.findMusic();
         ArrayList<MusicBean> musicBeans = saoMiaoMusicInterface.getMusicBeans();
+        MusicManager.setSongList(musicBeans);
+
         ListView songList = view.findViewById(R.id.songlist);
         SongAdapter adapter
                 = new SongAdapter(
@@ -44,7 +46,6 @@ public class SongFragment extends Fragment {
                         R.layout.songlist_view_layout,
                 musicBeans
                 );
-        MusicManager.setSongList(musicBeans);
         songList.setAdapter(adapter);
         TextView shuffePlayer = view.findViewById(R.id.shuffle_player);
         shuffePlayer.setText("顺序播放");
@@ -77,7 +78,6 @@ public class SongFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        saoMiaoMusicInterface = new ContentResolverFindMusic(getContext());
         saoMiaoMusicInterface.findMusic();
         ArrayList<MusicBean> musicBeans = saoMiaoMusicInterface.getMusicBeans();
         MusicManager.setSongList(musicBeans);

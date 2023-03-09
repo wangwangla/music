@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/iv_music"
+        android:id="@+id/play_albm_pic"
         android:layout_width="3200dp"
         android:layout_height= "320dp"
         android:layout_gravity="center_horizontal"
@@ -13,10 +13,10 @@
         android:src="@drawable/metal"/>
 
     <TextView
-        android:id="@+id/song_name"
+        android:id="@+id/play_song_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_music"
+        android:layout_below="@id/play_albm_pic"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
@@ -26,10 +26,10 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/song_namer"
+        android:id="@+id/play_song_namer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/song_name"
+        android:layout_below="@+id/play_song_name"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
@@ -39,7 +39,7 @@
         android:textSize="20sp" />
 
     <LinearLayout
-        android:id="@+id/bottom_view"
+        android:id="@+id/play_control_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -47,6 +47,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/play_model"
             android:layout_gravity="center_vertical"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -56,6 +57,7 @@
         </ImageView>
 
         <ImageView
+            android:id="@+id/play_pre"
             android:layout_gravity="center_vertical"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -65,7 +67,7 @@
         </ImageView>
 
         <ImageView
-            android:id="@+id/song_playBtn"
+            android:id="@+id/play_playOrStop"
             android:layout_gravity="center_vertical"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -75,6 +77,7 @@
         </ImageView>
 
         <ImageView
+            android:id="@+id/play_next"
             android:layout_gravity="center_vertical"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -83,6 +86,7 @@
 
         </ImageView>
         <ImageView
+            android:id="@+id/play_all"
             android:layout_gravity="center_vertical"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -93,37 +97,36 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_view"
-        android:layout_below="@+id/song_namer"
+        android:layout_above="@+id/play_control_view"
+        android:layout_below="@+id/play_song_namer"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 
         <TextView
-            android:id="@+id/tv_progress"
+            android:id="@+id/play_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00" />
 
         <SeekBar
-            android:id="@+id/sb"
+            android:id="@+id/play_sb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_toStartOf="@+id/tv_total"
-            android:layout_toEndOf="@+id/tv_progress" />
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
+            />
 
         <TextView
-            android:id="@+id/tv_total"
+            android:id="@+id/play_alltime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="00:00" />
-    </LinearLayout>
+            android:text="00" />
+    </RelativeLayout>
 
 </RelativeLayout>

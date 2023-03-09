@@ -20,14 +20,13 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
     public ContentResolverFindMusic(Context context){
         this.context = context;
         this.musicBeans = new ArrayList<>();
-
-
     }
     @Override
     public void findMusic() {
         if (!requestPermissions()) {
             return;
         }
+        musicBeans.clear();
 //        Cursor cursor = context.getContentResolver()
 //                .query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 //                        null, null, null,
@@ -76,7 +75,6 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
 //        SELECT _id, title, artist, album, duration, track, artist_id, album_id
 
         Cursor mCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.AudioColumns.IS_MUSIC);
-        musicBeans = new ArrayList<>();
         if (mCursor != null && mCursor.moveToFirst()) {
             do {
                 long id = mCursor.getLong(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
