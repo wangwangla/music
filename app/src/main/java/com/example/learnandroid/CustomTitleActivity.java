@@ -38,28 +38,37 @@ public class CustomTitleActivity extends AppCompatActivity {
             switch (msg.what){
                 case Constant.PLAY: {
                     int index = (int) msg.arg1;
-                    ArrayList<MusicBean> musicBeans = MusicManager.getMusicBeans();
-                    ImageView songPic = findViewById(R.id.song1_pic);
-                    ImageView playOrStop = findViewById(R.id.playOrStop);
-                    if (MusicManager.musicControl.isCanPlay()) {
-                        playOrStop.setImageResource(R.drawable.pause);
-                    }
-                    MusicBean musicBean = musicBeans.get(index);
-                    TextView songSonger = findViewById(R.id.song1_songer);
-                    songSonger.setText(musicBean.getArtistName());
-                    TextView songname = findViewById(R.id.song1_name);
-                    songname.setText(musicBean.getTitle());
-                    Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-                    Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
-                    if (bitmap!=null) {
-                        songPic.setImageBitmap(bitmap);
-                    }
+                    initBottomPlayData(index);
                     break;
                 }
             }
             return false;
         }
     });
+
+    private void initBottomPlayData(int index) {
+
+        ArrayList<MusicBean> musicBeans = MusicManager.getMusicBeans();
+        if (musicBeans==null)return;
+        MusicBean musicBean = musicBeans.get(index);
+
+        ImageView songPic = findViewById(R.id.song1_pic);
+        ImageView playOrStop = findViewById(R.id.playOrStop);
+        if (MusicManager.musicControl.isCanPlay()) {
+            playOrStop.setImageResource(R.drawable.pause);
+        }
+
+        TextView songSonger = findViewById(R.id.song1_songer);
+        songSonger.setText(musicBean.getArtistName());
+        TextView songname = findViewById(R.id.song1_name);
+        songname.setText(musicBean.getTitle());
+        Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
+        if (bitmap!=null) {
+            songPic.setImageBitmap(bitmap);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +82,9 @@ public class CustomTitleActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+
+        initBottomPlayData(MusicManager.getPosition());
 
         ImageView playOrStop = findViewById(R.id.playOrStop);
         playOrStop.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +118,7 @@ public class CustomTitleActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     class MyServiceConn implements ServiceConnection { //用于实现连接服务

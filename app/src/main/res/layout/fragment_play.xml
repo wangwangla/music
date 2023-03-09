@@ -14,7 +14,6 @@
 
     <TextView
         android:id="@+id/song_name"
-        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_music"
@@ -22,11 +21,11 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="歌曲名"
         android:textSize="30sp" />
 
     <TextView
-        android:gravity="center"
         android:id="@+id/song_namer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +34,7 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="歌手"
         android:textSize="20sp" />
 
@@ -65,6 +65,7 @@
         </ImageView>
 
         <ImageView
+            android:id="@+id/song_playBtn"
             android:layout_gravity="center_vertical"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -95,7 +96,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_view"
+        android:layout_above="@+id/bottom_view"
+        android:layout_below="@+id/song_namer"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
