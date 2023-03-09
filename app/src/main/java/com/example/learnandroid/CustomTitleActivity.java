@@ -4,9 +4,11 @@ import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.animation.Animator;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
@@ -15,6 +17,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,36 +36,41 @@ import java.util.ArrayList;
 public class CustomTitleActivity extends AppCompatActivity {
     private MyServiceConn conn;
     public static Handler conhandler;
+
     public Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what){
                 case Constant.PLAY: {
                     int index = (int) msg.arg1;
-                    ArrayList<MusicBean> musicBeans = MusicManager.getMusicBeans();
-                    ImageView songPic = findViewById(R.id.song1_pic);
-                    ImageView playOrStop = findViewById(R.id.playOrStop);
-                    if (MusicManager.musicControl.isCanPlay()) {
-                        playOrStop.setImageResource(R.drawable.pause);
-                    }
-                    MusicBean musicBean = musicBeans.get(index);
-                    TextView songSonger = findViewById(R.id.song1_songer);
-                    songSonger.setText(musicBean.getArtistName());
-                    TextView songname = findViewById(R.id.song1_name);
-                    songname.setText(musicBean.getTitle());
-                    Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-                    Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
-                    if (bitmap!=null) {
-                        songPic.setImageBitmap(bitmap);
-                    }else {
-                        songPic.setImageResource(R.drawable.default_image2);
-                    }
+                    initBottomPlayData(index);
                     break;
                 }
             }
             return false;
         }
     });
+
+    private void initBottomPlayData(int index) {
+        ArrayList<MusicBean> musicBeans = MusicManager.getMusicBeans();
+        if (musicBeans==null)return;
+        MusicBean musicBean = musicBeans.get(index);
+        ImageView songPic = findViewById(R.id.bottom_song_pic);
+        ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);
+        if (MusicManager.musicControl.isCanPlay()) {
+            playOrStop.setImageResource(R.drawable.pause);
+        }
+        TextView songSonger = findViewById(R.id.bottom_song_songer);
+        songSonger.setText(musicBean.getArtistName());
+        TextView songname = findViewById(R.id.bottom_song_name);
+        songname.setText(musicBean.getTitle());
+        Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
+        if (bitmap!=null) {
+            songPic.setImageBitmap(bitmap);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +85,10 @@ public class CustomTitleActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        ImageView playOrStop = findViewById(R.id.playOrStop);
+
+        initBottomPlayData(MusicManager.getPosition());
+
+        ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);
         playOrStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +106,7 @@ public class CustomTitleActivity extends AppCompatActivity {
             }
         });
 
-        View songNext = findViewById(R.id.song1_next);
+        View songNext = findViewById(R.id.bottom_song_next);
         songNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +118,27 @@ public class CustomTitleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CustomTitleActivity.this, PlayActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        View bottomPlayView = findViewById(R.id.bottom_play_view);
+        bottomPlayView.post(new Runnable() {
+            @Override
+            public void run() {
+                int height= bottomPlayView.getHeight();
+                int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;//屏幕高度
+                Resources resources = getResources();
+                int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+                int bottomStatusHeight = resources.getDimensionPixelSize(resourceId);
+                bottomPlayView.setY(screenHeight-height-bottomStatusHeight);
+                TranslateAnimation animation = new TranslateAnimation(
+                        0,0,
+                        screenHeight-height-bottomStatusHeight,
+                        screenHeight-height-bottomStatusHeight+590
+                );
+                animation.setFillAfter(true);
+                animation.setDuration(5000);
+                bottomPlayView.startAnimation(animation);
             }
         });
     }

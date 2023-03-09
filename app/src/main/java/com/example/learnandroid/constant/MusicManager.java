@@ -86,4 +86,13 @@ public class MusicManager {
     public static ArrayList<MusicBean> getMusicBeans() {
         return musicBeans;
     }
+
+    public static MusicBean getMusicBean() {
+        if (musicBeans.size()<0)return null;
+        return musicBeans.get(position);
+    }
+
+    public static boolean isPlaying(){
+        return musicControl.isPlaying();
+    }
 }
