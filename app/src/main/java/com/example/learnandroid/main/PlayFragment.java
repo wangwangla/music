@@ -52,22 +52,13 @@ public class PlayFragment extends Fragment {
         songPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!MusicManager.musicController.isPlaying()) {
-////                    if (MusicManager.musicController.isCanPlay()) {
-//                        MusicManager.musicController.continueMusic();
-//                        songPlayBtn.setImageResource(R.drawable.pause);
-////                    }else {
-//                        MusicManager.musicController.setData(musicBean.getPath());
-//                        MusicManager.musicController.play();
-//                        songPlayBtn.setImageResource(R.drawable.pause);
-////                    }
-//                }else {
-//                    if (MusicManager.musicController.isCanPlay()) {
-//                        MusicManager.musicController.pausePlay();
-//                        songPlayBtn.setImageResource(R.drawable.play);
-//                       }
-//                }
-
+                if (!MusicManager.isPlaying()) {
+                    MusicManager.continuePlay();
+                    songPlayBtn.setImageResource(R.drawable.pause);
+                }else {
+                    MusicManager.musicController.pausePlay();
+                    songPlayBtn.setImageResource(R.drawable.play);
+                }
             }
         });
         View playPre = view.findViewById(R.id.play_pre);

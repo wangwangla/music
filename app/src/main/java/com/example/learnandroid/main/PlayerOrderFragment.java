@@ -17,6 +17,7 @@ import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.ContentResolverFindMusic;
+import com.example.learnandroid.data.SongLoader;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class PlayerOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<MusicBean> musicBeans = new ArrayList<>();
+        ArrayList<MusicBean> musicBeans = SongLoader.loadAllSongList();
         ListView songList = view.findViewById(R.id.playlist);
         SongAdapter adapter
                 = new SongAdapter(

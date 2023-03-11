@@ -53,7 +53,11 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
 //                Intent intent = new Intent(context, PlayActivity.class);
 //                context.startActivity(intent);
                 //click common ;
+
                 if (musicBean.getId() == MusicManager.getId()){
+                    if (!MusicManager.isPlaying()){
+                        MusicManager.continuePlay();
+                    }
                     return;
                 }
                 //播放

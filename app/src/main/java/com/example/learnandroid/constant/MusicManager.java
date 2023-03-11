@@ -11,8 +11,15 @@ public class MusicManager {
     private static int position;
     public static MusicControl musicController;
     private static ArrayList<MusicBean> musicBeans;
+    private static boolean isPause = false;
+
+    public static void setData(){
+        setData(position);
+    }
 
     public static void setData(int index) {
+        if (musicBeans.size()<=0)return;
+        isPause = false;
         position = index;
         MusicBean musicBean = musicBeans.get(index);
         MusicManager.setCurrentPlayId(musicBean.getId());
@@ -24,11 +31,18 @@ public class MusicManager {
     }
 
     public static void pausePlay() {
+        isPause = true;
         musicController.pausePlay();           //暂停播放音乐
     }
 
     public static void continuePlay() {
-        musicController.continuePlay();           //继续播放音乐
+        if (isPause){
+            isPause = false;
+            musicController.continuePlay();           //继续播放音乐
+        }else {
+            setData();
+            play();
+        }
     }
 
     public static void seekTo(int progress) {

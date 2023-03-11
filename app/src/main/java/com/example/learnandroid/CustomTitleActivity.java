@@ -154,6 +154,7 @@ public class CustomTitleActivity extends AppCompatActivity {
             }
             bottomSongName.setText(musicBean.getTitle());
             bottomSongSonger.setText(musicBean.getArtistName());
+            MusicManager.setData();
         }
     }
 
@@ -172,11 +173,20 @@ public class CustomTitleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (MusicManager.isPlaying()) {
                     MusicManager.pausePlay();
-                    bottomSongPlayOrStop.setImageResource(R.drawable.pause);
+                    bottomSongPlayOrStop.setImageResource(R.drawable.play);
                 }else {
                     MusicManager.continuePlay();
-                    bottomSongPlayOrStop.setImageResource(R.drawable.play);
+                    bottomSongPlayOrStop.setImageResource(R.drawable.pause);
                 }
+            }
+        });
+
+        View bottomPlayView = findViewById(R.id.bottom_play_view);
+        bottomPlayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomTitleActivity.this,PlayActivity.class);
+                startActivity(intent);
             }
         });
     }
