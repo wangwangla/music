@@ -33,7 +33,6 @@ public class PlayActivity extends AppCompatActivity {
                 replace(new GeciFragment());
             }
         });
-
     }
 
     public void replace(Fragment fragment){
@@ -45,5 +44,11 @@ public class PlayActivity extends AppCompatActivity {
         transition.replace(R.id.play_view, fragment);
         //调用commit()方法进行事务提交
         transition.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

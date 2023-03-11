@@ -84,6 +84,25 @@ public class MusicManager {
         play();
     }
 
+
+    public static void playPre() {
+        if (musicBeans.size() <= 0) return;
+        int index = 0;
+        if (Constant.playStyle == 0) {
+            position--;
+            if (position<0) {
+                position = musicBeans.size()-1;
+            }
+            index = position;
+        } else {
+            int size = musicBeans.size();
+            position = (int) Math.random() * (size - 1);
+            index = position;
+        }
+        setData(index);
+        play();
+    }
+
     public static ArrayList<MusicBean> getMusicBeans() {
         return musicBeans;
     }

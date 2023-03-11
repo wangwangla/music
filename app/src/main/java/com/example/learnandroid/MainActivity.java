@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         supportActionBar.setTitle("");
         Intent intent = new Intent(this,CustomTitleActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

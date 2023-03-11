@@ -76,6 +76,19 @@ public class PlayFragment extends Fragment {
                 CustomTitleActivity.conhandler.sendMessage(message);
             }
         });
+        View playPre = view.findViewById(R.id.play_pre);
+        playPre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusicManager.playPre();
+            }
+        });
+        view.findViewById(R.id.play_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusicManager.playNext();
+            }
+        });
     }
 
     @Override
