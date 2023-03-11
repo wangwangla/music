@@ -25,10 +25,8 @@ import com.example.learnandroid.utils.MusicUtils;
 import java.util.List;
 
 public class SongAdapter extends ArrayAdapter<MusicBean> {
-    private Context context;
     public SongAdapter(@NonNull Context context, int resource, @NonNull List<MusicBean> objects) {
         super(context, resource, objects);
-        this.context = context;
     }
 
     @NonNull
@@ -54,15 +52,13 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             public void onClick(View view) {
 //                Intent intent = new Intent(context, PlayActivity.class);
 //                context.startActivity(intent);
+                //click common ;
                 if (musicBean.getId() == MusicManager.getId()){
                     return;
                 }
                 //播放
                 MusicManager.setData(position);
                 MusicManager.play();
-                MusicManager.setCurrentPlayId(musicBean.getId());
-                MusicManager.setIndex(position);
-
             }
         });
         return view;

@@ -1,6 +1,9 @@
 package com.example.learnandroid.main;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +21,18 @@ import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.ContentResolverFindMusic;
 import com.example.learnandroid.data.SaoMiaoMusicInterface;
+import com.example.learnandroid.data.SongLoader;
 
 import java.util.ArrayList;
 
 public class SongFragment extends Fragment {
-    private SaoMiaoMusicInterface saoMiaoMusicInterface;
+    private ListView songList;
+    private Handler handler;
+
+    public SongFragment(Handler handler) {
+        this.handler = handler;
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -34,19 +44,11 @@ public class SongFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        saoMiaoMusicInterface = Constant.contentResolverFindMusic;
-        saoMiaoMusicInterface.findMusic();
-        ArrayList<MusicBean> musicBeans = saoMiaoMusicInterface.getMusicBeans();
-        MusicManager.setSongList(musicBeans);
+        this.songList = view.findViewById(R.id.songlist);
 
-        ListView songList = view.findViewById(R.id.songlist);
-        SongAdapter adapter
-                = new SongAdapter(
-                        getContext(),
-                        R.layout.songlist_view_layout,
-                musicBeans
-                );
-        songList.setAdapter(adapter);
+        initSongList();
+
+
         TextView shuffePlayer = view.findViewById(R.id.shuffle_player);
         shuffePlayer.setText("顺序播放");
         View shuffle = view.findViewById(R.id.shuffle_btn);
@@ -66,7 +68,34 @@ public class SongFragment extends Fragment {
                 }
             }
         });
+    }
 
+    private void initSongList() {
+        ArrayList<MusicBean> musicBeans = SongLoader.loadAllSongList();
+        MusicManager.setSongList(musicBeans);
+        SongAdapter adapter
+                = new SongAdapter(
+                getContext(),
+                R.layout.songlist_view_layout,
+                musicBeans
+        );
+        songList.setAdapter(adapter);
+//        if (MusicManager.setInitData()) {
+////            Message message = new Message();
+////            message.what = Constant.INITBOTTOMVIEW;
+////            handler.sendMessage(message);
+//        }
+//        new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected Void doInBackground(final Void... unused) {
+//
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//            }
+//        }.execute();
     }
 
     private int index = 0;
@@ -78,8 +107,5 @@ public class SongFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        saoMiaoMusicInterface.findMusic();
-        ArrayList<MusicBean> musicBeans = saoMiaoMusicInterface.getMusicBeans();
-        MusicManager.setSongList(musicBeans);
     }
 }

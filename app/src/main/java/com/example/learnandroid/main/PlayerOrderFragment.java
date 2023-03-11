@@ -1,6 +1,7 @@
 package com.example.learnandroid.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,11 @@ import java.util.ArrayList;
 
 public class PlayerOrderFragment extends Fragment {
 
+    private Handler handler;
+    public PlayerOrderFragment(Handler runnable) {
+        this.handler = runnable;
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -30,7 +36,6 @@ public class PlayerOrderFragment extends Fragment {
         return view;
     }
 
-    private int index;
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

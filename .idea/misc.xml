@@ -7,10 +7,10 @@
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_custom_title.xml" value="0.1" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_main_drawer.xml" value="0.228125" />
-        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_play.xml" value="0.1" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_play.xml" value="0.18" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_top_layout.xml" value="0.1484375" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/albmitem.xml" value="0.5" />
-        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/app_bar_main.xml" value="0.33" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/bottom_play_layout.xml" value="0.1" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/content_main.xml" value="0.3188405797101449" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/diritem.xml" value="0.24791666666666667" />
@@ -32,10 +32,11 @@
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/nav_header_main.xml" value="0.315625" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/nav_host_fragment_content_main.xml" value="0.315625" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/songer.xml" value="0.9" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/songlist_view_layout.xml" value="0.2504528985507246" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/toolbar_fragment_first.xml" value="0.24635416666666668" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/toolbar_fragment_second.xml" value="0.24635416666666668" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/toolbar_lay_one.xml" value="0.20416666666666666" />
-        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/toolbar_lay_two.xml" value="0.1" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/toolbar_lay_two.xml" value="0.18" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/menu/activity_main_drawer.xml" value="0.3338541666666667" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/menu/menu_main.xml" value="0.31197916666666664" />
       </map>

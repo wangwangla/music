@@ -1,6 +1,7 @@
 package com.example.learnandroid.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -15,13 +16,13 @@ import com.example.learnandroid.main.PlayerOrderFragment;
 import com.example.learnandroid.main.SongFragment;
 import com.example.learnandroid.main.SongerFragment;
 
-
 /**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
+ * @Auther jian xian si qi
+ * @Date 16:24
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
+    private final Context mContext;
+    private Handler handler;
     @StringRes
     private static final int[] TAB_TITLES
             = new int[]{
@@ -32,11 +33,21 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                     R.string.songer,
 
     };
-    private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+    }
+
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mContext.getResources().getString(TAB_TITLES[position]);
     }
 
     @Override
@@ -45,9 +56,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         Fragment fragment;
         if (position==0){
-            fragment = new SongFragment();
+            fragment = new SongFragment(handler);
         }else if (position == 1){
-            fragment = new PlayerOrderFragment();
+            fragment = new PlayerOrderFragment(handler);
         }else if (position == 2){
             fragment = new DirFragment();
         }else if (position == 3){
@@ -55,15 +66,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         }else if (position == 4){
             fragment = new SongerFragment();
         }else {
-            fragment = new SongFragment();
+            fragment = new SongFragment(handler);
         }
         return fragment;
-    }
-
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
     }
 
     @Override

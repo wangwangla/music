@@ -15,7 +15,7 @@ public class MusicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return new MusicControl(getApplicationContext(),player);
+        return new MusicControl(player);
     }
 
     @Override

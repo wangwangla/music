@@ -1,13 +1,9 @@
 package com.example.learnandroid.service;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
-import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 
 import java.io.IOException;
@@ -16,33 +12,23 @@ import java.util.TimerTask;
 
 public class MusicControl extends Binder {
    private MediaPlayer player;
-   private Context context;
-   private boolean isCanPlay;
-   public MusicControl(Context context,MediaPlayer player) {
+   private Timer timer;
+
+   public MusicControl(MediaPlayer player) {
       this.player = player;
-      this.context = context;
    }
 
-   public void setData(String path){
+   public void setData(String path) {
       try {
          player.reset();
          player.setDataSource(path);
-         isCanPlay = true;
       } catch (IOException e) {
-         isCanPlay = false;
          throw new RuntimeException(e);
       }
    }
 
-   public boolean isCanPlay() {
-      return isCanPlay;
-   }
-
    public void play() {
       try {
-//         player.reset();//重置音乐播放器
-         //加载多媒体文件
-//         player = MediaPlayer.create(context, R.raw.music);
          player.prepare();
          player.start();//播放音乐
          player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -51,7 +37,6 @@ public class MusicControl extends Binder {
                MusicManager.playNext();
             }
          });
-
          addTimer();     //添加计时器
       } catch (Exception e) {
          e.printStackTrace();
@@ -60,9 +45,6 @@ public class MusicControl extends Binder {
 
    public void continueMusic() {
       try {
-//         player.reset();//重置音乐播放器
-         //加载多媒体文件
-//         player = MediaPlayer.create(context, R.raw.music);
          player.start();//播放音乐
          player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -76,18 +58,18 @@ public class MusicControl extends Binder {
       }
    }
 
-
    public void pausePlay() {
       player.pause();           //暂停播放音乐
    }
+
    public void continuePlay() {
       player.start();           //继续播放音乐
    }
+
    public void seekTo(int progress) {
       player.seekTo(progress);//设置音乐的播放位置
    }
 
-   private Timer timer;
    public void addTimer() {        //添加计时器用于设置音乐播放器中的播放进度条
       if (timer == null) {
          timer = new Timer();     //创建计时器对象
@@ -107,7 +89,6 @@ public class MusicControl extends Binder {
 //                    MainActivity.handler.sendMessage(msg);
             }
          };
-         //开始计时任务后的5毫秒，第一次执行task任务，以后每500毫秒执行一次
          timer.schedule(task, 5, 500);
       }
    }

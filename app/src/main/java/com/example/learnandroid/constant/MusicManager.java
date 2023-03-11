@@ -1,47 +1,38 @@
 package com.example.learnandroid.constant;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-
-import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.bean.MusicBean;
-import com.example.learnandroid.data.ContentResolverFindMusic;
 import com.example.learnandroid.service.MusicControl;
+import com.example.learnandroid.utils.SharePerenceUtils;
 
 import java.util.ArrayList;
 
 public class MusicManager {
     private static long id;
-    public static MusicControl musicControl;
     private static int position;
+    public static MusicControl musicController;
     private static ArrayList<MusicBean> musicBeans;
 
     public static void setData(int index) {
         position = index;
         MusicBean musicBean = musicBeans.get(index);
-        musicControl.setData(musicBean.getPath());
+        MusicManager.setCurrentPlayId(musicBean.getId());
+        musicController.setData(musicBean.getPath());
     }
 
     public static void play() {
-        musicControl.play();
-
-        Message message = new Message();
-        message.what = Constant.PLAY;
-        message.arg1 = position;
-        CustomTitleActivity.conhandler.sendMessage(message);
+        musicController.play();
     }
 
     public static void pausePlay() {
-        musicControl.pausePlay();           //暂停播放音乐
+        musicController.pausePlay();           //暂停播放音乐
     }
 
     public static void continuePlay() {
-        musicControl.continuePlay();           //继续播放音乐
+        musicController.continuePlay();           //继续播放音乐
     }
 
     public static void seekTo(int progress) {
-        musicControl.seekTo(progress);//设置音乐的播放位置
+        musicController.seekTo(progress);//设置音乐的播放位置
     }
 
     public static void setCurrentPlayId(long _id) {
@@ -66,7 +57,6 @@ public class MusicManager {
 
     public static void playNext() {
         if (musicBeans.size() <= 0) return;
-        MusicBean musicBean = null;
         int index = 0;
         if (Constant.playStyle == 0) {
             position++;
@@ -79,11 +69,9 @@ public class MusicManager {
             position = (int) Math.random() * (size - 1);
             index = position;
         }
-        musicBean = musicBeans.get(index);
         setData(index);
         play();
     }
-
 
     public static void playPre() {
         if (musicBeans.size() <= 0) return;
@@ -108,15 +96,20 @@ public class MusicManager {
     }
 
     public static MusicBean getMusicBean() {
-        if (musicBeans.size()<0)return null;
+        if (musicBeans.size()<=0)return null;
         return musicBeans.get(position);
     }
 
     public static boolean isPlaying(){
-        return musicControl.isPlaying();
+        return musicController.isPlaying();
     }
 
-    public static void playAndSetData() {
-
+    public static boolean setInitData() {
+        if (musicBeans.size() <= 0) {
+            return false;
+        }
+        int position = SharePerenceUtils.getSharePerenceUtils().histotyPosition();
+        setData(position);
+        return true;
     }
 }
