@@ -21,6 +21,7 @@ import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
+import com.example.learnandroid.notification.MusicNotification;
 import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
@@ -54,6 +55,7 @@ public class CustomTitleActivity extends AppCompatActivity {
             }
         });
 
+        MusicNotification notification = new MusicNotification(this);
 
 
 //        ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);

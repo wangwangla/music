@@ -46,10 +46,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
         holder.albums.setText(builder.toString());
         holder.artistImage.setImageResource(R.drawable.default_image2);
-
-
-
-
         holder.name.setText(artist.name);
     }
 
