@@ -35,7 +35,6 @@ public class LoadingActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -46,12 +45,6 @@ public class LoadingActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                break;
-            case R.id.action_favorite:
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 }

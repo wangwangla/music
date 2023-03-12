@@ -26,6 +26,9 @@ import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class CustomTitleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,6 @@ public class CustomTitleActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);//创建意图对象
         //创建服务连接对象
         bindService(intent, new MyServiceConn(), BIND_AUTO_CREATE);  //绑定服务
-
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         sectionsPagerAdapter.setHandler(mainHandler);
@@ -44,6 +46,13 @@ public class CustomTitleActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         bottomClickListener();
+
+        MusicManager.addUpdateView(new Runnable() {
+            @Override
+            public void run() {
+                updateBottomView();
+            }
+        });
 
 
 
@@ -155,6 +164,12 @@ public class CustomTitleActivity extends AppCompatActivity {
             bottomSongName.setText(musicBean.getTitle());
             bottomSongSonger.setText(musicBean.getArtistName());
             MusicManager.setData();
+            ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
+            if (MusicManager.isPlaying()) {
+                bottomSongPlayOrStop.setImageResource(R.drawable.pause);
+            }else {
+                bottomSongPlayOrStop.setImageResource(R.drawable.play);
+            }
         }
     }
 
@@ -173,10 +188,8 @@ public class CustomTitleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (MusicManager.isPlaying()) {
                     MusicManager.pausePlay();
-                    bottomSongPlayOrStop.setImageResource(R.drawable.play);
                 }else {
                     MusicManager.continuePlay();
-                    bottomSongPlayOrStop.setImageResource(R.drawable.pause);
                 }
             }
         });
@@ -190,4 +203,5 @@ public class CustomTitleActivity extends AppCompatActivity {
             }
         });
     }
+
 }

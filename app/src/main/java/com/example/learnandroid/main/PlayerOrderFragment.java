@@ -50,25 +50,6 @@ public class PlayerOrderFragment extends Fragment {
         );
         MusicManager.setSongList(musicBeans);
         songList.setAdapter(adapter);
-//        TextView shuffePlayer = view.findViewById(R.id.shuffle_player);
-//        shuffePlayer.setText("顺序播放");
-//        View shuffle = view.findViewById(R.id.shuffle_btn);
-//        shuffle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                index ++;
-//                if (index>=2){
-//                    index = 0;
-//                }
-//                if (index == 0){
-//                    shuffePlayer.setText("顺序播放");
-//                    Constant.playStyle = 0;
-//                }else if (index == 1){
-//                    shuffePlayer.setText("随机播放");
-//                    Constant.playStyle = 1;
-//                }
-//            }
-//        });
     }
 
     @Override

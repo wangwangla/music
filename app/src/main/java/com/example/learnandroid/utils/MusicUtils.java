@@ -136,4 +136,5 @@ public class MusicUtils {
 
             return bitmap;
         }
-    }
+
+}
