@@ -28,7 +28,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             = new int[]{
                     R.string.song,
                     R.string.play_order,
-                    R.string.dir,
                     R.string.albm,
                     R.string.songer,
 
@@ -59,11 +58,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             fragment = new SongFragment(handler);
         }else if (position == 1){
             fragment = new PlayerOrderFragment(handler);
+//        }else if (position == 2){
+//            fragment = new DirFragment();
         }else if (position == 2){
-            fragment = new DirFragment();
-        }else if (position == 3){
             fragment = new AlbmFragment();
-        }else if (position == 4){
+        }else if (position == 3){
             fragment = new SongerFragment();
         }else {
             fragment = new SongFragment(handler);
