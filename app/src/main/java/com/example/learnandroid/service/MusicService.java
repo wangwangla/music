@@ -1,9 +1,25 @@
 package com.example.learnandroid.service;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+
+import com.example.learnandroid.LoadingActivity;
+import com.example.learnandroid.PlayActivity;
+import com.example.learnandroid.R;
+import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.constant.Constant;
 
 public class MusicService extends Service {
     //添加日志的TAG常量
@@ -13,7 +29,19 @@ public class MusicService extends Service {
 
     }
 
+
+
     @Override
+    public int onStartCommand(final Intent intent, final int flags, final int startId) {
+        String action = intent.getAction();
+        String musicValue = intent.getStringExtra(Constant.MUSIC_KEY);
+        Intent inten = new Intent(Constant.MUSIC_TYPE);
+        inten.putExtra(Constant.MUSIC_KEY,musicValue);
+        sendBroadcast(inten);
+        return START_NOT_STICKY;
+    }
+
+        @Override
     public IBinder onBind(Intent intent) {
         return new MusicControl(player);
     }

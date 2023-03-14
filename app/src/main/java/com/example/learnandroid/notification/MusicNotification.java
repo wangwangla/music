@@ -4,8 +4,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +20,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.R;
+import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.broadcast.MyBroadcast;
+import com.example.learnandroid.service.MusicService;
 
 /**
  * @Auther jian xian si qi
@@ -115,6 +120,16 @@ public class MusicNotification {
 //                .addAction(R.drawable.ic_skip_next_white_36dp,
 //                        "",
 //                        retrievePlaybackAction(NEXT_ACTION));
+
+
+    }
+
+
+    private final PendingIntent retrievePlaybackAction(final String action) {
+        final ComponentName serviceName = new ComponentName(MyApplication.getMusicContent(), MusicService.class);
+        Intent intent = new Intent(action);
+        intent.setComponent(serviceName);
+        return PendingIntent.getService(MyApplication.getMusicContent(), 0, intent, 0);
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {

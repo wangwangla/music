@@ -2,10 +2,15 @@ package com.example.learnandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -18,7 +23,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.broadcast.MyBroadcast;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
@@ -35,7 +42,13 @@ public class CustomTitleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        MyBroadcast myBroadcast = new MyBroadcast();
+//        // 创建意图过滤器
+//        IntentFilter intentFilter = new IntentFilter();
+//        // 设置要过滤的广播
+//        intentFilter.addAction("xx");
+//        // 注册广播接收者
+//        MyApplication.getMusicContent().registerReceiver(myBroadcast,intentFilter);
 
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -182,7 +195,40 @@ public class CustomTitleActivity extends AppCompatActivity {
                 bottomSongPlayOrStop.setImageResource(R.drawable.play);
             }
         }
+        buildNotification(musicBean);
     }
+
+    private void buildNotification(MusicBean musicBean) {
+        int res = R.drawable.ic_play_white_36dp;
+        if (MusicManager.isPlaying()) {
+            res = R.drawable.ic_pause_white_36dp;
+        }
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "0")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(musicBean.getTitle())
+                .setContentText(musicBean.getArtistName())
+                .setWhen(0)
+                .addAction(R.drawable.ic_skip_previous_white_36dp,
+                        "",retrievePlaybackAction(Constant.MUSIC_PRE)).
+                addAction(res,
+                        "",retrievePlaybackAction(Constant.MUSIC_STOP)).
+                addAction(R.drawable.ic_skip_next_white_36dp,
+                        "",retrievePlaybackAction(Constant.MUSIC_NEXT));
+
+        notificationManager.notify(0, builder.build());
+    }
+
+
+    private final PendingIntent retrievePlaybackAction(final String action) {
+        final ComponentName serviceName = new ComponentName(this, MusicService.class);
+        Intent intent = new Intent(Constant.MUSIC_TYPE);
+        intent.putExtra(Constant.MUSIC_KEY,action);
+        intent.setComponent(serviceName);
+        return PendingIntent.getService(this, 0, intent, 0);
+    }
+
+
 
     private void bottomClickListener() {
         ImageView bottomSongNext = findViewById(R.id.bottom_song_next);
