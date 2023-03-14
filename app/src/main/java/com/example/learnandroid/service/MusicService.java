@@ -34,9 +34,9 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         String action = intent.getAction();
-        String musicValue = intent.getStringExtra(Constant.MUSIC_KEY);
+        System.out.println(action);
         Intent inten = new Intent(Constant.MUSIC_TYPE);
-        inten.putExtra(Constant.MUSIC_KEY,musicValue);
+        inten.putExtra(Constant.MUSIC_KEY,action);
         sendBroadcast(inten);
         return START_NOT_STICKY;
     }

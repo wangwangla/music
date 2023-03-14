@@ -40,6 +40,9 @@
             android:exported="true">
             <intent-filter >
                 <action android:name="MUISC_LEARN"></action>
+                <action android:name="MUSIC_PRE"></action>
+                <action android:name="MUSIC_NEXT"></action>
+                <action android:name="MUSIC_STOP"></action>
             </intent-filter>
         </receiver>
 

@@ -19,18 +19,11 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         View song = findViewById(R.id.song);
-        View songGeci = findViewById(R.id.song_geci);
         replace(new PlayFragment());
         song.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 replace(new PlayFragment());
-            }
-        });
-        songGeci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replace(new GeciFragment());
             }
         });
     }

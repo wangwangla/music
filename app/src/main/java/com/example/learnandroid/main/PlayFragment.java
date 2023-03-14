@@ -43,7 +43,10 @@ public class PlayFragment extends Fragment {
 
     public void upateDate(){
         try {
-
+            if (getActivity()==null){
+                MusicManager.removeTimeRunnable();
+                return;
+            }
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -101,6 +104,28 @@ public class PlayFragment extends Fragment {
             }
         });
         updateBottomView();
+        playProcess.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    System.out.println(progress);
+                    float v = progress * 1.0f / playProcess.getMax();
+                    float v1 = v * MusicManager.getDuration();
+                    System.out.println(v1);
+                    MusicManager.seekTo((int) v1);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void updateBottomView() {
