@@ -1,10 +1,13 @@
 package com.example.learnandroid;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -13,7 +16,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -76,8 +82,6 @@ public class CustomTitleActivity extends AppCompatActivity {
                 updateBottomView();
             }
         });
-
-        MusicNotification notification = new MusicNotification(this);
 
 
 //        ImageView playOrStop = findViewById(R.id.bottom_song_playorstop);
@@ -195,28 +199,53 @@ public class CustomTitleActivity extends AppCompatActivity {
                 bottomSongPlayOrStop.setImageResource(R.drawable.play);
             }
         }
-        buildNotification(musicBean);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            buildNotification(musicBean);
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void buildNotification(MusicBean musicBean) {
         int res = R.drawable.ic_play_white_36dp;
         if (MusicManager.isPlaying()) {
             res = R.drawable.ic_pause_white_36dp;
         }
+        Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
+
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "0")
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "0")
+//                .setSmallIcon(R.drawable.ic_notification)
+//                .setLargeIcon(bitmap)
+//                .setContentTitle(musicBean.getTitle())
+//                .setContentText(musicBean.getArtistName())
+//                .setWhen(0)
+//                .addAction(R.drawable.ic_skip_previous_white_36dp,
+//                        "",retrievePlaybackAction(Constant.MUSIC_PRE)).
+//                addAction(res,
+//                        "",retrievePlaybackAction(Constant.MUSIC_STOP)).
+//                addAction(R.drawable.ic_skip_next_white_36dp,
+//                        "",retrievePlaybackAction(Constant.MUSIC_NEXT));
+//
+//        notificationManager.notify(0, builder.build());
+        NotificationChannel mChannel = new NotificationChannel("channelID", "channelName",
+                NotificationManager.IMPORTANCE_DEFAULT);
+        notificationManager.createNotificationChannel(mChannel);
+        Notification.Builder builder1 = new Notification.Builder(MyApplication.getMusicContent(), "channelID");
+        builder1
                 .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())
                 .setContentText(musicBean.getArtistName())
                 .setWhen(0)
                 .addAction(R.drawable.ic_skip_previous_white_36dp,
-                        "",retrievePlaybackAction(Constant.MUSIC_PRE)).
+                        "led",retrievePlaybackAction(Constant.MUSIC_PRE)).
                 addAction(res,
-                        "",retrievePlaybackAction(Constant.MUSIC_STOP)).
+                        "xxx",retrievePlaybackAction(Constant.MUSIC_STOP)).
                 addAction(R.drawable.ic_skip_next_white_36dp,
-                        "",retrievePlaybackAction(Constant.MUSIC_NEXT));
-
-        notificationManager.notify(0, builder.build());
+                        "xxxxx",retrievePlaybackAction(Constant.MUSIC_NEXT));
+        notificationManager.notify(0, builder1.build());
     }
 
 
@@ -225,7 +254,7 @@ public class CustomTitleActivity extends AppCompatActivity {
         Intent intent = new Intent(Constant.MUSIC_TYPE);
         intent.putExtra(Constant.MUSIC_KEY,action);
         intent.setComponent(serviceName);
-        return PendingIntent.getService(this, 0, intent, 0);
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
 
