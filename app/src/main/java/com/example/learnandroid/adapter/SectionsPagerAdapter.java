@@ -22,7 +22,7 @@ import com.example.learnandroid.main.SongerFragment;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private final Context mContext;
-    private Handler handler;
+
     @StringRes
     private static final int[] TAB_TITLES
             = new int[]{
@@ -38,11 +38,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
-    }
-
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
@@ -55,9 +50,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         Fragment fragment;
         if (position==0){
-            fragment = new SongFragment(handler);
+            fragment = new SongFragment();
         }else if (position == 1){
-            fragment = new PlayerOrderFragment(handler);
+            fragment = new PlayerOrderFragment();
 //        }else if (position == 2){
 //            fragment = new DirFragment();
         }else if (position == 2){
@@ -65,7 +60,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         }else if (position == 3){
             fragment = new SongerFragment();
         }else {
-            fragment = new SongFragment(handler);
+            fragment = new SongFragment();
         }
         return fragment;
     }

@@ -41,6 +41,11 @@ public class PlayFragment extends Fragment {
         }
     };
 
+    private Runnable showBg;
+    public PlayFragment(Runnable runnable){
+        this.showBg = runnable;
+    }
+
     public void upateDate(){
         try {
             if (getActivity()==null){
@@ -126,6 +131,7 @@ public class PlayFragment extends Fragment {
 
             }
         });
+        showBg.run();
     }
 
     private void updateBottomView() {
@@ -150,7 +156,7 @@ public class PlayFragment extends Fragment {
             songPlayBtn.setImageResource(R.drawable.pause);
         }else {
             songPlayBtn.setImageResource(R.drawable.play);
-        }
+        }showBg.run();
     }
 
     @Override

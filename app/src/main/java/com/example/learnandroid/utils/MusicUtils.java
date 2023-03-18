@@ -22,6 +22,10 @@ public class MusicUtils {
 
     /**********获取歌曲专辑图片*************/
 
+
+    public static Bitmap decodeUri(Context context, Uri uri) {
+        return decodeUri(context,uri,0,0);
+    }
         /**
          * 读取一个缩放后的图片，限定图片大小，避免OOM
          *

@@ -27,10 +27,7 @@ import java.util.ArrayList;
 
 public class SongFragment extends Fragment {
     private ListView songList;
-    private Handler handler;
-
-    public SongFragment(Handler handler) {
-        this.handler = handler;
+    public SongFragment() {
     }
 
     @Override

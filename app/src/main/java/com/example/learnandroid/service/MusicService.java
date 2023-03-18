@@ -29,8 +29,6 @@ public class MusicService extends Service {
 
     }
 
-
-
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         String action = intent.getAction();

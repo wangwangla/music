@@ -23,9 +23,7 @@ import java.util.ArrayList;
 
 public class PlayerOrderFragment extends Fragment {
 
-    private Handler handler;
-    public PlayerOrderFragment(Handler runnable) {
-        this.handler = runnable;
+    public PlayerOrderFragment() {
     }
 
     @Override
