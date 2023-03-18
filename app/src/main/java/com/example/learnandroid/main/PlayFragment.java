@@ -143,9 +143,8 @@ public class PlayFragment extends Fragment {
         ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
         MusicBean musicBean = MusicManager.getMusicBean();
         if (musicBean==null)return;
-        if (currentMusicBean == null){
-            currentMusicBean = musicBean;
-        }else {
+
+        if (currentMusicBean != null){
             if (currentMusicBean.getId() == musicBean.getId()){
                 ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
                 if (MusicManager.isPlaying()) {
@@ -162,6 +161,8 @@ public class PlayFragment extends Fragment {
                 return;
             }
         }
+
+        currentMusicBean = musicBean;
         Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
@@ -182,12 +183,13 @@ public class PlayFragment extends Fragment {
         if (bitmap!=null) {
             bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
         }
-        objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
-        objectAnimator.setInterpolator(new LinearInterpolator());
-        objectAnimator.setDuration(4000);//设置动画持续周期
-        objectAnimator.setRepeatCount(-1);//设置重复次数
+        if (objectAnimator==null) {
+            objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
+            objectAnimator.setInterpolator(new LinearInterpolator());
+            objectAnimator.setDuration(4000);//设置动画持续周期
+            objectAnimator.setRepeatCount(-1);//设置重复次数
 //        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
-
+        }
         if (MusicManager.isPlaying()) {
             songPlayBtn.setImageResource(R.drawable.pause);
             objectAnimator.start();
