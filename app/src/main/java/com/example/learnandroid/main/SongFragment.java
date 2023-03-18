@@ -77,22 +77,6 @@ public class SongFragment extends Fragment {
                 musicBeans
         );
         songList.setAdapter(adapter);
-//        if (MusicManager.setInitData()) {
-////            Message message = new Message();
-////            message.what = Constant.INITBOTTOMVIEW;
-////            handler.sendMessage(message);
-//        }
-//        new AsyncTask<Void, Void, Void>() {
-//            @Override
-//            protected Void doInBackground(final Void... unused) {
-//
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void aVoid) {
-//            }
-//        }.execute();
     }
 
     private int index = 0;

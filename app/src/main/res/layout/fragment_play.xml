@@ -3,8 +3,15 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
-
     <ImageView
+        android:id="@+id/bg_albm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop">
+
+    </ImageView>
+
+    <com.example.learnandroid.view.CircleImage
         android:id="@+id/play_albm_pic"
         android:layout_width="3200dp"
         android:layout_height= "320dp"

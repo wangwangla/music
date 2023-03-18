@@ -49,6 +49,18 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".b"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="MUISC_LEARN" />
+                <action android:name="MUSIC_PRE" />
+                <action android:name="MUSIC_NEXT" />
+                <action android:name="MUSIC_STOP" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".service.MusicService"
             android:exported="true" />

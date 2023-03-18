@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -25,59 +26,40 @@ import android.widget.TextView;
 
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
-import com.example.learnandroid.broadcast.MyBroadcast;
+import com.example.learnandroid.broadcast.MainBroadCast;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
-import com.example.learnandroid.notification.MusicNotification;
-import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class CustomTitleActivity extends AppCompatActivity {
-    private MyServiceConn conn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_title);
 
-        Intent intent = new Intent(this, MusicService.class);//创建意图对象
-        //创建服务连接对象
-         conn = new MyServiceConn();
-        bindService(intent, conn, BIND_AUTO_CREATE);  //绑定服务
+        MainBroadCast mainBroadCast = new MainBroadCast(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.UP_DATE_BOTTOM);
+        registerReceiver(mainBroadCast,filter);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
         bottomClickListener();
+
         MusicManager.addUpdateView(new Runnable() {
             @Override
             public void run() {
                 updateBottomView();
             }
         });
-    }
-
-    class MyServiceConn implements ServiceConnection { //用于实现连接服务
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicManager.musicController = (MusicControl) service;
-            updateBottomView();
-        }
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     public void updateBottomView(){
@@ -140,8 +122,6 @@ public class CustomTitleActivity extends AppCompatActivity {
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
-
-
     private void bottomClickListener() {
         ImageView bottomSongNext = findViewById(R.id.bottom_song_next);
         ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
@@ -176,6 +156,5 @@ public class CustomTitleActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(conn);
     }
 }

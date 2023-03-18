@@ -1,7 +1,10 @@
 package com.example.learnandroid.data;
 
+import android.content.Intent;
+
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.constant.Constant;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,10 @@ public class SongLoader {
 
     public static ArrayList<MusicBean> loadAllSongList() {
         getSaoMiaoMusicInstance().findMusic();
+        if (Constant.NO_SET == 0){
+            Intent intent = new Intent(Constant.UP_DATE_BOTTOM);
+            MyApplication.getMusicContent().sendBroadcast(intent);
+        }
         return getSaoMiaoMusicInstance().getMusicBeans();
     }
 

@@ -30,10 +30,9 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-//        Intent intent = new Intent(this,CustomTitleActivity.class);
-//        startActivity(intent);
-//        finish();
-
+        Intent intent = new Intent(this,CustomTitleActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

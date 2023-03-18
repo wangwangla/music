@@ -7,28 +7,28 @@
     android:orientation="vertical"
     android:id="@+id/play_linear_view"
     tools:context=".PlayActivity">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:ignore="MissingConstraints">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/my_toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:background="?attr/colorPrimary"-->
+<!--        android:elevation="4dp"-->
+<!--        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+<!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+<!--        tools:ignore="MissingConstraints">-->
 
-        <TextView
-                android:id="@+id/song"
-                android:layout_weight="1"
-                android:text="歌曲"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="5dp">
+<!--        <TextView-->
+<!--                android:id="@+id/song"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="歌曲"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingRight="5dp">-->
 
-            </TextView>
-    </com.google.android.material.appbar.AppBarLayout>
+<!--            </TextView>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
     <FrameLayout
         android:id="@+id/play_view"
         android:layout_width="match_parent"

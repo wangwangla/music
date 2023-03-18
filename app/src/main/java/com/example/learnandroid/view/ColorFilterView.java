@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
  * @Date 2023/3/18 12:28
  */
 public class ColorFilterView extends androidx.appcompat.widget.AppCompatImageView {
-    private Shader shader;
+
     private Paint paint;
     private ColorFilter filter;
 
@@ -41,9 +41,6 @@ public class ColorFilterView extends androidx.appcompat.widget.AppCompatImageVie
     }
 
     public void init(){
-        Drawable drawable = getDrawable();
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         paint = new Paint();
         filter = new LightingColorFilter(Color.RED,Color.BLUE);
     }
@@ -51,8 +48,9 @@ public class ColorFilterView extends androidx.appcompat.widget.AppCompatImageVie
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
-        paint.setShader(shader);
+        Drawable drawable = getDrawable();
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         paint.setColorFilter(filter);
-        canvas.drawCircle(250, 250, 250, paint);
+        canvas.drawBitmap(bitmap,0,0,paint);
     }
 }
