@@ -1,5 +1,6 @@
 package com.example.learnandroid.main;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
@@ -11,6 +12,9 @@ import android.renderscript.RenderScript;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ import com.example.learnandroid.utils.TimeUtils;
 public class PlayFragment extends Fragment {
     private TextView playTime;
     private SeekBar playProcess;
+    private MusicBean currentMusicBean;
 
     private Runnable runnable = new Runnable() {
         @Override
@@ -138,6 +143,25 @@ public class PlayFragment extends Fragment {
         ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
         MusicBean musicBean = MusicManager.getMusicBean();
         if (musicBean==null)return;
+        if (currentMusicBean == null){
+            currentMusicBean = musicBean;
+        }else {
+            if (currentMusicBean.getId() == musicBean.getId()){
+                ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
+                if (MusicManager.isPlaying()) {
+                    songPlayBtn.setImageResource(R.drawable.pause);
+                    if (objectAnimator.isPaused()) {
+                        objectAnimator.resume();
+                    }else {
+                        objectAnimator.start();
+                    }
+                }else {
+                    songPlayBtn.setImageResource(R.drawable.play);
+                    objectAnimator.pause();
+                }
+                return;
+            }
+        }
         Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
@@ -152,17 +176,28 @@ public class PlayFragment extends Fragment {
         duration.setText(TimeUtils.longToTime(MusicManager.getDuration()));
 
         ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
-        if (MusicManager.isPlaying()) {
-            songPlayBtn.setImageResource(R.drawable.pause);
-        }else {
-            songPlayBtn.setImageResource(R.drawable.play);
-        }
+
         ImageView bgAlbm = view.findViewById(R.id.bg_albm);
         Bitmap bitmap1 = MusicUtils.decodeUri(getContext(),albumArtUri);
         if (bitmap!=null) {
             bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
         }
+        objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
+        objectAnimator.setInterpolator(new LinearInterpolator());
+        objectAnimator.setDuration(4000);//设置动画持续周期
+        objectAnimator.setRepeatCount(-1);//设置重复次数
+//        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
+
+        if (MusicManager.isPlaying()) {
+            songPlayBtn.setImageResource(R.drawable.pause);
+            objectAnimator.start();
+        }else {
+            songPlayBtn.setImageResource(R.drawable.play);
+            objectAnimator.pause();
+        }
     }
+
+    private ObjectAnimator objectAnimator;
 
     private static final float BITMAP_SCALE = 0.009f;
     /** * 模糊图片的具体方法 * * @param context 上下文对象 * @param image 需要模糊的图片 * @return 模糊处理后的图片 */
