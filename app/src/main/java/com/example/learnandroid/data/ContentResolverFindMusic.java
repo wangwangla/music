@@ -26,7 +26,6 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
         if (!requestPermissions()) {
             return;
         }
-        musicBeans.clear();
         final StringBuilder selection = new StringBuilder();
         selection.append(MediaStore.Audio.AudioColumns.IS_MUSIC + "=1");
         selection.append(" AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''");
@@ -35,6 +34,9 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
                 .query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                         null, null,
                         null, MediaStore.Audio.AudioColumns.IS_MUSIC);
+        System.out.println("-------------start -------------------------------");
+
+        musicBeans.clear();
         if (mCursor != null && mCursor.moveToFirst()) {
             do {
                 long id = mCursor.getLong(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
@@ -49,7 +51,7 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
                 String path = mCursor.getString(mCursor.getColumnIndexOrThrow((MediaStore.Audio.Media.DATA)));
 
                 final MusicBean song = new MusicBean(id, albumId, artistId, title, artist, album, duration, trackNumber,path);
-
+                System.out.println("---------------------"+ musicBeans.size() +"------------------------------");
                 musicBeans.add(song);
             } while (mCursor.moveToNext());
         }

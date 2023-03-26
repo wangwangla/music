@@ -1,7 +1,11 @@
 package com.example.learnandroid.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -38,11 +42,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
-    }
 
     @Override
     public Fragment getItem(int position) {
@@ -70,4 +69,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Show 2 total pages.
         return TAB_TITLES.length;
     }
+
+    //设置标题
+    @Override
+    public CharSequence getPageTitle(int position) {
+        String string = mContext.getResources().getString(TAB_TITLES[position]);
+        SpannableString spannableString = new SpannableString(string);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.RED);
+        spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
 }

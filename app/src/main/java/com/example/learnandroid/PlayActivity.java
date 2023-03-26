@@ -33,11 +33,19 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        LinearLayout playLinearView = findViewById(R.id.play_linear_view);
-        replace(new PlayFragment());
 
+
+        replace(new PlayFragment());
         ThemeUtils.updateSystemBarContent(this,false);
         ThemeUtils.hideTopBg(this);
+
+        View topBack = findViewById(R.id.top_back);
+        topBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public Bitmap blurBitmap(Context context, Bitmap bitmap) {

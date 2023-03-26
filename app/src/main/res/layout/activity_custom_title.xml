@@ -11,8 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AppCompat.DayNight">
+        <include layout="@layout/toolbar"></include>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
+            app:tabTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </com.google.android.material.tabs.TabLayout>

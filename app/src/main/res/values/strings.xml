@@ -5,4 +5,7 @@
     <string name="dir">文件夹</string>
     <string name="albm">专辑</string>
     <string name="songer">歌手</string>
+    <string name="tool_title">MusicPlayer</string>
+    <string name="action_setting">Setting</string>
+    <string name="action_about">about</string>
 </resources>

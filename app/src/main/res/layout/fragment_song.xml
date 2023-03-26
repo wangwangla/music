@@ -27,7 +27,8 @@
             android:layout_marginRight="5dp"
             android:src="@mipmap/ic_shuffle_white_36dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:tint="@color/black">
         </ImageView>
         <TextView
             android:id="@+id/shuffle_player"
@@ -40,6 +41,14 @@
             android:layout_marginRight="45dp">
 
         </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line">
+
+        </View>
     </RelativeLayout>
     <ListView
         android:id="@+id/songlist"

@@ -26,7 +26,9 @@ import com.example.learnandroid.data.SongLoader;
 import java.util.ArrayList;
 
 public class SongFragment extends Fragment {
+    private View rootView;
     private ListView songList;
+
     public SongFragment() {
     }
 
@@ -41,10 +43,9 @@ public class SongFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.songList = view.findViewById(R.id.songlist);
-
-        initSongList();
-
+        this.rootView = view;
+        new LoadingAsset().execute("");
+        songList = rootView.findViewById(R.id.songlist);
 
         TextView shuffePlayer = view.findViewById(R.id.shuffle_player);
         shuffePlayer.setText("顺序播放");
@@ -67,16 +68,18 @@ public class SongFragment extends Fragment {
         });
     }
 
+    private ArrayList<MusicBean> musicBeans;
+    private SongAdapter adapter;
     private void initSongList() {
-        ArrayList<MusicBean> musicBeans = SongLoader.loadAllSongList();
+        musicBeans = SongLoader.loadAllSongList();
         MusicManager.setSongList(musicBeans);
-        SongAdapter adapter
+        System.out.println(musicBeans.size()+"--------------------------------------------");
+        adapter
                 = new SongAdapter(
                 getContext(),
                 R.layout.songlist_view_layout,
                 musicBeans
         );
-        songList.setAdapter(adapter);
     }
 
     private int index = 0;
@@ -88,5 +91,23 @@ public class SongFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    public class LoadingAsset extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            initSongList();
+            return "Ex";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            songList.setAdapter(adapter);
+
+            TextView songNum = rootView.findViewById(R.id.song_num);
+            songNum.setText(adapter.getCount()+" songs");
+        }
     }
 }
