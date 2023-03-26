@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -40,6 +41,7 @@ import com.example.learnandroid.broadcast.MainBroadCast;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
+import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
 import com.example.learnandroid.utils.ThemeUtils;
@@ -131,6 +133,17 @@ public class CustomTitleActivity extends AppCompatActivity {
                         "",retrievePlaybackAction(Constant.MUSIC_STOP)).
                 addAction(R.drawable.ic_skip_next_white_36dp,
                         "",retrievePlaybackAction(Constant.MUSIC_NEXT));
+
+
+
+        if (TimberUtils.isLollipop()) {
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            androidx.media.app.NotificationCompat.MediaStyle style = new androidx.media.app.NotificationCompat.MediaStyle()
+//                    .setMediaSession(mSession.getSessionToken())
+//                    .setShowActionsInCompactView(0, 1, 2, 3)
+                    ;
+            builder.setStyle(style);
+        }
 
         notificationManager.notify(0, builder.build());
     }

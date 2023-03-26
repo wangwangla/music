@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
+import com.example.learnandroid.notification.lesslevel.NotificationCompat;
 import com.example.learnandroid.utils.MusicUtils;
 import com.example.learnandroid.utils.TimeUtils;
 
@@ -49,6 +50,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             view=convertView;
             viewHolder= (ViewHolder) view.getTag();//重新获取 viewHolder
         }
+
         Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
