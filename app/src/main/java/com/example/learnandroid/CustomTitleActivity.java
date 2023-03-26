@@ -32,6 +32,7 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.ThemeUtils;
 import com.google.android.material.tabs.TabLayout;
 
 public class CustomTitleActivity extends AppCompatActivity {
@@ -41,6 +42,8 @@ public class CustomTitleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_title);
 
+        ThemeUtils.updateSystemBarContent(this,true);
+
         MainBroadCast mainBroadCast = new MainBroadCast(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.UP_DATE_BOTTOM);
@@ -49,11 +52,10 @@ public class CustomTitleActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
         bottomClickListener();
-
         MusicManager.addUpdateView(new Runnable() {
             @Override
             public void run() {

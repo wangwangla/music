@@ -4,7 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 
 import com.example.learnandroid.bitmap.BitMapUtils;
 
@@ -33,6 +38,21 @@ public class LoadingActivity extends AppCompatActivity {
         Intent intent = new Intent(this,CustomTitleActivity.class);
         startActivity(intent);
         finish();
+//        buildNotification();
+    }
+
+    public void buildNotification(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        RemoteViews rv = new RemoteViews(getPackageName(),R.layout.albmitem);
+//        rv.setTextViewText(R.id.tv,"泡沫");//修改自定义View中的歌名
+        //修改自定义View中的图片(两种方法)
+        //        rv.setImageViewResource(R.id.iv,R.mipmap.ic_launcher);
+//        rv.setImageViewBitmap(R.id.iv, BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
+        builder.setContent(rv);
+        Notification notification = builder.build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1,notification);
     }
 
     @Override

@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/Theme.LearnAndroid"
         tools:targetApi="31">
         <activity
             android:name=".MyCirActivity"
@@ -49,17 +49,17 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".b"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="MUISC_LEARN" />
-                <action android:name="MUSIC_PRE" />
-                <action android:name="MUSIC_NEXT" />
-                <action android:name="MUSIC_STOP" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="."-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="MUISC_LEARN" />-->
+<!--                <action android:name="MUSIC_PRE" />-->
+<!--                <action android:name="MUSIC_NEXT" />-->
+<!--                <action android:name="MUSIC_STOP" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <service
             android:name=".service.MusicService"

@@ -30,7 +30,7 @@ public class MyApplication extends Application {
         Intent intent = new Intent(this, MusicService.class);//创建意图对象
         //创建服务连接对象
         conn = new MyServiceConn();
-        MyApplication.getMusicContent().bindService(intent, conn, BIND_AUTO_CREATE);  //绑定服务
+        bindService(intent, conn, BIND_AUTO_CREATE);  //绑定服务
     }
 
     public static MyApplication getMusicContent() {

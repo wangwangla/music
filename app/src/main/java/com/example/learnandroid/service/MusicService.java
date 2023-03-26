@@ -59,6 +59,4 @@ public class MusicService extends Service {
         player.release();                         //释放占用的资源
         player = null;                            //将player置为空
     }
-
-
 }

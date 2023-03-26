@@ -25,6 +25,7 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.main.GeciFragment;
 import com.example.learnandroid.main.PlayFragment;
 import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.ThemeUtils;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -34,6 +35,9 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
         LinearLayout playLinearView = findViewById(R.id.play_linear_view);
         replace(new PlayFragment());
+
+        ThemeUtils.updateSystemBarContent(this,false);
+        ThemeUtils.hideTopBg(this);
     }
 
     public Bitmap blurBitmap(Context context, Bitmap bitmap) {

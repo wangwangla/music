@@ -5,15 +5,26 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FristFragment">
-    <LinearLayout
-        android:background="@color/black"
+    tools:context=".main.SongFragment">
+    <RelativeLayout
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="40dp">
+        <TextView
+            android:id="@+id/song_num"
+            android:text="5 songs"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_height="match_parent">
+        </TextView>
         <ImageView
             android:id = "@+id/shuffle_btn"
             android:layout_gravity="center"
             android:paddingLeft="0dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
             android:src="@mipmap/ic_shuffle_white_36dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -21,17 +32,20 @@
         <TextView
             android:id="@+id/shuffle_player"
             android:text="随机播放(10)"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_alignRight="@id/shuffle_btn"
+            android:layout_marginRight="45dp">
 
         </TextView>
-    </LinearLayout>
+    </RelativeLayout>
     <ListView
         android:id="@+id/songlist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="@color/white">
 
     </ListView>
 

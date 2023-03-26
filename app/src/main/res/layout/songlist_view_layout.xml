@@ -10,7 +10,7 @@
         android:src="@drawable/default_image2">
 
     </ImageView>
-    <LinearLayout
+    <RelativeLayout
         android:paddingLeft="20dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -19,19 +19,38 @@
             android:gravity="center"
             android:layout_weight="1"
             android:text="没有情人的情人节"
+            android:textSize="21dp"
             android:id="@+id/song_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
-        <TextView
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="孟庭苇"
-            android:id="@+id/song_songer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="4dp">
         </TextView>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/song_songer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="孟庭苇"></TextView>
+
+        <TextView
+            android:id="@+id/song_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_toEndOf="@+id/song_songer"
+            android:textColor="@color/black"
+            android:text="· 10:00">
+
+        </TextView>
+
+    </RelativeLayout>
 
 </LinearLayout>
