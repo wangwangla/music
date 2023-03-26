@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -49,10 +50,13 @@ import com.google.android.material.tabs.TabLayout;
 
 public class CustomTitleActivity extends AppCompatActivity {
 
+    private MediaSessionCompat mSession;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_title);
+
+        initSession();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -83,6 +87,50 @@ public class CustomTitleActivity extends AppCompatActivity {
                 updateBottomView();
             }
         });
+    }
+
+    private void initSession() {
+
+        mSession = new MediaSessionCompat(this, "Timber");
+        mSession.setCallback(new MediaSessionCompat.Callback() {
+            @Override
+            public void onPause() {
+//                pause();
+//                mPausedByTransientLossOfFocus = false;
+            }
+
+            @Override
+            public void onPlay() {
+//                play();
+            }
+
+            @Override
+            public void onSeekTo(long pos) {
+//                seek(pos);
+            }
+
+            @Override
+            public void onSkipToNext() {
+//                gotoNext(true);
+            }
+
+            @Override
+            public void onSkipToPrevious() {
+//                prev(false);
+            }
+
+            @Override
+            public void onStop() {
+//                pause();
+//                mPausedByTransientLossOfFocus = false;
+//                seek(0);
+//                releaseServiceUiAndStop();
+            }
+        });
+
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
+        mSession.setActive(true);
     }
 
     public void updateBottomView(){
@@ -139,8 +187,8 @@ public class CustomTitleActivity extends AppCompatActivity {
         if (TimberUtils.isLollipop()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
             androidx.media.app.NotificationCompat.MediaStyle style = new androidx.media.app.NotificationCompat.MediaStyle()
-//                    .setMediaSession(mSession.getSessionToken())
-//                    .setShowActionsInCompactView(0, 1, 2, 3)
+                    .setMediaSession(mSession.getSessionToken())
+                    .setShowActionsInCompactView(0, 1, 2, 3)
                     ;
             builder.setStyle(style);
         }
