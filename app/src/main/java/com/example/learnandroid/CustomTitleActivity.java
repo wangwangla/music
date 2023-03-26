@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -45,6 +46,7 @@ import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
 import com.example.learnandroid.utils.ThemeUtils;
+import com.example.learnandroid.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
 public class CustomTitleActivity extends AppCompatActivity {
@@ -108,10 +110,25 @@ public class CustomTitleActivity extends AppCompatActivity {
                 bottomSongPlayOrStop.setImageResource(R.drawable.play);
             }
         }
+        createNotificationChannel();
         buildNotification(musicBean);
     }
 
+    private void createNotificationChannel() {
+        //大于26的需要通过通道来创建
+        if (VersionUtils.isOreo()) {
+            CharSequence name = "Timber";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            //得到manager
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            //创建通道   id  名字  重要性
+            NotificationChannel mChannel = new NotificationChannel("XXX", name, importance);
+            manager.createNotificationChannel(mChannel);
+        }
+    }
+
     private void buildNotification(MusicBean musicBean) {
+
         int res = R.drawable.ic_play_white_36dp;
         if (MusicManager.isPlaying()) {
             res = R.drawable.ic_pause_white_36dp;
@@ -121,7 +138,7 @@ public class CustomTitleActivity extends AppCompatActivity {
 
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "0")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "XXX")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())
