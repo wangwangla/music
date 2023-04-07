@@ -1,25 +1,16 @@
 package com.example.learnandroid.application;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
 import android.os.IBinder;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.SongLoader;
 import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.sqlite.SqliteUtils;
-
-import java.util.logging.Handler;
 
 public class MyApplication extends Application {
     private static MyApplication instance;

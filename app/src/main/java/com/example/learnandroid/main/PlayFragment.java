@@ -2,9 +2,7 @@ package com.example.learnandroid.main;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.renderscript.Allocation;
@@ -12,23 +10,18 @@ import android.renderscript.RenderScript;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 
-import com.example.learnandroid.PlayActivity;
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.TimeUtils;
 
 public class PlayFragment extends Fragment {
@@ -163,8 +156,8 @@ public class PlayFragment extends Fragment {
         }
 
         currentMusicBean = musicBean;
-        Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
             ivMusic.setImageBitmap(bitmap);
         }
@@ -179,7 +172,7 @@ public class PlayFragment extends Fragment {
         ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
 
 //        ImageView bgAlbm = view.findViewById(R.id.bg_albm);
-        Bitmap bitmap1 = MusicUtils.decodeUri(getContext(),albumArtUri);
+        Bitmap bitmap1 = BitmapUtils.decodeUri(getContext(),albumArtUri);
         if (bitmap!=null) {
 //            bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
         }

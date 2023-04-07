@@ -40,7 +40,7 @@ public class MusicManager {
         if (id == musicBean.getId())return;
         isPause = false;
         position = index;
-        MusicManager.setCurrentPlayId(musicBean.getId());
+        setCurrentPlayId(musicBean.getId());
         musicController.setData(musicBean.getPath());
         updateListener();
     }
@@ -59,7 +59,6 @@ public class MusicManager {
         isPause = true;
         musicController.pausePlay();           //暂停播放音乐
         updateListener();
-
     }
 
     public static void continuePlay() {
@@ -112,6 +111,10 @@ public class MusicManager {
             position = (int) Math.random() * (size - 1);
             index = position;
         }
+        setDataAndPlay(index);
+    }
+
+    private static void setDataAndPlay(int index) {
         setData(index);
         play();
         updateListener();
@@ -121,7 +124,7 @@ public class MusicManager {
     public static void playPre() {
         if (musicBeans.size() <= 0) return;
         int index = 0;
-        if (Constant.playStyle == 0) {
+        if (Constant.playStyle == Constant.playOrder) {
             position--;
             if (position<0) {
                 position = musicBeans.size()-1;
@@ -132,14 +135,7 @@ public class MusicManager {
             position = (int) Math.random() * (size - 1);
             index = position;
         }
-        setData(index);
-        play();
-        updateListener();
-        addTimer();
-    }
-
-    public static ArrayList<MusicBean> getMusicBeans() {
-        return musicBeans;
+        setDataAndPlay(index);
     }
 
     public static MusicBean getMusicBean() {
@@ -149,15 +145,6 @@ public class MusicManager {
 
     public static boolean isPlaying(){
         return musicController.isPlaying();
-    }
-
-    public static boolean setInitData() {
-        if (musicBeans.size() <= 0) {
-            return false;
-        }
-        int position = SharePerenceUtils.getSharePerenceUtils().histotyPosition();
-        setData(position);
-        return true;
     }
 
     public static long getDuration() {
@@ -171,36 +158,22 @@ public class MusicManager {
             timer.cancel();
             timer = null;
         }
-
         if (timer == null) {
             timer = new Timer();     //创建计时器对象
-
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-//                    if (player == null) return;
-//               int duration = player.getDuration();                 //获取歌曲总时长
-//               int currentPosition = player.getCurrentPosition();//获取播放进度
-////                    Message msg = C.handler.obtainMessage();//创建消息对象
-//               //将音乐的总时长和播放进度封装至消息对象中
-//               Bundle bundle = new Bundle();
-//               bundle.putInt("duration", duration);
-//               bundle.putInt("currentPosition", currentPosition);
-//                    msg.setData(bundle);
-                    //将消息发送到主线程的消息队列
-//                    MainActivity.handler.sendMessage(msg);
-                    if (timeRunnable==null)return;
-                    for (Runnable runnable : timeRunnable) {
-                        if (runnable!=null) {
-                            runnable.run();
-                        }
+                if (timeRunnable==null)return;
+                for (Runnable runnable : timeRunnable) {
+                    if (runnable!=null) {
+                        runnable.run();
                     }
+                }
                 }
             };
             timer.schedule(task, 5, 500);
         }
     }
-
 
     private static ArrayList<Runnable> timeRunnable = new ArrayList<>();
 
@@ -212,5 +185,4 @@ public class MusicManager {
     public static void removeTimeRunnable(Runnable runnable){
         timeRunnable.remove(runnable);
     }
-
 }

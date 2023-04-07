@@ -10,30 +10,16 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,54 +32,23 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
 import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
-import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.ThemeUtils;
 import com.example.learnandroid.utils.TimeUtils;
 import com.example.learnandroid.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
-public class CustomTitleActivity extends AppCompatActivity {
+public class MusicMainActivity extends AppCompatActivity {
 
     private MediaSessionCompat mSession;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_title);
+    private boolean isBottomListener;
 
-        initSession();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        ColorFilter colorFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-        toolbar.getOverflowIcon().setColorFilter(colorFilter);
-
-
-        ThemeUtils.updateSystemBarContent(this,true);
-
-        MainBroadCast mainBroadCast = new MainBroadCast(this);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.UP_DATE_BOTTOM);
-        registerReceiver(mainBroadCast,filter);
-
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-
-
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
-        bottomClickListener();
-        MusicManager.addUpdateView(new Runnable() {
-            @Override
-            public void run() {
-                updateBottomView();
-            }
-        });
-
-        MusicManager.addTimeView(processRunnable);
-    }
+    private Runnable bottomStatus = new Runnable() {
+        @Override
+        public void run() {
+            updateBottomView();
+        }
+    };
 
     private Runnable processRunnable = new Runnable() {
         @Override
@@ -101,6 +56,84 @@ public class CustomTitleActivity extends AppCompatActivity {
             upateDate();
         }
     };
+
+
+    private MediaSessionCompat.Callback mediasessionBack = new MediaSessionCompat.Callback() {
+        @Override
+        public void onPause() {
+//                pause();
+//                mPausedByTransientLossOfFocus = false;
+        }
+
+        @Override
+        public void onPlay() {
+//                play();
+        }
+
+        @Override
+        public void onSeekTo(long pos) {
+//                seek(pos);
+        }
+
+        @Override
+        public void onSkipToNext() {
+//                gotoNext(true);
+        }
+
+        @Override
+        public void onSkipToPrevious() {
+//                prev(false);
+        }
+
+        @Override
+        public void onStop() {
+//                pause();
+//                mPausedByTransientLossOfFocus = false;
+//                seek(0);
+//                releaseServiceUiAndStop();
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_custom_title);
+        initSession();
+        initToolbar();
+        initStautarbar();
+        updateBottomPanelData();
+        initViewPager();
+//        ColorFilter colorFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+//        toolbar.getOverflowIcon().setColorFilter(colorFilter);
+        MusicManager.addUpdateView(bottomStatus);
+        MusicManager.addTimeView(processRunnable);
+    }
+
+    private void initViewPager() {
+        SectionsPagerAdapter sectionsPagerAdapter
+                = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+    }
+
+    private void initStautarbar() {
+        ThemeUtils.updateSystemBarContent(this,true);
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+    }
+
+    private void updateBottomPanelData() {
+        MainBroadCast mainBroadCast = new MainBroadCast(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.UP_DATE_BOTTOM);
+        registerReceiver(mainBroadCast,filter);
+    }
 
     public void upateDate(){
         try {
@@ -116,48 +149,10 @@ public class CustomTitleActivity extends AppCompatActivity {
         }
     }
 
-
     private void initSession() {
-
         mSession = new MediaSessionCompat(this, "Timber");
-        mSession.setCallback(new MediaSessionCompat.Callback() {
-            @Override
-            public void onPause() {
-//                pause();
-//                mPausedByTransientLossOfFocus = false;
-            }
-
-            @Override
-            public void onPlay() {
-//                play();
-            }
-
-            @Override
-            public void onSeekTo(long pos) {
-//                seek(pos);
-            }
-
-            @Override
-            public void onSkipToNext() {
-//                gotoNext(true);
-            }
-
-            @Override
-            public void onSkipToPrevious() {
-//                prev(false);
-            }
-
-            @Override
-            public void onStop() {
-//                pause();
-//                mPausedByTransientLossOfFocus = false;
-//                seek(0);
-//                releaseServiceUiAndStop();
-            }
-        });
-
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
+        mSession.setCallback(mediasessionBack);
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mSession.setActive(true);
     }
 
@@ -170,8 +165,8 @@ public class CustomTitleActivity extends AppCompatActivity {
             TextView bottomSongName = findViewById(R.id.bottom_song_name);
             TextView bottomSongSonger = findViewById(R.id.bottom_song_songer);
             ProgressBar bottomProcess = findViewById(R.id.bottom_play_process);
-            Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-            Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
+            Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+            Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
             if (bitmap!=null) {
                 bottomSongPic.setImageBitmap(bitmap);
             }
@@ -188,6 +183,10 @@ public class CustomTitleActivity extends AppCompatActivity {
         }
         createNotificationChannel();
         buildNotification(musicBean);
+        if (!isBottomListener) {
+            isBottomListener = true;
+            bottomClickListener();
+        }
     }
 
     private void createNotificationChannel() {
@@ -204,15 +203,12 @@ public class CustomTitleActivity extends AppCompatActivity {
     }
 
     private void buildNotification(MusicBean musicBean) {
-
         int res = R.drawable.ic_play_white_36dp;
         if (MusicManager.isPlaying()) {
             res = R.drawable.ic_pause_white_36dp;
         }
-        Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
-
-
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "XXX")
                 .setSmallIcon(R.drawable.ic_notification)
@@ -226,9 +222,6 @@ public class CustomTitleActivity extends AppCompatActivity {
                         "",retrievePlaybackAction(Constant.MUSIC_STOP)).
                 addAction(R.drawable.ic_skip_next_white_36dp,
                         "",retrievePlaybackAction(Constant.MUSIC_NEXT));
-
-
-
         if (TimberUtils.isLollipop()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
             androidx.media.app.NotificationCompat.MediaStyle style = new androidx.media.app.NotificationCompat.MediaStyle()
@@ -237,10 +230,8 @@ public class CustomTitleActivity extends AppCompatActivity {
                     ;
             builder.setStyle(style);
         }
-
         notificationManager.notify(0, builder.build());
     }
-
 
     private final PendingIntent retrievePlaybackAction(final String action) {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);
@@ -252,7 +243,6 @@ public class CustomTitleActivity extends AppCompatActivity {
     private void bottomClickListener() {
         ImageView bottomSongNext = findViewById(R.id.bottom_song_next);
         ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
-
         bottomSongNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,15 +264,10 @@ public class CustomTitleActivity extends AppCompatActivity {
         bottomPlayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CustomTitleActivity.this,PlayActivity.class);
+                Intent intent = new Intent(MusicMainActivity.this,PlayActivity.class);
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override

@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.learnandroid.CustomTitleActivity;
+import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
 
 /**
@@ -52,7 +52,7 @@ class MusicMediaNotification {
      */
 
     public Notification createForeNotification(String channel_id,RemoteViews remoteViews){
-        Intent intent=new Intent(mContext, CustomTitleActivity.class);
+        Intent intent=new Intent(mContext, MusicMainActivity.class);
         PendingIntent mainIntent=PendingIntent.getActivity(mContext,0,intent,0);
         NotificationCompat.Builder builder=new NotificationCompat.Builder(mContext,channel_id)
                 .setSmallIcon(R.mipmap.ic_launcher)

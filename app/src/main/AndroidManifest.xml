@@ -25,7 +25,7 @@
             android:name=".PlayActivity"
             android:exported="false" />
         <activity
-            android:name=".CustomTitleActivity"
+            android:name=".MusicMainActivity"
             android:exported="false" />
         <activity
             android:name=".LoadingActivity"

@@ -42,18 +42,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
-
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
         Fragment fragment;
         if (position==0){
             fragment = new SongFragment();
         }else if (position == 1){
             fragment = new PlayerOrderFragment();
-//        }else if (position == 2){
-//            fragment = new DirFragment();
         }else if (position == 2){
             fragment = new AlbmFragment();
         }else if (position == 3){
@@ -75,7 +70,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         String string = mContext.getResources().getString(TAB_TITLES[position]);
         SpannableString spannableString = new SpannableString(string);
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.RED);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.BLACK);
         spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
     }

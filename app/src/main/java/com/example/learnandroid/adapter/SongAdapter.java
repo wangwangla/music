@@ -1,13 +1,8 @@
 package com.example.learnandroid.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +18,9 @@ import com.example.learnandroid.R;
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.notification.lesslevel.NotificationCompat;
-import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.TimeUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class SongAdapter extends ArrayAdapter<MusicBean> {
@@ -46,12 +38,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             //为每一个子项加载设定的布局
             view= LayoutInflater.from(getContext()).inflate(R.layout.songlist_view_layout,parent,false);
             //分别获取 image view 和 textview 的实例
-            viewHolder = new ViewHolder();
-            viewHolder.songPic = view.findViewById(R.id.song_pic);
-            viewHolder.songName = view.findViewById(R.id.song_name);
-            viewHolder.songSonger = view.findViewById(R.id.song_songer);
-            viewHolder.songTime = view.findViewById(R.id.song_duration);
-            viewHolder.more = view.findViewById(R.id.song_more);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
             // 设置要显示的图片和文字
          }else {
@@ -59,8 +46,8 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             viewHolder= (ViewHolder) view.getTag();//重新获取 viewHolder
         }
 
-        Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = MusicUtils.decodeUri(getContext(),albumArtUri,300,300);
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
             viewHolder.songPic.setImageBitmap(bitmap);
         }
@@ -70,9 +57,6 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, PlayActivity.class);
-//                context.startActivity(intent);
-                //click common ;
                 if (musicBean.getId() == MusicManager.getId()){
                     if (!MusicManager.isPlaying()){
                         MusicManager.continuePlay();
@@ -98,10 +82,18 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
     }
 
     private class ViewHolder{
-        public ImageView songPic;
-        public TextView songName;
-        public TextView songSonger;
-        public TextView songTime;
-        public ImageView more;
+        private ImageView songPic;
+        private TextView songName;
+        private TextView songSonger;
+        private TextView songTime;
+        private ImageView more;
+
+        public ViewHolder(View view) {
+            this.songPic = view.findViewById(R.id.song_pic);
+            this.songName = view.findViewById(R.id.song_name);
+            this.songSonger = view.findViewById(R.id.song_songer);
+            this.songTime = view.findViewById(R.id.song_duration);
+            this.more = view.findViewById(R.id.song_more);
+        }
     }
 }

@@ -20,6 +20,6 @@
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
-        <item name="android:popupBackground">@color/hui_2</item>
+        <item name="android:popupBackground">@drawable/popup_menu_bg</item>
     </style>
 </resources>

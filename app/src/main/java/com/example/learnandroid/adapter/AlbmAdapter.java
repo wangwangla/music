@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.Album;
-import com.example.learnandroid.utils.MusicUtils;
+import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.List;
 
@@ -43,14 +43,11 @@ public class AlbmAdapter extends RecyclerView.Adapter{
         Album album = arraylist.get(position);
         ItemHolder holder1 = (ItemHolder) (holder);
         holder1.albums.setText(album.artistName);
-
-        Uri albumArtUri = MusicUtils.getAlbumArtUri(album.artistId);
-        Bitmap bitmap = MusicUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.artistId);
+        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
         if (bitmap!=null) {
             holder1.artistImage.setImageBitmap(bitmap);
         }
-
-
         holder1.name.setText(album.title);
     }
 

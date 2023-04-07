@@ -22,7 +22,7 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
     }
 
     @Override
-    public void findMusic() {
+    public synchronized void findMusic() {
         if (!requestPermissions()) {
             return;
         }

@@ -14,4 +14,6 @@
     <string name="add_to_playlist">Add to playlist</string>
     <string name="play_next">Play Next</string>
     <string name="play">Play</string>
+    <string name="shunxu_play">顺序播放</string>
+    <string name="suiji_play">随机播放</string>
 </resources>

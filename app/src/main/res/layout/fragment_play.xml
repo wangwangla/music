@@ -91,17 +91,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/play_model"
-            android:layout_gravity="center_vertical"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/repeat_all">
+<!--        <ImageView-->
+<!--            android:id="@+id/play_model"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/repeat_all">-->
 
-        </ImageView>
+<!--        </ImageView>-->
 
         <ImageView
             android:id="@+id/play_pre"
@@ -132,15 +134,15 @@
             android:src="@drawable/next">
 
         </ImageView>
-        <ImageView
-            android:id="@+id/play_all"
-            android:layout_gravity="center_vertical"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/list">
+<!--        <ImageView-->
+<!--            android:id="@+id/play_all"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/list">-->
 
-        </ImageView>
+<!--        </ImageView>-->
 
     </LinearLayout>
 

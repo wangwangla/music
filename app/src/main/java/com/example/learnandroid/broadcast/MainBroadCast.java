@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.learnandroid.CustomTitleActivity;
+import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.constant.Constant;
 
 /**
@@ -12,8 +12,8 @@ import com.example.learnandroid.constant.Constant;
  * @Date 2023/3/18 18:00
  */
 public class MainBroadCast extends BroadcastReceiver {
-    private CustomTitleActivity activity;
-    public MainBroadCast(CustomTitleActivity activity){
+    private MusicMainActivity activity;
+    public MainBroadCast(MusicMainActivity activity){
         this.activity = activity;
     }
 

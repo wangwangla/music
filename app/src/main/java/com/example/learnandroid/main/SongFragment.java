@@ -22,23 +22,41 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.ContentResolverFindMusic;
 import com.example.learnandroid.data.SaoMiaoMusicInterface;
 import com.example.learnandroid.data.SongLoader;
+import com.example.learnandroid.utils.ResourceUtils;
 
 import java.util.ArrayList;
 
 public class SongFragment extends Fragment {
     private View rootView;
     private ListView songList;
+    private ArrayList<MusicBean> musicBeans;
+    private SongAdapter adapter;
+    private TextView shuffePlayer;
+    private int index = 0;
 
-    public SongFragment() {
-    }
+    private View.OnClickListener shuffleController = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            index ++;
+            if (index>=2){
+                index = 0;
+            }
+            if (index == 0){
+                shuffePlayer.setText(ResourceUtils.getString(getResources(),R.string.shunxu_play));
+                Constant.playStyle = 0;
+            }else if (index == 1){
+                shuffePlayer.setText(ResourceUtils.getString(getResources(),R.string.suiji_play));
+                Constant.playStyle = 1;
+            }
+        }
+    };
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        View view = inflater.inflate( R.layout.fragment_song, container,false);
-        return view;
+        return inflater.inflate( R.layout.fragment_song, container,false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -46,51 +64,16 @@ public class SongFragment extends Fragment {
         this.rootView = view;
         new LoadingAsset().execute("");
         songList = rootView.findViewById(R.id.songlist);
-
-        TextView shuffePlayer = view.findViewById(R.id.shuffle_player);
-        shuffePlayer.setText("顺序播放");
+        shuffePlayer = view.findViewById(R.id.shuffle_player);
+        shuffePlayer.setText(ResourceUtils.getString(getResources(),R.string.shunxu_play));
         View shuffle = view.findViewById(R.id.shuffle_btn);
-        shuffle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                index ++;
-                if (index>=2){
-                    index = 0;
-                }
-                if (index == 0){
-                    shuffePlayer.setText("顺序播放");
-                    Constant.playStyle = 0;
-                }else if (index == 1){
-                    shuffePlayer.setText("随机播放");
-                    Constant.playStyle = 1;
-                }
-            }
-        });
+        shuffle.setOnClickListener(shuffleController);
     }
 
-    private ArrayList<MusicBean> musicBeans;
-    private SongAdapter adapter;
     private void initSongList() {
         musicBeans = SongLoader.loadAllSongList();
         MusicManager.setSongList(musicBeans);
-        System.out.println(musicBeans.size()+"--------------------------------------------");
-        adapter
-                = new SongAdapter(
-                getContext(),
-                R.layout.songlist_view_layout,
-                musicBeans
-        );
-    }
-
-    private int index = 0;
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        adapter = new SongAdapter(getContext(), R.layout.songlist_view_layout, musicBeans);
     }
 
     public class LoadingAsset extends AsyncTask<String,Void,String>{
@@ -105,7 +88,6 @@ public class SongFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             songList.setAdapter(adapter);
-
             TextView songNum = rootView.findViewById(R.id.song_num);
             songNum.setText(adapter.getCount()+" songs");
         }

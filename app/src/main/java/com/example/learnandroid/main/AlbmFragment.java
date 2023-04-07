@@ -37,27 +37,15 @@ public class AlbmFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.albm_recycle);
-//        recyclerView.setEmptyView(getActivity(), view.findViewById(R.id.list_empty), "No media found");
-
         setLayoutManager();
-
-
         if (getActivity() != null)
             new loadArtists().execute("");
     }
 
-
     private void setLayoutManager() {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
     private class loadArtists extends AsyncTask<String, Void, String> {
@@ -65,9 +53,9 @@ public class AlbmFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             ArrayList<Album> artists = AlbmLoader.getArttist();
-
-            if (getActivity() != null)
+            if (getActivity() != null){
                 mAdapter = new AlbmAdapter(artists);
+            }
             return "Executed";
         }
 
@@ -76,15 +64,10 @@ public class AlbmFragment extends Fragment {
             if (mAdapter != null) {
                 recyclerView.setAdapter(mAdapter);
             }
-//            if (getActivity() != null) {
-//                setItemDecoration();
-//            }
         }
 
         @Override
         protected void onPreExecute() {
         }
     }
-
-
 }
