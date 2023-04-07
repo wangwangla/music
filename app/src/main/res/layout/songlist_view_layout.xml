@@ -51,6 +51,16 @@
             android:text="· 10:00">
 
         </TextView>
+        <ImageView
+            android:id="@+id/song_more"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/more_black"
+            android:layout_width="30dp"
+            android:layout_centerVertical="true"
+            android:layout_height="30dp">
+
+        </ImageView>
 
     </RelativeLayout>
 

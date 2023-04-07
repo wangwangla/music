@@ -53,7 +53,7 @@ public class PlayFragment extends Fragment {
     public void upateDate(){
         try {
             if (getActivity()==null){
-                MusicManager.removeTimeRunnable();
+                MusicManager.removeTimeRunnable(timeRunnable);
                 return;
             }
             getActivity().runOnUiThread(new Runnable() {

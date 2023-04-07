@@ -2,26 +2,33 @@ package com.example.learnandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.learnandroid.R;
+import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.notification.lesslevel.NotificationCompat;
 import com.example.learnandroid.utils.MusicUtils;
 import com.example.learnandroid.utils.TimeUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class SongAdapter extends ArrayAdapter<MusicBean> {
@@ -44,6 +51,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             viewHolder.songName = view.findViewById(R.id.song_name);
             viewHolder.songSonger = view.findViewById(R.id.song_songer);
             viewHolder.songTime = view.findViewById(R.id.song_duration);
+            viewHolder.more = view.findViewById(R.id.song_more);
             view.setTag(viewHolder);
             // 设置要显示的图片和文字
          }else {
@@ -65,7 +73,6 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
 //                Intent intent = new Intent(context, PlayActivity.class);
 //                context.startActivity(intent);
                 //click common ;
-
                 if (musicBean.getId() == MusicManager.getId()){
                     if (!MusicManager.isPlaying()){
                         MusicManager.continuePlay();
@@ -77,6 +84,16 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                 MusicManager.play();
             }
         });
+        viewHolder.more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //没太明白，为什么需要这么写  因为整个应用都是呀的是这个Theme
+                MyApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
+                final PopupMenu popupMenu = new PopupMenu(MyApplication.getMusicContent(), v);
+                popupMenu.inflate(R.menu.popup_song);
+                popupMenu.show();
+            }
+        });
         return view;
     }
 
@@ -85,5 +102,6 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         public TextView songName;
         public TextView songSonger;
         public TextView songTime;
+        public ImageView more;
     }
 }

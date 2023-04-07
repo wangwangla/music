@@ -35,6 +35,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.learnandroid.application.MyApplication;
@@ -47,6 +48,7 @@ import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.MusicUtils;
 import com.example.learnandroid.utils.ThemeUtils;
+import com.example.learnandroid.utils.TimeUtils;
 import com.example.learnandroid.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
@@ -89,7 +91,31 @@ public class CustomTitleActivity extends AppCompatActivity {
                 updateBottomView();
             }
         });
+
+        MusicManager.addTimeView(processRunnable);
     }
+
+    private Runnable processRunnable = new Runnable() {
+        @Override
+        public void run() {
+            upateDate();
+        }
+    };
+
+    public void upateDate(){
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ProgressBar progressBar = findViewById(R.id.bottom_play_process);
+                    progressBar.setProgress(TimeUtils.miao(MusicManager.getCurrentPosition()));
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void initSession() {
 
@@ -143,11 +169,13 @@ public class CustomTitleActivity extends AppCompatActivity {
             ImageView bottomSongPic = findViewById(R.id.bottom_song_pic);
             TextView bottomSongName = findViewById(R.id.bottom_song_name);
             TextView bottomSongSonger = findViewById(R.id.bottom_song_songer);
+            ProgressBar bottomProcess = findViewById(R.id.bottom_play_process);
             Uri albumArtUri = MusicUtils.getAlbumArtUri(musicBean.getAlbumId());
             Bitmap bitmap = MusicUtils.decodeUri(CustomTitleActivity.this.getBaseContext(),albumArtUri,300,300);
             if (bitmap!=null) {
                 bottomSongPic.setImageBitmap(bitmap);
             }
+            bottomProcess.setMax(TimeUtils.miao(musicBean.getDuration()));
             bottomSongName.setText(musicBean.getTitle());
             bottomSongSonger.setText(musicBean.getArtistName());
             MusicManager.setData();

@@ -6,6 +6,16 @@
     android:orientation="horizontal"
     android:background="#ffdddddd"
     android:layout_height="55dp">
+    <ProgressBar
+        android:id="@+id/bottom_play_process"
+        android:max="100"
+        android:progress="0"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="5dp">
+
+    </ProgressBar>
 
     <ImageView
         android:id="@+id/bottom_song_pic"

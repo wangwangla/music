@@ -1,9 +1,13 @@
 package com.example.learnandroid.service;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.constant.MusicManager;
 
 import java.io.IOException;
@@ -12,10 +16,17 @@ import java.util.TimerTask;
 
 public class MusicControl extends Binder {
    private MediaPlayer player;
+   private AudioManager mAudioManager;
+   private AudioManager.OnAudioFocusChangeListener mAudioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
+      @Override
+      public void onAudioFocusChange(int focusChange) {
 
+      }
+   };
 
    public MusicControl(MediaPlayer player) {
       this.player = player;
+      mAudioManager = (AudioManager) MyApplication.getMusicContent().getSystemService(Context.AUDIO_SERVICE);
    }
 
    public void setData(String path) {
@@ -67,7 +78,18 @@ public class MusicControl extends Binder {
    }
 
    public void continuePlay() {
+      //获取焦点
+
       player.start();           //继续播放音乐
+   }
+
+   public boolean requestFocus(){
+      int status = mAudioManager.requestAudioFocus(mAudioFocusListener,
+              AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+      if (status != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+         return false;
+      }
+      return true;
    }
 
    public void seekTo(int progress) {

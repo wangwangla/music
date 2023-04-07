@@ -189,8 +189,11 @@ public class MusicManager {
 //                    msg.setData(bundle);
                     //将消息发送到主线程的消息队列
 //                    MainActivity.handler.sendMessage(msg);
-                    if (timeRunnable!=null) {
-                        timeRunnable.run();
+                    if (timeRunnable==null)return;
+                    for (Runnable runnable : timeRunnable) {
+                        if (runnable!=null) {
+                            runnable.run();
+                        }
                     }
                 }
             };
@@ -199,13 +202,15 @@ public class MusicManager {
     }
 
 
-    private static Runnable timeRunnable;
+    private static ArrayList<Runnable> timeRunnable = new ArrayList<>();
+
     public static void addTimeView(Runnable _timeRunnable) {
-        timeRunnable = _timeRunnable;
+        if (timeRunnable==null)return;
+        timeRunnable.add(_timeRunnable);
     }
 
-    public static void removeTimeRunnable(){
-        timeRunnable =  null;
+    public static void removeTimeRunnable(Runnable runnable){
+        timeRunnable.remove(runnable);
     }
 
 }
