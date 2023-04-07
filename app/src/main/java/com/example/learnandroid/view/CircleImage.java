@@ -37,28 +37,25 @@ public class CircleImage extends androidx.appcompat.widget.AppCompatImageView {
         matrix=new Matrix();
         paint=new Paint();
         paint.setAntiAlias(true);
-        initAttrValues(context,attrs);
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if (getDrawable() == null) {
             return;
         }
         setShader();
-        if (type==CIRCLE){
-            canvas.drawCircle(getWidth()/2, getHeight()/2, mRadius, paint);
-        }else{
-            canvas.drawRoundRect(new RectF(0, 0, getWidth(), getHeight()), mRound, mRound,paint);
-        }
+        canvas.drawCircle(getWidth()/2, getHeight()/2, mRadius, paint);
     }
-    /**
-     * 初始化属性集合
-     * @param context
-     * @param attrs
-     */
-    private void initAttrValues(Context context, AttributeSet attrs){
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int mSize = Math.min(getMeasuredWidth(), getMeasuredHeight());
+        mRadius = mSize / 2;
+        setMeasuredDimension(mSize, mSize);
     }
+
     /**
      * 设置着色器
      */
@@ -98,23 +95,5 @@ public class CircleImage extends androidx.appcompat.widget.AppCompatImageView {
             //设置着色
             paint.setShader(shader);
         }
-    }
-    /**
-     * 测试转换效果 没什么卵用 可以删除
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction()==MotionEvent.ACTION_DOWN){
-            if (type==CIRCLE){
-                mRound =10;
-                type=ROUND;
-            }else{
-                type=CIRCLE;
-            }
-            invalidate();
-        }
-        return super.onTouchEvent(event);
     }
 }

@@ -47,6 +47,7 @@
                 android:paddingRight="16.0dip">
 
                 <TextView
+                    android:text="songer"
                     android:id="@+id/artist_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,11 +56,13 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <TextView
+                    android:text="se"
                     android:id="@+id/album_song_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:singleLine="true"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
             </LinearLayout>
         </LinearLayout>
