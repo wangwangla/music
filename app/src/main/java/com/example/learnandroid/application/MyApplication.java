@@ -1,11 +1,16 @@
 package com.example.learnandroid.application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.os.IBinder;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.learnandroid.CustomTitleActivity;
 import com.example.learnandroid.constant.MusicManager;
@@ -17,16 +22,18 @@ import com.example.learnandroid.sqlite.SqliteUtils;
 import java.util.logging.Handler;
 
 public class MyApplication extends Application {
-    private static MyApplication musicContent;
+    private static MyApplication instance;
     private MyServiceConn conn;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        musicContent = this;
+         instance= this;
         SongLoader.destory();
+        //加载音乐使用的方法
         SongLoader.setLoadType(0);
         SqliteUtils instance = (SqliteUtils) SqliteUtils.getInstance(this);
+        //创建音乐的服务
         Intent intent = new Intent(this, MusicService.class);//创建意图对象
         //创建服务连接对象
         conn = new MyServiceConn();
@@ -34,14 +41,14 @@ public class MyApplication extends Application {
     }
 
     public static MyApplication getMusicContent() {
-        return musicContent;
+        return instance;
     }
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
         unbindService(conn);
-        musicContent = null;
+        instance = null;
     }
 
     class MyServiceConn implements ServiceConnection { //用于实现连接服务
@@ -53,4 +60,6 @@ public class MyApplication extends Application {
         public void onServiceDisconnected(ComponentName name) {
         }
     }
+
+
 }

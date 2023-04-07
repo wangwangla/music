@@ -178,10 +178,10 @@ public class PlayFragment extends Fragment {
 
         ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
 
-        ImageView bgAlbm = view.findViewById(R.id.bg_albm);
+//        ImageView bgAlbm = view.findViewById(R.id.bg_albm);
         Bitmap bitmap1 = MusicUtils.decodeUri(getContext(),albumArtUri);
         if (bitmap!=null) {
-            bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
+//            bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
         }
         if (objectAnimator==null) {
             objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);

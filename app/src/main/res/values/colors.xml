@@ -10,4 +10,5 @@
     <color name="hui_1">#11000000</color>
     <color name="line">#55000000</color>
     <color name="hui_2">#FFBBBBBB</color>
+    <color name="test">#ECECEC</color>
 </resources>
