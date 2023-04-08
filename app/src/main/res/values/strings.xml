@@ -16,4 +16,6 @@
     <string name="play">Play</string>
     <string name="shunxu_play">顺序播放</string>
     <string name="suiji_play">随机播放</string>
+    <string name="search">search</string>
+    <string name="search_library">search_library</string>
 </resources>

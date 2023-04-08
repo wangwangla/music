@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -30,6 +31,7 @@ import com.example.learnandroid.broadcast.MainBroadCast;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
+import com.example.learnandroid.dialog.DialogUtils;
 import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.BitmapUtils;
@@ -107,6 +109,14 @@ public class MusicMainActivity extends AppCompatActivity {
 //        toolbar.getOverflowIcon().setColorFilter(colorFilter);
         MusicManager.addUpdateView(bottomStatus);
         MusicManager.addTimeView(processRunnable);
+        View search = findViewById(R.id.btnSearch);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MusicMainActivity.this,SearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initViewPager() {
@@ -274,5 +284,17 @@ public class MusicMainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.tool_menu,menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_about:
+                DialogUtils.showNormalDialog(MusicMainActivity.this);
+                break;
+            case R.id.action_setting:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

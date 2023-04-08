@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="170dp"
+    android:layout_height="320dp"
     android:layout_margin="2.0dip"
     android:elevation="3dp"
     android:layout_marginLeft="10dp"
@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="fill_parent"
-        android:layout_height="170dp">
+        android:layout_height="320dp">
 
         <LinearLayout
             android:layout_marginBottom="5dp"
@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/artistImage"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="260dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_empty_music2"
                 android:transitionName="transition_artist_image" />
