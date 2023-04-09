@@ -18,4 +18,5 @@
     <string name="suiji_play">随机播放</string>
     <string name="search">search</string>
     <string name="search_library">search_library</string>
+    <string name="song_name">歌曲名</string>
 </resources>
