@@ -54,7 +54,7 @@ public class AlbmFragment extends Fragment {
         protected String doInBackground(String... params) {
             ArrayList<Album> artists = AlbmLoader.getArttist();
             if (getActivity() != null){
-                mAdapter = new AlbmAdapter(artists);
+                mAdapter = new AlbmAdapter(artists,getActivity());
             }
             return "Executed";
         }
