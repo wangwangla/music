@@ -16,8 +16,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +37,7 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
 import com.example.learnandroid.dialog.DialogUtils;
 import com.example.learnandroid.notification.TimberUtils;
+import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.ThemeUtils;
@@ -59,8 +64,9 @@ public class MusicMainActivity extends AppCompatActivity {
         }
     };
 
-
     private MediaSessionCompat.Callback mediasessionBack = new MediaSessionCompat.Callback() {
+
+
         @Override
         public void onPause() {
 //                pause();
@@ -145,6 +151,38 @@ public class MusicMainActivity extends AppCompatActivity {
         registerReceiver(mainBroadCast,filter);
     }
 
+//    private final MediaControllerCompat.Callback mControllerCallback =
+//            new MediaControllerCompat.Callback() {
+//                @Override
+//                public void onPlaybackStateChanged(PlaybackStateCompat state) {
+//                    if (state == null) {
+//                        return;
+//                    }
+//                    // 处理播放状态
+//                    switch (state.getState()) {
+//                        case PlaybackStateCompat.STATE_PLAYING:
+//                            // 更新进度条
+//                            mPlaybackHandler.post(mPlaybackRunnable);
+//                            break;
+//                        case PlaybackStateCompat.STATE_PAUSED:
+//                        case PlaybackStateCompat.STATE_STOPPED:
+//                            // 停止更新进度条
+//                            mPlaybackHandler.removeCallbacks(mPlaybackRunnable);
+//                            break;
+//                        case PlaybackStateCompat.STATE_NONE:
+//                            break;
+//                    }
+//                }
+//
+//                @Override
+//                public void onMetadataChanged(MediaMetadataCompat metadata) {
+//                    if (metadata == null) {
+//                        return;
+//                    }
+//                    // 处理媒体元数据
+//                }
+//            };
+
     public void upateDate(){
         try {
             runOnUiThread(new Runnable() {
@@ -152,6 +190,8 @@ public class MusicMainActivity extends AppCompatActivity {
                 public void run() {
                     ProgressBar progressBar = findViewById(R.id.bottom_play_process);
                     progressBar.setProgress(TimeUtils.miao(MusicManager.getCurrentPosition()));
+
+                    updateNotification();
                 }
             });
         }catch (Exception e){
@@ -159,8 +199,55 @@ public class MusicMainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateNotification() {
+        // 更新播放进度和播放状态
+        PlaybackStateCompat playbackState = new PlaybackStateCompat.Builder()
+                .setState(PlaybackStateCompat.STATE_PLAYING, MusicManager.getCurrentPosition(), 1.0f)
+                .setBufferedPosition(MusicManager.getCurrentPosition())
+                .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_PLAY_PAUSE |
+                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
+                .build();
+        mSession.setPlaybackState(playbackState);
+
+        // 更新播放进度条
+        updatePlaybackProgress();
+    }
+
+    private void updatePlaybackProgress() {
+        if (mSession == null) {
+            return;
+        }
+
+        MusicBean musicBean = MusicManager.getMusicBean();
+        mSession.setMetadata(new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, musicBean.getArtistName())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, musicBean.getArtistName())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, musicBean.getAlbumName())
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, musicBean.getTitle())
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, MusicManager.getDuration())
+//                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getQueuePosition() + 1)
+//                .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getQueue().length)
+//                .putString(MediaMetadataCompat.METADATA_KEY_GENRE, getGenreName())
+//                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
+                .build());
+
+        // 获取当前播放位置和总时长
+        long currentPosition = MusicManager.getCurrentPosition();
+        long duration = MusicManager.getDuration();
+
+        // 更新播放进度条
+        PlaybackStateCompat playbackState = mSession.getController().getPlaybackState();
+        if (playbackState != null && playbackState.getState() == PlaybackStateCompat.STATE_PLAYING) {
+            if (duration > 0) {
+                int progress = (int) (currentPosition * 100 / duration);
+                builder.setProgress(100, progress, false);
+                notificationManager.notify(0,builder.build());
+            }
+        }
+    }
+
     private void initSession() {
-        mSession = new MediaSessionCompat(this, "Timber");
+        mSession = new MediaSessionCompat(this, "Music");
         mSession.setCallback(mediasessionBack);
         mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mSession.setActive(true);
@@ -202,7 +289,7 @@ public class MusicMainActivity extends AppCompatActivity {
     private void createNotificationChannel() {
         //大于26的需要通过通道来创建
         if (VersionUtils.isOreo()) {
-            CharSequence name = "Timber";
+            CharSequence name = "Music";
             int importance = NotificationManager.IMPORTANCE_LOW;
             //得到manager
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -211,16 +298,40 @@ public class MusicMainActivity extends AppCompatActivity {
             manager.createNotificationChannel(mChannel);
         }
     }
-
+    private NotificationCompat.Builder builder;
+    NotificationManager notificationManager;
     private void buildNotification(MusicBean musicBean) {
+        //设置数据
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+            Bitmap albumArt = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
+
+            if (albumArt != null) {
+                Bitmap.Config config = albumArt.getConfig();
+                if (config == null) {
+                    config = Bitmap.Config.ARGB_8888;
+                }
+                albumArt = albumArt.copy(config, false);
+            }
+            MediaMetadataCompat metadata = new MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, musicBean.getTitle())
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, musicBean.getArtistName())
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, musicBean.getAlbumName())
+                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
+                    .build();
+            mSession.setMetadata(metadata);
+        }
+
+
+
         int res = R.drawable.ic_play_white_36dp;
         if (MusicManager.isPlaying()) {
             res = R.drawable.ic_pause_white_36dp;
         }
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "XXX")
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        builder = new NotificationCompat.Builder(MyApplication.getMusicContent(), "XXX")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())
@@ -233,7 +344,7 @@ public class MusicMainActivity extends AppCompatActivity {
                 addAction(R.drawable.ic_skip_next_white_36dp,
                         "",retrievePlaybackAction(Constant.MUSIC_NEXT));
         if (TimberUtils.isLollipop()) {
-            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             androidx.media.app.NotificationCompat.MediaStyle style = new androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(mSession.getSessionToken())
                     .setShowActionsInCompactView(0, 1, 2, 3)
@@ -242,6 +353,9 @@ public class MusicMainActivity extends AppCompatActivity {
         }
         notificationManager.notify(0, builder.build());
     }
+
+
+
 
     private final PendingIntent retrievePlaybackAction(final String action) {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);

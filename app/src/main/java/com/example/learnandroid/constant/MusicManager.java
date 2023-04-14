@@ -185,4 +185,8 @@ public class MusicManager {
     public static void removeTimeRunnable(Runnable runnable){
         timeRunnable.remove(runnable);
     }
+
+    public int getCurrentPlayPosition(){
+        return musicController.getPosition();
+    }
 }

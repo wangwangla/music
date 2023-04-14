@@ -4,15 +4,11 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.constant.MusicManager;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MusicControl extends Binder {
    private MediaPlayer player;
@@ -99,5 +95,9 @@ public class MusicControl extends Binder {
 
    public boolean isPlaying() {
       return player.isPlaying();
+   }
+
+   public int getPosition(){
+      return player.getCurrentPosition();
    }
 }
