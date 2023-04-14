@@ -4,7 +4,25 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/album_song_item_bg.xml" value="0.242" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/bottom_bar_bg.xml" value="0.2055" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_access_time_white_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_arrow_back_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_back_button.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_close_white_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_graphic_eq_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_keyboard_arrow_down_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_launcher_background.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_library_add_white_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_library_music_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_more_horiz_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_more_vert_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_pause_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_pause_circle_filled_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_pause_white.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_skip_next_black_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_skip_next_white_24dp.xml" value="0.229" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/ic_watch_later_white_24dp.xml" value="0.229" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/popup_menu_bg.xml" value="0.238" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/drawable/process_process_bar.xml" value="0.223" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/about_dialog.xml" value="0.296195652173913" />
@@ -18,8 +36,9 @@
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/activity_top_layout.xml" value="0.1484375" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/albmitem.xml" value="0.5" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/album_detail.xml" value="0.33559782608695654" />
-        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/album_detail_item.xml" value="0.33559782608695654" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/album_detail_item.xml" value="0.5" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/app_bar_main.xml" value="0.33" />
+        <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/avtivity_artist_detail.xml" value="0.2980072463768116" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/bottom_play_layout.xml" value="0.1" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/content_main.xml" value="0.3188405797101449" />
         <entry key="..\:/zxzz/LearnAndroid/app/src/main/res/layout/diritem.xml" value="0.24791666666666667" />

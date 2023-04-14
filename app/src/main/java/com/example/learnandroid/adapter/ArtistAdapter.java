@@ -54,7 +54,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         return arraylist.size();
     }
 
-    public class ItemHolder extends RecyclerView.ViewHolder {
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         protected TextView name, albums;
         protected ImageView artistImage;
         protected View footer;
@@ -65,6 +65,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             this.albums = (TextView) view.findViewById(R.id.album_song_count);
             this.artistImage = (ImageView) view.findViewById(R.id.artistImage);
             this.footer = view.findViewById(R.id.footer);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

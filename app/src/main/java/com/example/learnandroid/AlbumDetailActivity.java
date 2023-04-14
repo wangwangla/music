@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.adapter.AlbumSongAdapter;
@@ -45,7 +46,8 @@ public class AlbumDetailActivity extends AppCompatActivity {
                 TextView albumName = findViewById(R.id.album_name);
                 albumName.setText(musicBean.getAlbumName());
                 RecyclerView albumSongList = findViewById(R.id.album_song_list);
-                albumSongList.setAdapter(new AlbumSongAdapter());
+                albumSongList.setLayoutManager(new LinearLayoutManager(this));
+                albumSongList.setAdapter(new AlbumSongAdapter(songsForAlbum));
             }else {
 
             }

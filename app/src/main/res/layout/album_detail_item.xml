@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
-    <ImageView
+     android:background="@drawable/album_song_item_bg"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <ImageView
         android:src="@mipmap/back"
         android:id="@+id/album_song_pic"
         android:layout_centerVertical="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp">
+        android:layout_width="30dp"
+        android:layout_height="30dp">
 
-    </ImageView>
+        </ImageView>
 
-    <TextView
-        android:layout_marginTop="5dp"
-        android:id="@+id/album_detail_song_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_toEndOf="@+id/album_song_pic"
-        android:text="@string/song_name">
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/album_detail_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toEndOf="@+id/album_song_pic"
+            android:text="@string/song_name">
 
-    </TextView>
-    <TextView
-        android:layout_marginLeft="20dp"
-        android:text="00:00"
-        android:layout_toEndOf="@id/album_song_pic"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/album_detail_song_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
+        </TextView>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:text="00:00"
+            android:layout_toEndOf="@id/album_song_pic"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/album_detail_song_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
-    </TextView>
-    <ImageView
-        android:layout_centerVertical="true"
-        android:src="@drawable/more_black"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        </TextView>
+        <ImageView
+            android:id="@+id/album_detail_more"
+            android:layout_centerVertical="true"
+            android:src="@drawable/more_black"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp">
 
-    </ImageView>
+        </ImageView>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

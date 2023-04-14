@@ -51,13 +51,13 @@ public class AlbmAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Album album = arraylist.get(position);
         ItemHolder holder1 = (ItemHolder) (holder);
-        holder1.albums.setText(album.artistName);
+        holder1.albums.setText(album.title);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.artistId);
         Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
         if (bitmap!=null) {
             holder1.artistImage.setImageBitmap(bitmap);
         }
-        holder1.name.setText(album.title);
+        holder1.name.setText(album.artistName);
     }
 
     @Override
