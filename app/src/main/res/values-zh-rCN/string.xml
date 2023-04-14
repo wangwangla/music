@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name" translatable="false">音乐</string>
+    <string name="song" translatable="false">歌曲</string>
+    <string name="play_order" translatable="false">播放列表</string>
+    <string name="dir" translatable="false">文件夹</string>
+    <string name="albm" translatable="false">专辑</string>
+    <string name="songer" translatable="false">歌手</string>
+    <string name="tool_title" translatable="false">MusicPlayer</string>
+    <string name="action_setting" translatable="false">设置</string>
+    <string name="action_about" translatable="false">关于</string>
+    <string name="delete_from_device" translatable="false">删除这个设备</string>
+    <string name="add_to_artist" translatable="false">添加到艺术家</string>
+    <string name="add_to_album">添加到专辑</string>
+    <string name="add_to_playlist" translatable="false">添加到播放列表</string>
+    <string name="play_next">播放下一首</string>
+    <string name="play">播放</string>
+    <string name="shunxu_play">顺序播放</string>
+    <string name="suiji_play">随机播放</string>
+    <string name="search">搜索</string>
+    <string name="search_library">搜索库</string>
+    <string name="song_name">歌曲名</string>
+    <string name="all_songs">所有歌曲</string>
+</resources>

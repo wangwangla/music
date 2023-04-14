@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         return musicBeans.size();
     }
 
-    class AlbumSongHolder extends RecyclerView.ViewHolder{
+    class AlbumSongHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView albumSongPic;
         TextView albumDetailSongName;
         TextView albumDetailSongTime;
@@ -56,6 +57,18 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
             albumDetailSongName    = itemView.findViewById(R.id.album_detail_song_name);
             albumDetailSongTime    = itemView.findViewById(R.id.album_detail_song_time);
             albumDetailMore        = itemView.findViewById(R.id.album_detail_more);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            MusicBean musicBean = musicBeans.get(getPosition());
+            boolean b = MusicManager.setData(musicBean.getId());
+            if (b){
+                MusicManager.play();
+            }else {
+
+            }
         }
     }
 }

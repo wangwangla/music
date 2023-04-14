@@ -69,36 +69,36 @@ public class MusicMainActivity extends AppCompatActivity {
 
         @Override
         public void onPause() {
-//                pause();
-//                mPausedByTransientLossOfFocus = false;
+            MusicManager.pausePlay();
         }
 
         @Override
         public void onPlay() {
 //                play();
+            MusicManager.play();
         }
 
         @Override
         public void onSeekTo(long pos) {
 //                seek(pos);
+            MusicManager.seekTo((int) pos);
         }
 
         @Override
         public void onSkipToNext() {
 //                gotoNext(true);
+            MusicManager.playNext();
         }
 
         @Override
         public void onSkipToPrevious() {
 //                prev(false);
+            MusicManager.playPre();
         }
 
         @Override
         public void onStop() {
-//                pause();
-//                mPausedByTransientLossOfFocus = false;
-//                seek(0);
-//                releaseServiceUiAndStop();
+            MusicManager.stop();
         }
     };
 

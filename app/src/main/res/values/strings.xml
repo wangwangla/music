@@ -1,22 +1,23 @@
 <resources>
-    <string name="app_name">Music</string>
-    <string name="song">歌曲</string>
-    <string name="play_order">播放列表</string>
-    <string name="dir">文件夹</string>
-    <string name="albm">专辑</string>
-    <string name="songer">歌手</string>
-    <string name="tool_title">MusicPlayer</string>
-    <string name="action_setting">Setting</string>
-    <string name="action_about">about</string>
-    <string name="delete_from_device">Delete from device</string>
-    <string name="add_to_artist">Add to artist</string>
+    <string name="app_name" translatable="false">Music</string>
+    <string name="song" translatable="false">song</string>
+    <string name="play_order" translatable="false">playorder</string>
+    <string name="dir" translatable="false">dir</string>
+    <string name="albm" translatable="false">album</string>
+    <string name="songer" translatable="false">songer</string>
+    <string name="tool_title" translatable="false">MusicPlayer</string>
+    <string name="action_setting" translatable="false">Setting</string>
+    <string name="action_about" translatable="false">about</string>
+    <string name="delete_from_device" translatable="false">Delete from device</string>
+    <string name="add_to_artist" translatable="false">Add to artist</string>
     <string name="add_to_album">Add to album</string>
-    <string name="add_to_playlist">Add to playlist</string>
+    <string name="add_to_playlist" translatable="false">Add to playlist</string>
     <string name="play_next">Play Next</string>
     <string name="play">Play</string>
-    <string name="shunxu_play">顺序播放</string>
-    <string name="suiji_play">随机播放</string>
+    <string name="shunxu_play">orderplay</string>
+    <string name="suiji_play">randomplay</string>
     <string name="search">search</string>
     <string name="search_library">search_library</string>
-    <string name="song_name">歌曲名</string>
+    <string name="song_name">songname</string>
+    <string name="all_songs">All songs</string>
 </resources>

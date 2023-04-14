@@ -21,7 +21,6 @@ import com.example.learnandroid.AlbumDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.Album;
-import com.example.learnandroid.main.AlbumDetailFragment;
 import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.List;

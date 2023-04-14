@@ -69,7 +69,6 @@ public class MusicControl extends Binder {
    }
 
    public void pausePlay() {
-
       player.pause();           //暂停播放音乐
    }
 
@@ -99,5 +98,9 @@ public class MusicControl extends Binder {
 
    public int getPosition(){
       return player.getCurrentPosition();
+   }
+
+   public void stop() {
+      player.stop();
    }
 }

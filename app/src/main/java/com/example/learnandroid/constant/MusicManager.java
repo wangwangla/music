@@ -34,6 +34,18 @@ public class MusicManager {
         }
     }
 
+    public static boolean setData(long index) {
+        int xh = -1;
+        for (MusicBean musicBean : musicBeans) {
+            xh++;
+            if (musicBean.getId() == index) {
+                setData(xh);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void setData(int index) {
         if (musicBeans.size()<=0)return;
         MusicBean musicBean = musicBeans.get(index);
@@ -132,8 +144,20 @@ public class MusicManager {
             index = position;
         } else {
             int size = musicBeans.size();
-            position = (int) Math.random() * (size - 1);
-            index = position;
+            ArrayList<MusicBean> copy = new ArrayList<>();
+            copy.addAll(musicBeans);
+            if (copy.size()>1) {
+                copy.remove(musicBeans.get(position));
+                int v = (int)(Math.random() * (copy.size()-1));
+                MusicBean musicBean = copy.get(v);
+                for (int i = 0; i < musicBeans.size(); i++) {
+                    if (musicBeans.get(i).getId() == musicBean.getId()) {
+                        index = i;
+                    }
+                }
+            }else {
+                index = 0;
+            }
         }
         setDataAndPlay(index);
     }
@@ -184,6 +208,10 @@ public class MusicManager {
 
     public static void removeTimeRunnable(Runnable runnable){
         timeRunnable.remove(runnable);
+    }
+
+    public static void stop() {
+        musicController.stop();
     }
 
     public int getCurrentPlayPosition(){
