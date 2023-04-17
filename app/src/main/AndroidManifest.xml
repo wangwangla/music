@@ -42,7 +42,7 @@
         </activity>
 
         <activity android:name=".SearchActivity"></activity>
-
+        <activity android:name=".LrcActivity"></activity>
         <receiver
             android:name=".broadcast.MyBroadcast"
             android:enabled="true"
