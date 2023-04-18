@@ -16,15 +16,16 @@ import java.util.ArrayList;
  * @Date 2023/4/17 7:49
  */
 public class LrcView extends ScrollView {
-    LinearLayout rootView;//父布局
-    LinearLayout lycicList;//垂直布局
-    ArrayList<TextView> lyricItems = new ArrayList<>();//每项的歌词集合
-    ArrayList<String> lyricTextList = new ArrayList<String>();//每行歌词文本集合，建议先去看看手机音乐里的歌词格式和内容
-    ArrayList<Long> lyricTimeList = new ArrayList<Long>();//每行歌词所对应的时间集合
-    ArrayList<Integer> lyricItemHeights;//每行歌词TextView所要显示的高度
-    int height;//控件高度
-    int width;//控件宽度
-    int prevSelected = 0;//前一个选择的歌词所在的item
+    private LinearLayout rootView;//父布局
+    private LinearLayout lycicList;//垂直布局
+    private ArrayList<TextView> lyricItems = new ArrayList<>();//每项的歌词集合
+    private ArrayList<String> lyricTextList = new ArrayList<String>();//每行歌词文本集合，建议先去看看手机音乐里的歌词格式和内容
+    private ArrayList<Long> lyricTimeList = new ArrayList<Long>();//每行歌词所对应的时间集合
+    private ArrayList<Integer> lyricItemHeights;//每行歌词TextView所要显示的高度
+    private int height;//控件高度
+    private int width;//控件宽度
+    private int prevSelected = 0;//前一个选择的歌词所在的item
+    private OnLyricScrollChangeListener listener;
 
     public LrcView(Context context) {
         super(context);
@@ -74,7 +75,6 @@ public class LrcView extends ScrollView {
             rootView.addView(lycicList);//加入一个歌词显示布局
             rootView.addView(blank2,params);
         }
-
     }
 
     /**
@@ -92,7 +92,6 @@ public class LrcView extends ScrollView {
             //为每行歌词创建一个TextView
             for(int i = 0;i<lyricTextList.size();i++){
                 final TextView textView = new TextView(getContext());
-
                 textView.setText(lyricTextList.get(i));
                 //居中显示
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -113,6 +112,7 @@ public class LrcView extends ScrollView {
             }
         }
     }
+
     /**
      * 滚动到index位置
      */
@@ -137,7 +137,6 @@ public class LrcView extends ScrollView {
      * @param length
      * @return
      */
-
     int getIndex(int length){
         int index = 0;
         int sum = 0;
@@ -181,7 +180,6 @@ public class LrcView extends ScrollView {
         }
         this.lyricTextList = textList;
         this.lyricTimeList = timeList;
-
         refreshLyicList();
     }
 
@@ -194,7 +192,7 @@ public class LrcView extends ScrollView {
             listener.onLyricScrollChange(getIndex(t),getIndex(oldt));
         }
     }
-    OnLyricScrollChangeListener listener;
+
     public void setOnLyricScrollChangeListener(OnLyricScrollChangeListener l){
         this.listener = l;
     }
