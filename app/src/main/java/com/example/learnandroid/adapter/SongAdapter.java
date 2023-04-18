@@ -81,7 +81,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         return view;
     }
 
-    private class ViewHolder{
+    private class ViewHolder implements View.OnClickListener {
         private ImageView songPic;
         private TextView songName;
         private TextView songSonger;
@@ -94,6 +94,12 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             this.songSonger = view.findViewById(R.id.song_songer);
             this.songTime = view.findViewById(R.id.song_duration);
             this.more = view.findViewById(R.id.song_more);
+            view.setOnClickListener(this::onClick);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

@@ -12,12 +12,13 @@ import com.example.learnandroid.bean.Artist;
 import com.example.learnandroid.bean.MusicBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther jian xian si qi
  * @Date 2023/3/12 19:02
  */
-public class AlbmLoader {
+public class AlbumLoader {
     public static ArrayList<MusicBean> getSongsForAlbum(Context context, long albumID) {
 
         Cursor cursor = makeAlbumSongCursor(context, albumID);
@@ -83,5 +84,31 @@ public class AlbmLoader {
             }
         }
         return artists;
+    }
+
+    public static List<Album> getAllAlbums(Context context) {
+        return getAlbumsForCursor(makeAlbumCursor(context, null, null));
+    }
+
+    public static Cursor makeAlbumCursor(Context context, String selection, String[] paramArrayOfString) {
+        final String albumSortOrder = MediaStore.Audio.Albums.DEFAULT_SORT_ORDER;;
+        Cursor cursor = context.getContentResolver()
+                .query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                        new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"},
+                        selection, paramArrayOfString, albumSortOrder);
+
+        return cursor;
+    }
+
+    public static List<Album> getAlbumsForCursor(Cursor cursor) {
+        ArrayList arrayList = new ArrayList();
+        if ((cursor != null) && (cursor.moveToFirst()))
+            do {
+                arrayList.add(new Album(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4), cursor.getInt(5)));
+            }
+            while (cursor.moveToNext());
+        if (cursor != null)
+            cursor.close();
+        return arrayList;
     }
 }

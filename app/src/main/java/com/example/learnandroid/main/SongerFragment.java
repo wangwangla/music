@@ -11,11 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.learnandroid.R;
-import com.example.learnandroid.adapter.AlbmAdapter;
 import com.example.learnandroid.adapter.ArtistAdapter;
-import com.example.learnandroid.bean.Album;
 import com.example.learnandroid.bean.Artist;
-import com.example.learnandroid.data.AlbmLoader;
 import com.example.learnandroid.data.ArtistLoader;
 import com.example.learnandroid.view.BaseRecyclerView;
 

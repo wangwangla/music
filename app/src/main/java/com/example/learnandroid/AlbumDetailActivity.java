@@ -1,10 +1,8 @@
 package com.example.learnandroid;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.adapter.AlbumSongAdapter;
 import com.example.learnandroid.bean.MusicBean;
-import com.example.learnandroid.data.AlbmLoader;
+import com.example.learnandroid.data.AlbumLoader;
 import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class AlbumDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         long album_id = intent.getLongExtra("album_id", -1);
         if (album_id != -1L){
-            ArrayList<MusicBean> songsForAlbum = AlbmLoader.getSongsForAlbum(this, album_id);
+            ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(this, album_id);
             for (MusicBean musicBean : songsForAlbum) {
                 System.out.println(musicBean.toString());
             }

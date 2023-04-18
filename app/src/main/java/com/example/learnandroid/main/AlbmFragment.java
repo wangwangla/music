@@ -12,11 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.adapter.AlbmAdapter;
-import com.example.learnandroid.adapter.ArtistAdapter;
 import com.example.learnandroid.bean.Album;
-import com.example.learnandroid.bean.Artist;
-import com.example.learnandroid.data.AlbmLoader;
-import com.example.learnandroid.data.ArtistLoader;
+import com.example.learnandroid.data.AlbumLoader;
 import com.example.learnandroid.view.BaseRecyclerView;
 
 import java.util.ArrayList;
@@ -52,7 +49,7 @@ public class AlbmFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            ArrayList<Album> artists = AlbmLoader.getArttist();
+            ArrayList<Album> artists = AlbumLoader.getArttist();
             if (getActivity() != null){
                 mAdapter = new AlbmAdapter(artists,getActivity());
             }

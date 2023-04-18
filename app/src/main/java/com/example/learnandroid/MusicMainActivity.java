@@ -151,38 +151,6 @@ public class MusicMainActivity extends AppCompatActivity {
         registerReceiver(mainBroadCast,filter);
     }
 
-//    private final MediaControllerCompat.Callback mControllerCallback =
-//            new MediaControllerCompat.Callback() {
-//                @Override
-//                public void onPlaybackStateChanged(PlaybackStateCompat state) {
-//                    if (state == null) {
-//                        return;
-//                    }
-//                    // 处理播放状态
-//                    switch (state.getState()) {
-//                        case PlaybackStateCompat.STATE_PLAYING:
-//                            // 更新进度条
-//                            mPlaybackHandler.post(mPlaybackRunnable);
-//                            break;
-//                        case PlaybackStateCompat.STATE_PAUSED:
-//                        case PlaybackStateCompat.STATE_STOPPED:
-//                            // 停止更新进度条
-//                            mPlaybackHandler.removeCallbacks(mPlaybackRunnable);
-//                            break;
-//                        case PlaybackStateCompat.STATE_NONE:
-//                            break;
-//                    }
-//                }
-//
-//                @Override
-//                public void onMetadataChanged(MediaMetadataCompat metadata) {
-//                    if (metadata == null) {
-//                        return;
-//                    }
-//                    // 处理媒体元数据
-//                }
-//            };
-
     public void upateDate(){
         try {
             runOnUiThread(new Runnable() {
