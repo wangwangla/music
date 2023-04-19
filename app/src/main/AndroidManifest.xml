@@ -46,6 +46,8 @@
             android:name=".AlbumDetailActivity">
         </activity>
 
+        <activity android:name=".ArtistDetailActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".SearchActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".LrcActivity"

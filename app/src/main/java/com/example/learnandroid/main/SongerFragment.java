@@ -65,7 +65,7 @@ public class SongerFragment extends Fragment {
             ArrayList<Artist> artists = ArtistLoader.getArttist();
 
             if (getActivity() != null)
-                mAdapter = new ArtistAdapter(artists);
+                mAdapter = new ArtistAdapter(SongerFragment.this.getActivity(),artists);
             return "Executed";
         }
 

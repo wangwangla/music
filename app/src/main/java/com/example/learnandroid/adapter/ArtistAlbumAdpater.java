@@ -1,5 +1,7 @@
 package com.example.learnandroid.adapter;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
+import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.Album;
+import com.example.learnandroid.sign.SignListener;
+import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.ArrayList;
 
@@ -39,12 +44,19 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
         Album album = albums.get(position);
 //        holder.albumBg.setImageBitmap();
         holder.albumName.setText(album.artistName);
-        holder.songNum.setText(album.songCount);
+        holder.songNum.setText(album.songCount+"");
+
     }
 
     @Override
     public int getItemCount() {
         return albums.size();
+    }
+
+    private SignListener runnable;
+
+    public void setCallBackListener(SignListener runnable) {
+        this.runnable = runnable;
     }
 
     class ArtistAlbumHolder extends RecyclerView.ViewHolder {

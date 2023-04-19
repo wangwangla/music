@@ -1,6 +1,8 @@
 package com.example.learnandroid.adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.learnandroid.ArtistDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.Artist;
 
@@ -22,9 +26,11 @@ import java.util.List;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder>{
 
     private List<Artist> arraylist;
+    private Context context;
 
-    public ArtistAdapter(List<Artist> arraylist) {
+    public ArtistAdapter(FragmentActivity activity, List<Artist> arraylist) {
         this.arraylist = arraylist;
+        this.context = activity;
     }
 
     @NonNull
@@ -65,11 +71,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             this.albums = (TextView) view.findViewById(R.id.album_song_count);
             this.artistImage = (ImageView) view.findViewById(R.id.artistImage);
             this.footer = view.findViewById(R.id.footer);
+            view.setOnClickListener(this::onClick);
         }
 
         @Override
         public void onClick(View v) {
-
+            Intent intent = new Intent(context, ArtistDetailActivity.class);
+            long artistID = arraylist.get(getPosition()).id;
+            intent.putExtra("artistID",artistID);
+            context.startActivity(intent);
         }
     }
 }
