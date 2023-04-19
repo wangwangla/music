@@ -30,9 +30,14 @@ public class MusicService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        player = new MediaPlayer();//创建音乐播放器对象
+    }
+
+    @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         String action = intent.getAction();
-        System.out.println(action);
         Intent inten = new Intent(Constant.MUSIC_TYPE);
         inten.putExtra(Constant.MUSIC_KEY,action);
         sendBroadcast(inten);
@@ -43,13 +48,6 @@ public class MusicService extends Service {
     public IBinder onBind(Intent intent) {
         return new MusicControl(player);
     }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        player = new MediaPlayer();//创建音乐播放器对象
-    }
-
 
     @Override
     public void onDestroy() {

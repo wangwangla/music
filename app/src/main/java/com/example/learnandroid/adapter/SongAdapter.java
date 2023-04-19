@@ -65,7 +65,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                 }
                 //播放
                 MusicManager.setData(position);
-                MusicManager.play();
+                MusicManager.setDataAndplay();
             }
         });
         viewHolder.more.setOnClickListener(new View.OnClickListener() {

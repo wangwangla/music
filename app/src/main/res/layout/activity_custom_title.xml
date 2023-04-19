@@ -24,8 +24,7 @@
         android:layout_weight="1"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="wrap_content" />
 
     <include android:id="@+id/bottom_play_view" layout="@layout/bottom_play_layout"></include>
 

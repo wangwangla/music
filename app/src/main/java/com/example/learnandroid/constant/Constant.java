@@ -15,5 +15,6 @@ public class Constant {
     public static String MUSIC_STOP = "MUSIC_STOP";
     public static String MUSIC_TYPE = "MUISC_LEARN";
 
+
     public static int NO_SET = 0;
 }

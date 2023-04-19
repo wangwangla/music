@@ -33,13 +33,10 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-
         myRequetPermission();
-
         Intent intent = new Intent(this, MusicMainActivity.class);
         startActivity(intent);
         finish();
-//        buildNotification();
     }
 
     private void myRequetPermission() {

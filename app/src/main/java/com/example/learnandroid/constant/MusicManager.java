@@ -2,7 +2,6 @@ package com.example.learnandroid.constant;
 
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.service.MusicControl;
-import com.example.learnandroid.utils.SharePerenceUtils;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -14,14 +13,15 @@ public class MusicManager {
     public static MusicControl musicController;
     private static ArrayList<MusicBean> musicBeans;
     private static boolean isPause = false;
-    private static ArrayList<Runnable> arrayList = new ArrayList<>();
+    private static ArrayList<Runnable> musicListener = new ArrayList<>();
+    private static ArrayList<Runnable> timeRunnable = new ArrayList<>();
 
     public static void addUpdateView(Runnable runnable){
-        arrayList.add(runnable);
+        musicListener.add(runnable);
     }
 
     public static void removeRunnable(Runnable runnable){
-        arrayList.remove(runnable);
+        musicListener.remove(runnable);
     }
 
     public static void setData(){
@@ -29,39 +29,52 @@ public class MusicManager {
     }
 
     public static void updateListener(){
-        for (Runnable runnable : arrayList) {
+        for (Runnable runnable : musicListener) {
             runnable.run();
         }
     }
 
+    /**
+     * point music id
+     * @param index
+     * @return
+     */
     public static boolean setData(long index) {
-        int xh = -1;
+        int tempIndex = -1;
         for (MusicBean musicBean : musicBeans) {
-            xh++;
+            tempIndex++;
             if (musicBean.getId() == index) {
-                setData(xh);
+                setData(tempIndex);
                 return true;
             }
         }
         return false;
     }
 
-    public static void setData(int index) {
-        if (musicBeans.size()<=0)return;
+    public static boolean setData(int index) {
+       return setData(index,false);
+    }
+
+    public static boolean setData(int index,boolean isListener){
+        if (musicBeans.size()<=0)return false;
+        if (index>=musicBeans.size())return false;
         MusicBean musicBean = musicBeans.get(index);
-        if (id == musicBean.getId())return;
+        if (id == musicBean.getId())return false;
         isPause = false;
         position = index;
         setCurrentPlayId(musicBean.getId());
         musicController.setData(musicBean.getPath());
-        updateListener();
+        if (isListener) {
+            updateListener();
+        }
+        return true;
     }
 
     public static long getCurrentPosition(){
         return musicController.getCurrentPosition();
     }
 
-    public static void play() {
+    public static void setDataAndplay() {
         addTimer();
         musicController.play();
         updateListener();
@@ -79,7 +92,7 @@ public class MusicManager {
             musicController.continuePlay();           //继续播放音乐
         }else {
             setData();
-            play();
+            setDataAndplay();
         }
         updateListener();
         addTimer();
@@ -127,9 +140,7 @@ public class MusicManager {
     }
 
     private static void setDataAndPlay(int index) {
-        setData(index);
-        play();
-        updateListener();
+        setDataAndplay(index);
         addTimer();
     }
 
@@ -164,7 +175,14 @@ public class MusicManager {
 
     public static MusicBean getMusicBean() {
         if (musicBeans.size()<=0)return null;
+
         return musicBeans.get(position);
+    }
+
+    public static boolean checkposition(int position){
+        if (position < 0 )return false;
+        if (position >= musicBeans.size())return false;
+        return true;
     }
 
     public static boolean isPlaying(){
@@ -172,6 +190,7 @@ public class MusicManager {
     }
 
     public static long getDuration() {
+        if (position<0 || musicBeans.size()>=position)return 0L;
         return musicBeans.get(position).getDuration();
     }
 
@@ -199,8 +218,6 @@ public class MusicManager {
         }
     }
 
-    private static ArrayList<Runnable> timeRunnable = new ArrayList<>();
-
     public static void addTimeView(Runnable _timeRunnable) {
         if (timeRunnable==null)return;
         timeRunnable.add(_timeRunnable);
@@ -214,6 +231,25 @@ public class MusicManager {
         musicController.stop();
     }
 
+    public static void setDataAndplay(long id) {
+        if (setData(id)) {
+            play();
+        }
+    }
+
+    //
+    public static void setDataAndplay(int id) {
+        if (setData(id)) {
+            play();
+        }
+    }
+
+    public static void play(){
+        musicController.continuePlay();
+        addTimer();
+    }
+
+    //current position
     public int getCurrentPlayPosition(){
         return musicController.getPosition();
     }

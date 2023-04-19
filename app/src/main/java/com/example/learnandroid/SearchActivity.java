@@ -37,7 +37,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     private SearchView mSearchView;
     private InputMethodManager mImm;
     private String queryString;
-//    private SearchAdapter adapter;
     private RecyclerView recyclerView;
     private List<Object> searchResults = Collections.emptyList();
     Bundle bundle;

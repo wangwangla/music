@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,7 +18,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.Menu;
@@ -37,7 +35,6 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
 import com.example.learnandroid.dialog.DialogUtils;
 import com.example.learnandroid.notification.TimberUtils;
-import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.ThemeUtils;
@@ -60,12 +57,11 @@ public class MusicMainActivity extends AppCompatActivity {
     private Runnable processRunnable = new Runnable() {
         @Override
         public void run() {
-            upateDate();
+            upateDateProcess();
         }
     };
 
     private MediaSessionCompat.Callback mediasessionBack = new MediaSessionCompat.Callback() {
-
 
         @Override
         public void onPause() {
@@ -74,7 +70,6 @@ public class MusicMainActivity extends AppCompatActivity {
 
         @Override
         public void onPlay() {
-//                play();
             if (MusicManager.isPlaying()) {
                 MusicManager.pausePlay();
             }else {
@@ -84,19 +79,16 @@ public class MusicMainActivity extends AppCompatActivity {
 
         @Override
         public void onSeekTo(long pos) {
-//                seek(pos);
             MusicManager.seekTo((int) pos);
         }
 
         @Override
         public void onSkipToNext() {
-//                gotoNext(true);
             MusicManager.playNext();
         }
 
         @Override
         public void onSkipToPrevious() {
-//                prev(false);
             MusicManager.playPre();
         }
 
@@ -155,14 +147,13 @@ public class MusicMainActivity extends AppCompatActivity {
         registerReceiver(mainBroadCast,filter);
     }
 
-    public void upateDate(){
+    public void upateDateProcess(){
         try {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     ProgressBar progressBar = findViewById(R.id.bottom_play_process);
                     progressBar.setProgress(TimeUtils.miao(MusicManager.getCurrentPosition()));
-
                     updateNotification();
                 }
             });
@@ -173,14 +164,19 @@ public class MusicMainActivity extends AppCompatActivity {
 
     private void updateNotification() {
         // 更新播放进度和播放状态
-        PlaybackStateCompat playbackState = new PlaybackStateCompat.Builder()
-                .setState(PlaybackStateCompat.STATE_PLAYING, MusicManager.getCurrentPosition(), 1.0f)
+        PlaybackStateCompat playbackState
+                = new PlaybackStateCompat
+                .Builder()
+                .setState(PlaybackStateCompat.STATE_PLAYING,
+                        MusicManager.getCurrentPosition(), 1.0f)
                 .setBufferedPosition(MusicManager.getCurrentPosition())
-                .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_PLAY_PAUSE |
-                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
+                .setActions(PlaybackStateCompat.ACTION_PLAY
+                        | PlaybackStateCompat.ACTION_PAUSE
+                        | PlaybackStateCompat.ACTION_PLAY_PAUSE
+                        | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                        | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
                 .build();
         mSession.setPlaybackState(playbackState);
-
         // 更新播放进度条
         updatePlaybackProgress();
     }
@@ -189,7 +185,6 @@ public class MusicMainActivity extends AppCompatActivity {
         if (mSession == null) {
             return;
         }
-
         MusicBean musicBean = MusicManager.getMusicBean();
         mSession.setMetadata(new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, musicBean.getArtistName())
@@ -202,11 +197,9 @@ public class MusicMainActivity extends AppCompatActivity {
 //                .putString(MediaMetadataCompat.METADATA_KEY_GENRE, getGenreName())
 //                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
                 .build());
-
         // 获取当前播放位置和总时长
         long currentPosition = MusicManager.getCurrentPosition();
         long duration = MusicManager.getDuration();
-
         // 更新播放进度条
         PlaybackStateCompat playbackState = mSession.getController().getPlaybackState();
         if (playbackState != null && playbackState.getState() == PlaybackStateCompat.STATE_PLAYING) {
@@ -220,8 +213,7 @@ public class MusicMainActivity extends AppCompatActivity {
 
     private void initSession() {
         mSession = new MediaSessionCompat(this, "Music");
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mSession.setCallback(mediasessionBack);
         mSession.setActive(true);
     }
@@ -294,9 +286,6 @@ public class MusicMainActivity extends AppCompatActivity {
                     .build();
             mSession.setMetadata(metadata);
         }
-
-
-
         int res = R.drawable.ic_play_white_36dp;
         if (MusicManager.isPlaying()) {
             res = R.drawable.ic_pause_white_36dp;
@@ -318,25 +307,22 @@ public class MusicMainActivity extends AppCompatActivity {
                         "",retrievePlaybackAction(Constant.MUSIC_NEXT));
         if (TimberUtils.isLollipop()) {
             builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            androidx.media.app.NotificationCompat.MediaStyle style = new androidx.media.app.NotificationCompat.MediaStyle()
+            androidx.media.app.NotificationCompat.MediaStyle style
+                    = new androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(mSession.getSessionToken())
-                    .setShowActionsInCompactView(0, 1, 2, 3)
-                    ;
+                    .setShowActionsInCompactView(0, 1, 2, 3);
             builder.setStyle(style);
         }
         notificationManager.notify(0, builder.build());
     }
 
-
-
-
     private final PendingIntent retrievePlaybackAction(final String action) {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
-        Intent inten = new Intent(Constant.MUSIC_TYPE);
-        inten.putExtra(Constant.MUSIC_KEY,action);
-        sendBroadcast(inten);
+//        Intent inten = new Intent(Constant.MUSIC_TYPE);
+//        inten.putExtra(Constant.MUSIC_KEY,action);
+//        sendBroadcast(inten);
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
@@ -359,7 +345,6 @@ public class MusicMainActivity extends AppCompatActivity {
                 }
             }
         });
-
         View bottomPlayView = findViewById(R.id.bottom_play_view);
         bottomPlayView.setOnClickListener(new View.OnClickListener() {
             @Override
