@@ -110,10 +110,8 @@ public class PlayFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    System.out.println(progress);
                     float v = progress * 1.0f / playProcess.getMax();
                     float v1 = v * MusicManager.getDuration();
-                    System.out.println(v1);
                     MusicManager.seekTo((int) v1);
                 }
             }
@@ -179,7 +177,7 @@ public class PlayFragment extends Fragment {
         if (objectAnimator==null) {
             objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
             objectAnimator.setInterpolator(new LinearInterpolator());
-            objectAnimator.setDuration(4000);//设置动画持续周期
+            objectAnimator.setDuration(10000);//设置动画持续周期
             objectAnimator.setRepeatCount(-1);//设置重复次数
 //        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
         }

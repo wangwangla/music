@@ -31,9 +31,6 @@ public class AlbumDetailActivity extends AppCompatActivity {
         long album_id = intent.getLongExtra("album_id", -1);
         if (album_id != -1L){
             ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(this, album_id);
-            for (MusicBean musicBean : songsForAlbum) {
-                System.out.println(musicBean.toString());
-            }
             if (songsForAlbum.size()>0){
                 MusicBean musicBean = songsForAlbum.get(0);
                 long albumId = musicBean.getAlbumId();

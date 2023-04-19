@@ -16,7 +16,6 @@ public class MyBroadcast extends BroadcastReceiver {
     // 当广播接收者接收广播成功，此方法会自动回调执行，在该方法中实现广播接收者的相关操作
     public void onReceive(Context context, Intent intent) {
         String value = intent.getStringExtra(Constant.MUSIC_KEY);
-        System.out.println("------------------"+value);
         if (value.equals(Constant.MUSIC_PRE)) {
             MusicManager.playPre();
         }else if (value.equals(Constant.MUSIC_NEXT)){

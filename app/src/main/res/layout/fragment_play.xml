@@ -22,7 +22,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight = "20dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="85dp"
         android:src="@drawable/metal" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="歌曲名"
-        android:textSize="20sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:layout_weight="1"

@@ -75,7 +75,11 @@ public class MusicMainActivity extends AppCompatActivity {
         @Override
         public void onPlay() {
 //                play();
-            MusicManager.play();
+            if (MusicManager.isPlaying()) {
+                MusicManager.pausePlay();
+            }else {
+                MusicManager.continuePlay();
+            }
         }
 
         @Override
@@ -216,8 +220,9 @@ public class MusicMainActivity extends AppCompatActivity {
 
     private void initSession() {
         mSession = new MediaSessionCompat(this, "Music");
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mSession.setCallback(mediasessionBack);
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mSession.setActive(true);
     }
 
@@ -329,6 +334,9 @@ public class MusicMainActivity extends AppCompatActivity {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
+        Intent inten = new Intent(Constant.MUSIC_TYPE);
+        inten.putExtra(Constant.MUSIC_KEY,action);
+        sendBroadcast(inten);
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
