@@ -90,12 +90,12 @@ public class MusicManager {
         if (isPause){
             isPause = false;
             musicController.continuePlay();           //继续播放音乐
+            updateListener();
+            addTimer();
         }else {
             setData();
             setDataAndplay();
         }
-        updateListener();
-        addTimer();
     }
 
     public static void seekTo(int progress) {
@@ -136,13 +136,9 @@ public class MusicManager {
             position = (int) Math.random() * (size - 1);
             index = position;
         }
-        setDataAndPlay(index);
+        setDataAndplay(index);
     }
 
-    private static void setDataAndPlay(int index) {
-        setDataAndplay(index);
-        addTimer();
-    }
 
     public static void playPre() {
         if (musicBeans.size() <= 0) return;
@@ -154,7 +150,6 @@ public class MusicManager {
             }
             index = position;
         } else {
-            int size = musicBeans.size();
             ArrayList<MusicBean> copy = new ArrayList<>();
             copy.addAll(musicBeans);
             if (copy.size()>1) {
@@ -170,12 +165,11 @@ public class MusicManager {
                 index = 0;
             }
         }
-        setDataAndPlay(index);
+        setDataAndplay(index);
     }
 
     public static MusicBean getMusicBean() {
-        if (musicBeans.size()<=0)return null;
-
+        if (!checkposition(position))return null;
         return musicBeans.get(position);
     }
 
@@ -190,7 +184,7 @@ public class MusicManager {
     }
 
     public static long getDuration() {
-        if (position<0 || musicBeans.size()>=position)return 0L;
+        if (!checkposition(position))return 0L;
         return musicBeans.get(position).getDuration();
     }
 
@@ -247,10 +241,6 @@ public class MusicManager {
     public static void play(){
         musicController.continuePlay();
         addTimer();
-    }
-
-    //current position
-    public int getCurrentPlayPosition(){
-        return musicController.getPosition();
+        updateListener();
     }
 }

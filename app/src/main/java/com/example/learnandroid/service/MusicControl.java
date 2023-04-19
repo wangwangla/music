@@ -23,6 +23,7 @@ public class MusicControl extends Binder {
       try {
          player.reset();
          player.setDataSource(path);
+         player.prepare();
       } catch (IOException e) {
          throw new RuntimeException(e);
       }
@@ -34,7 +35,6 @@ public class MusicControl extends Binder {
 
    public void play() {
       try {
-         player.prepare();
          continuePlay();
          player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
