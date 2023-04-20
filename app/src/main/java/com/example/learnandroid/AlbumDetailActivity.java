@@ -33,7 +33,6 @@ public class AlbumDetailActivity extends AppCompatActivity {
             ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(this, album_id);
             if (songsForAlbum.size()>0){
                 MusicBean musicBean = songsForAlbum.get(0);
-                long albumId = musicBean.getAlbumId();
                 long artistId = musicBean.getArtistId();
                 Uri albumArtUri = BitmapUtils.getAlbumArtUri(artistId);
                 ImageView albumBg = findViewById(R.id.album_bg);

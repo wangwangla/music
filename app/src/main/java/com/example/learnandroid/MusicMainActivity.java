@@ -43,9 +43,10 @@ import com.example.learnandroid.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
 public class MusicMainActivity extends AppCompatActivity {
-
     private MediaSessionCompat mSession;
     private boolean isBottomListener;
+    private NotificationCompat.Builder builder;
+    private NotificationManager notificationManager;
 
     private Runnable bottomStatus = new Runnable() {
         @Override
@@ -107,10 +108,13 @@ public class MusicMainActivity extends AppCompatActivity {
         initStautarbar();
         updateBottomPanelData();
         initViewPager();
-//        ColorFilter colorFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-//        toolbar.getOverflowIcon().setColorFilter(colorFilter);
         MusicManager.addUpdateView(bottomStatus);
         MusicManager.addTimeView(processRunnable);
+        initSearch();
+    }
+
+
+    private void initSearch() {
         View search = findViewById(R.id.btnSearch);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -264,8 +268,7 @@ public class MusicMainActivity extends AppCompatActivity {
             manager.createNotificationChannel(mChannel);
         }
     }
-    private NotificationCompat.Builder builder;
-    NotificationManager notificationManager;
+
     private void buildNotification(MusicBean musicBean) {
         //设置数据
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

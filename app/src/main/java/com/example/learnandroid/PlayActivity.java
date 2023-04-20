@@ -34,6 +34,8 @@ public class PlayActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        View viewById = findViewById(R.id.play_view);
     }
 
     public void replace(Fragment fragment){

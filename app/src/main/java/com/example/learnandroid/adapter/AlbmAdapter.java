@@ -21,6 +21,7 @@ import com.example.learnandroid.AlbumDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.Album;
+import com.example.learnandroid.navutil.NavigationUtils;
 import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.List;
@@ -80,19 +81,10 @@ public class AlbmAdapter extends RecyclerView.Adapter{
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(activity, AlbumDetailActivity.class);
-            intent.putExtra("album_id",arraylist.get(getPosition()).id);
-            activity.startActivity(intent);
-
-//            FragmentTransaction transaction = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
-//            Fragment fragment;
-//
-////            transaction.setCustomAnimations(R.anim.activity_fade_in,
-////                    R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
-//            fragment = new AlbumDetailFragment();
-//            transaction.hide(((AppCompatActivity) activity).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
-//            transaction.add(R.id.fragment_container, fragment);
-//            transaction.addToBackStack(null).commit();
+//            Intent intent = new Intent(activity, AlbumDetailActivity.class);
+//            intent.putExtra("album_id",arraylist.get(getPosition()).id);
+//            activity.startActivity(intent);
+            NavigationUtils.navigateToAlbum(activity,arraylist.get(getPosition()).id);
         }
     }
 }

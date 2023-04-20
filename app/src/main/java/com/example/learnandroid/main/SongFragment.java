@@ -1,6 +1,9 @@
 package com.example.learnandroid.main;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -71,10 +74,15 @@ public class SongFragment extends Fragment {
     }
 
     private void initSongList() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && getActivity().checkSelfPermission
+                (Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        }
         musicBeans = SongLoader.loadAllSongList();
         MusicManager.setSongList(musicBeans);
         adapter = new SongAdapter(getContext(), R.layout.songlist_view_layout, musicBeans);
     }
+
 
     public class LoadingAsset extends AsyncTask<String,Void,String>{
 

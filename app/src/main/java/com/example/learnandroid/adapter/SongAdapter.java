@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -75,13 +77,39 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                 MyApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
                 final PopupMenu popupMenu = new PopupMenu(MyApplication.getMusicContent(), v);
                 popupMenu.inflate(R.menu.popup_song);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.play:{
+                                break;
+                            }
+                            case R.id.play_next:{
+                                break;
+                            }
+                            case R.id.add_to_playlist:{
+                                break;
+                            }
+                            case R.id.add_to_album:{
+                                break;
+                            }
+                            case R.id.add_to_aritist:{
+                                break;
+                            }
+                            case R.id.delete_from_device:{
+                                break;
+                            }
+                        }
+                        return false;
+                    }
+                });
                 popupMenu.show();
             }
         });
         return view;
     }
 
-    private class ViewHolder implements View.OnClickListener {
+    private class ViewHolder {
         private ImageView songPic;
         private TextView songName;
         private TextView songSonger;
@@ -94,12 +122,6 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             this.songSonger = view.findViewById(R.id.song_songer);
             this.songTime = view.findViewById(R.id.song_duration);
             this.more = view.findViewById(R.id.song_more);
-            view.setOnClickListener(this::onClick);
-        }
-
-        @Override
-        public void onClick(View v) {
-
         }
     }
 }

@@ -63,7 +63,6 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         @Override
         public void onClick(View v) {
             MusicBean musicBean = musicBeans.get(getPosition());
-//            boolean b = MusicManager.setData();
             MusicManager.setDataAndplay(musicBean.getId());
         }
     }

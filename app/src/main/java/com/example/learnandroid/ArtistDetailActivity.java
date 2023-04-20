@@ -57,7 +57,8 @@ public class ArtistDetailActivity extends AppCompatActivity {
         RecyclerView artistAlbumSongList = findViewById(R.id.artist_album_song_list);
         artistAlbumSongList.setLayoutManager(new LinearLayoutManager(this));
         Album album = albumsForArtist.get(0);
-        ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(this, album.artistId);
+
+        ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(this, album.id);
         artistAlbumSongList.setAdapter(new AlbumSongAdapter(songsForAlbum));
 
         artistAlbumAdpater.setCallBackListener(new SignListener(){

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.learnandroid.ArtistDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.Artist;
+import com.example.learnandroid.navutil.NavigationUtils;
 
 import java.util.List;
 
@@ -76,10 +77,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, ArtistDetailActivity.class);
+//            Intent intent = new Intent(context, ArtistDetailActivity.class);
             long artistID = arraylist.get(getPosition()).id;
-            intent.putExtra("artistID",artistID);
-            context.startActivity(intent);
+//            intent.putExtra("artistID",artistID);
+//            context.startActivity(intent);
+            NavigationUtils.navigateToArtist((Activity) context,artistID);
         }
     }
 }

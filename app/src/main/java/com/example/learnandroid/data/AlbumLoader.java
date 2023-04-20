@@ -58,8 +58,7 @@ public class AlbumLoader {
                 null,
                 string,
                 null,
-                MediaStore.Audio.Media.TRACK + ", "
-                        + MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+                null);
         return cursor;
     }
 
