@@ -164,19 +164,19 @@ public class MusicMainActivity extends AppCompatActivity {
 
     private void updateNotification() {
         // 更新播放进度和播放状态
-//        PlaybackStateCompat playbackState
-//                = new PlaybackStateCompat
-//                .Builder()
-//                .setState(PlaybackStateCompat.STATE_PLAYING,
-//                        MusicManager.getCurrentPosition(), 1.0f)
-//                .setBufferedPosition(MusicManager.getCurrentPosition())
-//                .setActions(PlaybackStateCompat.ACTION_PLAY
-//                        | PlaybackStateCompat.ACTION_PAUSE
-//                        | PlaybackStateCompat.ACTION_PLAY_PAUSE
-//                        | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-//                        | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
-//                .build();
-//        mSession.setPlaybackState(playbackState);
+        PlaybackStateCompat playbackState
+                = new PlaybackStateCompat
+                .Builder()
+                .setState(PlaybackStateCompat.STATE_PLAYING,
+                        MusicManager.getCurrentPosition(), 1.0f)
+                .setBufferedPosition(MusicManager.getCurrentPosition())
+                .setActions(PlaybackStateCompat.ACTION_PLAY
+                        | PlaybackStateCompat.ACTION_PAUSE
+                        | PlaybackStateCompat.ACTION_PLAY_PAUSE
+                        | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                        | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
+                .build();
+        mSession.setPlaybackState(playbackState);
         // 更新播放进度条
         updatePlaybackProgress();
     }

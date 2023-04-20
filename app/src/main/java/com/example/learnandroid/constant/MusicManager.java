@@ -243,4 +243,13 @@ public class MusicManager {
         addTimer();
         updateListener();
     }
+
+    private static int audioFocusStatus;
+    public static void lossAudioFocus(int _audioFocusStatus) {
+        audioFocusStatus = _audioFocusStatus;
+    }
+
+    public static int getLossFocuStatus(){
+        return audioFocusStatus;
+    }
 }
