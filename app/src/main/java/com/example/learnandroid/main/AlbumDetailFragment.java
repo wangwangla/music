@@ -51,6 +51,7 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        long albumID = getArguments().getLong("album_id");
         View topBack = view.findViewById(R.id.top_back);
         topBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +61,11 @@ public class AlbumDetailFragment extends Fragment {
                 transaction.commit();
             }
         });
-        long albumID = getArguments().getLong("album_id");
         if (albumID != -1L){
             ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(getContext(), albumID);
             if (songsForAlbum.size()>0){
                 MusicBean musicBean = songsForAlbum.get(0);
-                long artistId = musicBean.getArtistId();
-                Uri albumArtUri = BitmapUtils.getAlbumArtUri(artistId);
+                Uri albumArtUri = BitmapUtils.getAlbumArtUri(albumID);
                 ImageView albumBg = view.findViewById(R.id.album_bg);
                 albumBg.setImageURI(albumArtUri);
                 TextView albumName = view.findViewById(R.id.album_name);

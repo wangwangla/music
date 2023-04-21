@@ -1,5 +1,7 @@
 package com.example.learnandroid.adapter;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
+import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
+import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -38,6 +43,9 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         MusicBean musicBean = musicBeans.get(position);
         holder.albumDetailSongName.setText(musicBean.getTitle());
         holder.albumDetailSongTime.setText(TimeUtils.longToTime(musicBean.getDuration()));
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        holder.albumSongPic.setImageBitmap(bitmap);
     }
 
     @Override
