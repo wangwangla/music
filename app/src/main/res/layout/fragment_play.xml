@@ -14,15 +14,13 @@
 
 <!--    </ImageView>-->
 
-    <com.example.learnandroid.view.CircleImage
-        android:layout_weight="8"
+    <ImageView
+        android:layout_weight="40"
         android:id="@+id/play_albm_pic"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight = "20dp"
-        android:layout_marginTop="85dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/metal" />
 
     <TextView

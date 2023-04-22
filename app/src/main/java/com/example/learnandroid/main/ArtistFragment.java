@@ -18,7 +18,7 @@ import com.example.learnandroid.view.BaseRecyclerView;
 
 import java.util.ArrayList;
 
-public class SongerFragment extends Fragment {
+public class ArtistFragment extends Fragment {
 
     private BaseRecyclerView recyclerView;
     private GridLayoutManager layoutManager;
@@ -35,15 +35,11 @@ public class SongerFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.albm_recycle);
 //        recyclerView.setEmptyView(getActivity(), view.findViewById(R.id.list_empty), "No media found");
-
         setLayoutManager();
-
-
         if (getActivity() != null)
-            new SongerFragment.loadArtists().execute("");
+            new ArtistFragment.loadArtists().execute("");
     }
 
 
@@ -65,7 +61,7 @@ public class SongerFragment extends Fragment {
             ArrayList<Artist> artists = ArtistLoader.getArttist();
 
             if (getActivity() != null)
-                mAdapter = new ArtistAdapter(SongerFragment.this.getActivity(),artists);
+                mAdapter = new ArtistAdapter(ArtistFragment.this.getActivity(),artists);
             return "Executed";
         }
 

@@ -10,8 +10,8 @@
         android:src="@mipmap/back"
         android:id="@+id/album_song_pic"
         android:layout_centerVertical="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp">
+        android:layout_width="50dp"
+        android:layout_height="50dp">
 
         </ImageView>
 
@@ -21,6 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
             android:layout_toEndOf="@+id/album_song_pic"
             android:text="@string/song_name">
 
@@ -33,6 +35,8 @@
             android:id="@+id/album_detail_song_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/black"
             android:layout_marginBottom="5dp">
 
         </TextView>

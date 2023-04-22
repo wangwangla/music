@@ -3,10 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="320dp"
     android:layout_margin="2.0dip"
-    android:elevation="3dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:background="?attr/selectableItemBackground">
+    android:elevation="3dp">
 
     <FrameLayout
         android:id="@+id/content"
@@ -14,6 +11,7 @@
         android:layout_height="320dp">
 
         <LinearLayout
+            android:background="@color/hui_1"
             android:layout_marginBottom="5dp"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
@@ -25,7 +23,7 @@
             <ImageView
                 android:id="@+id/artistImage"
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="240dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_empty_music2"
                 android:transitionName="transition_artist_image" />

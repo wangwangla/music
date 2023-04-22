@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/album_bg"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/search"
+        android:src="@drawable/default_image_round"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="300dp">
@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="30dp"
         android:text="七里香"
         app:layout_constraintBottom_toBottomOf="@id/album_bg"
         app:layout_constraintStart_toStartOf="parent">
@@ -43,11 +44,11 @@
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
             android:id="@+id/top_back"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="25dp"
+            android:layout_height="25dp">
 
         </ImageView>
         <ImageView
@@ -55,9 +56,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/search"
-            android:layout_width="20dp"
+            android:layout_width="25dp"
             android:layout_marginRight="20dp"
-            android:layout_height="20dp">
+            android:layout_height="25dp">
 
         </ImageView>
 

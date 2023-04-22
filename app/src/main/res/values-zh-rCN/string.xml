@@ -20,4 +20,5 @@
     <string name="search_library">搜索库</string>
     <string name="song_name">歌曲名</string>
     <string name="all_songs">所有歌曲</string>
+    <string name="play_share">分享</string>
 </resources>

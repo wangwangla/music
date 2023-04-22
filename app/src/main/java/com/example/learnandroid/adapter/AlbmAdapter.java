@@ -16,8 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.learnandroid.AlbumDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.bean.Album;

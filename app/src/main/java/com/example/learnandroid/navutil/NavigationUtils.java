@@ -26,7 +26,6 @@ public class NavigationUtils {
         fragment = AlbumDetailFragment.newInstance(context,albumID, false);
         transaction.add(R.id.frame_content, fragment);
         transaction.addToBackStack(null).commit();
-
     }
 
     public static void navigateToArtist(Activity context, long artistID) {
@@ -36,4 +35,6 @@ public class NavigationUtils {
         transaction.replace(R.id.frame_content, fragment);
         transaction.addToBackStack(null).commit();
     }
+
+
 }

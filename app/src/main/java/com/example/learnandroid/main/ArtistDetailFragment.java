@@ -14,11 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.learnandroid.ArtistDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.adapter.AlbumSongAdapter;
 import com.example.learnandroid.adapter.ArtistAlbumAdpater;
@@ -78,10 +76,10 @@ public class ArtistDetailFragment extends Fragment {
 
         RecyclerView artistAlbumSongList = view.findViewById(R.id.artist_album_song_list);
         artistAlbumSongList.setLayoutManager(new LinearLayoutManager(activity));
-        Album album = albumsForArtist.get(0);
-
-        ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(activity, album.id);
-        artistAlbumSongList.setAdapter(new AlbumSongAdapter(songsForAlbum));
+//        Album album = albumsForArtist.get(0);
+//
+//        ArrayList<MusicBean> songsForAlbum = AlbumLoader.getSongsForAlbum(activity, album.id);
+//        artistAlbumSongList.setAdapter(new AlbumSongAdapter(songsForAlbum));
 
         artistAlbumAdpater.setCallBackListener(new SignListener(){
             @Override

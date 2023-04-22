@@ -3,6 +3,8 @@ package com.example.learnandroid.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,6 +70,7 @@ public class AlbumDetailFragment extends Fragment {
                 Uri albumArtUri = BitmapUtils.getAlbumArtUri(albumID);
                 ImageView albumBg = view.findViewById(R.id.album_bg);
                 albumBg.setImageURI(albumArtUri);
+
                 TextView albumName = view.findViewById(R.id.album_name);
                 albumName.setText(musicBean.getAlbumName());
                 RecyclerView albumSongList = view.findViewById(R.id.album_song_list);

@@ -2,12 +2,10 @@ package com.example.learnandroid.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,10 +13,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.main.AlbmFragment;
-import com.example.learnandroid.main.DirFragment;
-import com.example.learnandroid.main.PlayerOrderFragment;
 import com.example.learnandroid.main.SongFragment;
-import com.example.learnandroid.main.SongerFragment;
+import com.example.learnandroid.main.ArtistFragment;
 
 /**
  * @Auther jian xian si qi
@@ -31,7 +27,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES
             = new int[]{
                     R.string.song,
-                    R.string.play_order,
+//                    R.string.play_order,
                     R.string.albm,
                     R.string.songer,
 
@@ -47,12 +43,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         if (position==0){
             fragment = new SongFragment();
+//        }else if (position == 1){
+//            fragment = new PlayerOrderFragment();
         }else if (position == 1){
-            fragment = new PlayerOrderFragment();
-        }else if (position == 2){
             fragment = new AlbmFragment();
-        }else if (position == 3){
-            fragment = new SongerFragment();
+        }else if (position == 2){
+            fragment = new ArtistFragment();
         }else {
             fragment = new SongFragment();
         }

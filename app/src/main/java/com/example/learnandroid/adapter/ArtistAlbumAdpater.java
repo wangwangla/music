@@ -68,6 +68,12 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
             albumBg = itemView.findViewById(R.id.album_bg);
             albumName = itemView.findViewById(R.id.album_name);
             songNum = itemView.findViewById(R.id.song_num);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    runnable.sign(albums.get(getPosition()).id);
+                }
+            });
         }
     }
 }

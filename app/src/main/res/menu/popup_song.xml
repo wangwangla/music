@@ -5,18 +5,19 @@
         android:title="@string/play"
         android:id="@+id/play" />
     <item
-        android:title="@string/play_next"
+        android:title="@string/play_share"
         android:id="@+id/play_next"/>
-    <item
-        android:title="@string/add_to_playlist"
-        android:id="@+id/add_to_playlist"/>
-    <item
-        android:title="@string/add_to_album"
-        android:id="@+id/add_to_album"/>
-    <item
-        android:title="@string/add_to_artist"
-        android:id="@+id/add_to_aritist"/>
-    <item
-        android:title="@string/delete_from_device"
-        android:id="@+id/delete_from_device"/>
+
+<!--    <item-->
+<!--        android:title="@string/add_to_playlist"-->
+<!--        android:id="@+id/add_to_playlist"/>-->
+<!--    <item-->
+<!--        android:title="@string/add_to_album"-->
+<!--        android:id="@+id/add_to_album"/>-->
+<!--    <item-->
+<!--        android:title="@string/add_to_artist"-->
+<!--        android:id="@+id/add_to_aritist"/>-->
+<!--    <item-->
+<!--        android:title="@string/delete_from_device"-->
+<!--        android:id="@+id/delete_from_device"/>-->
 </menu>

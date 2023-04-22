@@ -20,4 +20,5 @@
     <string name="search_library">search_library</string>
     <string name="song_name">songname</string>
     <string name="all_songs">All songs</string>
+    <string name="play_share">share</string>
 </resources>

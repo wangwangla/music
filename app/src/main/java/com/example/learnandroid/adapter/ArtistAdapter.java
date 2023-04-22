@@ -2,7 +2,6 @@ package com.example.learnandroid.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.learnandroid.ArtistDetailActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.Artist;
 import com.example.learnandroid.navutil.NavigationUtils;
