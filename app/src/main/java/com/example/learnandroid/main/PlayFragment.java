@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
+import com.example.learnandroid.navutil.NavigationUtils;
 import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.TimeUtils;
 
@@ -131,8 +132,14 @@ public class PlayFragment extends Fragment {
     }
 
     private void updateBottomView() {
-        ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
         MusicBean musicBean = MusicManager.getMusicBean();
+        ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
+        ivMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationUtils.navigateToGeci(PlayFragment.this.getActivity(), (int) musicBean.getArtistId());
+            }
+        });
         if (musicBean==null)return;
 
         if (currentMusicBean != null){
@@ -174,19 +181,19 @@ public class PlayFragment extends Fragment {
         if (bitmap!=null) {
 //            bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
         }
-        if (objectAnimator==null) {
-            objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
-            objectAnimator.setInterpolator(new LinearInterpolator());
-            objectAnimator.setDuration(10000);//设置动画持续周期
-            objectAnimator.setRepeatCount(-1);//设置重复次数
-//        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
-        }
+//        if (objectAnimator==null) {
+//            objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
+//            objectAnimator.setInterpolator(new LinearInterpolator());
+//            objectAnimator.setDuration(10000);//设置动画持续周期
+//            objectAnimator.setRepeatCount(-1);//设置重复次数
+////        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
+//        }
         if (MusicManager.isPlaying()) {
             songPlayBtn.setImageResource(R.drawable.pause);
-            objectAnimator.start();
+//            objectAnimator.start();
         }else {
             songPlayBtn.setImageResource(R.drawable.play);
-            objectAnimator.pause();
+//            objectAnimator.pause();
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.learnandroid;
+package com.example.learnandroid.main;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.learnandroid.R;
 import com.example.learnandroid.data.DefaultLrcParser;
 import com.example.learnandroid.data.LrcMusic;
 import com.example.learnandroid.data.LrcRow;
@@ -67,8 +68,8 @@ public class LrcActivity extends AppCompatActivity {
         initViews();
         initEvents();
 
-//        List<LrcRow> lrcRows = DefaultLrcParser.getIstance().getLrcRows(builder.toString());
-//        view.setLrcRows(lrcRows);
+
+
     }
 
     private void initViews(){

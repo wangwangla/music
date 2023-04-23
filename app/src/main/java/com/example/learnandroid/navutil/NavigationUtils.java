@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.learnandroid.R;
 import com.example.learnandroid.main.AlbumDetailFragment;
 import com.example.learnandroid.main.ArtistDetailFragment;
+import com.example.learnandroid.main.GeciFragment;
 
 /**
  * @Auther jian xian si qi
@@ -37,4 +38,11 @@ public class NavigationUtils {
     }
 
 
+    public static void navigateToGeci(Activity context, long artistID) {
+        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+        Fragment fragment;
+        fragment = GeciFragment.newInstance(context, artistID, false);
+        transaction.replace(R.id.lrcy_view, fragment);
+        transaction.addToBackStack(null).commit();
+    }
 }

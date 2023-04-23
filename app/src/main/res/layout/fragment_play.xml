@@ -4,16 +4,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-
-<!--    <ImageView-->
-<!--        android:layout_weight="1"-->
-<!--        android:id="@+id/bg_albm"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:scaleType="centerCrop">-->
-
-<!--    </ImageView>-->
-
     <ImageView
         android:layout_weight="40"
         android:id="@+id/play_albm_pic"

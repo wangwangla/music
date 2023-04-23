@@ -28,7 +28,7 @@
             android:exported="false" />
         <activity android:name=".SearchActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".LrcActivity"
+        <activity android:name=".main.LrcActivity"
             android:screenOrientation="portrait"></activity>
 
         <activity

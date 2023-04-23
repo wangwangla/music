@@ -14,7 +14,9 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 
+import com.example.learnandroid.main.GeciFragment;
 import com.example.learnandroid.main.PlayFragment;
+import com.example.learnandroid.navutil.NavigationUtils;
 import com.example.learnandroid.utils.ThemeUtils;
 
 public class PlayActivity extends AppCompatActivity {
@@ -23,10 +25,9 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        replace(new PlayFragment());
+        replace(R.id.play_view,new PlayFragment());
         ThemeUtils.updateSystemBarContent(this,false);
         ThemeUtils.hideTopBg(this);
-
         View topBack = findViewById(R.id.top_back);
         topBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,20 +39,16 @@ public class PlayActivity extends AppCompatActivity {
         View viewById = findViewById(R.id.play_view);
     }
 
-    public void replace(Fragment fragment){
+    public void replace(int resource,Fragment fragment){
         //调用getSupportFragmentManager()方法获取fragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
         //fragmentManager调用beginTransaction()开启一个事务
         FragmentTransaction transition = fragmentManager.beginTransaction();
         //向容器添加或者Fragment
-        transition.replace(R.id.play_view, fragment);
+        transition.replace(resource, fragment);
         //调用commit()方法进行事务提交
         transition.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+
 }
