@@ -201,10 +201,15 @@ public class MusicManager {
                 @Override
                 public void run() {
                 if (timeRunnable==null)return;
-                for (Runnable runnable : timeRunnable) {
-                    if (runnable!=null) {
-                        runnable.run();
+                //因为两个线程，所以偶尔会崩掉
+                try {
+                    for (Runnable runnable : timeRunnable) {
+                        if (runnable!=null) {
+                            runnable.run();
+                        }
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
                 }
             };
@@ -214,6 +219,7 @@ public class MusicManager {
 
     public static void addTimeView(Runnable _timeRunnable) {
         if (timeRunnable==null)return;
+        if (timeRunnable.contains(_timeRunnable))return;
         timeRunnable.add(_timeRunnable);
     }
 

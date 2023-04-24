@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.learnandroid.R;
+import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.DefaultLrcParser;
 import com.example.learnandroid.data.LrcMusic;
@@ -29,6 +30,9 @@ import com.example.learnandroid.utils.Utils;
 import com.example.learnandroid.view.ShowLrcView;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,16 +41,27 @@ import java.util.List;
 
 public class GeciFragment extends Fragment {
     private ShowLrcView showLrcView;
-    private int time;
     private static AppCompatActivity activity;
-    private Runnable runnable = new Runnable() {
+    private View rootView;
+    private Runnable updateLrc = new Runnable() {
         @Override
         public void run() {
-            System.out.println(MusicManager.getCurrentPosition());
-            showLrcView.seekTo((int) MusicManager.getCurrentPosition(),false,false);
+            MusicBean musicBean = MusicManager.getMusicBean();
+            extracted(musicBean.getId());
         }
     };
 
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showLrcView.seekTo((int) MusicManager.getCurrentPosition(),false,false);
+                }
+            });
+        }
+    };
 
     public static Fragment newInstance(Activity context, long artistID, boolean b) {
         activity = (AppCompatActivity)context;
@@ -68,17 +83,25 @@ public class GeciFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.rootView = view;
         Bundle arguments = getArguments();
         long songID = arguments.getLong("artistId");
+        extracted(songID);
+    }
 
-        ImageView songPic = view.findViewById(R.id.lrcy_pic);
-
+    private void extracted(long songID) {
+        ImageView songPic = rootView.findViewById(R.id.lrcy_pic);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(songID);
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
             songPic.setImageBitmap(bitmap);
         }
 
+        try {
+            InputStream fileInputStream = new FileInputStream(new File(""));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         InputStream is = getResources().openRawResource(R.raw.yyy);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder builder = new StringBuilder();
@@ -94,18 +117,9 @@ public class GeciFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        showLrcView = view.findViewById(R.id.view);
+        showLrcView = rootView.findViewById(R.id.view);
         List<LrcRow> lrcRows = DefaultLrcParser.getIstance().getLrcRows(builder.toString());
         showLrcView.setLrcRows(lrcRows);
         MusicManager.addTimeView(runnable);
     }
-
-    /**
-     *
-     *       FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-     *                 transaction.remove(AlbumDetailFragment.this);
-     *                 transaction.commit();
-     *
-     *
-    * */
 }

@@ -35,8 +35,6 @@ public class PlayActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        View viewById = findViewById(R.id.play_view);
     }
 
     public void replace(int resource,Fragment fragment){

@@ -1,16 +1,11 @@
 package com.example.learnandroid.main;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -33,7 +28,7 @@ public class PlayFragment extends Fragment {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            updateBottomView();
+            updateLrcView();
         }
     };
 
@@ -106,7 +101,7 @@ public class PlayFragment extends Fragment {
                 MusicManager.playNext();
             }
         });
-        updateBottomView();
+        updateLrcView();
         playProcess.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -127,11 +122,9 @@ public class PlayFragment extends Fragment {
 
             }
         });
-
-
     }
 
-    private void updateBottomView() {
+    private void updateLrcView() {
         MusicBean musicBean = MusicManager.getMusicBean();
         ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
         ivMusic.setOnClickListener(new View.OnClickListener() {
@@ -147,19 +140,12 @@ public class PlayFragment extends Fragment {
                 ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
                 if (MusicManager.isPlaying()) {
                     songPlayBtn.setImageResource(R.drawable.pause);
-                    if (objectAnimator.isPaused()) {
-                        objectAnimator.resume();
-                    }else {
-                        objectAnimator.start();
-                    }
                 }else {
                     songPlayBtn.setImageResource(R.drawable.play);
-                    objectAnimator.pause();
                 }
                 return;
             }
         }
-
         currentMusicBean = musicBean;
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
@@ -173,52 +159,12 @@ public class PlayFragment extends Fragment {
         playProcess.setMax(TimeUtils.miao(musicBean.getDuration()));
         TextView duration = view.findViewById(R.id.play_alltime);
         duration.setText(TimeUtils.longToTime(MusicManager.getDuration()));
-
         ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
-
-//        ImageView bgAlbm = view.findViewById(R.id.bg_albm);
-        Bitmap bitmap1 = BitmapUtils.decodeUri(getContext(),albumArtUri);
-        if (bitmap!=null) {
-//            bgAlbm.setImageBitmap(blurBitmap(getContext(),bitmap1));
-        }
-//        if (objectAnimator==null) {
-//            objectAnimator = ObjectAnimator.ofFloat(ivMusic, "rotation", 0f, 360f);
-//            objectAnimator.setInterpolator(new LinearInterpolator());
-//            objectAnimator.setDuration(10000);//设置动画持续周期
-//            objectAnimator.setRepeatCount(-1);//设置重复次数
-////        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
-//        }
         if (MusicManager.isPlaying()) {
             songPlayBtn.setImageResource(R.drawable.pause);
-//            objectAnimator.start();
         }else {
             songPlayBtn.setImageResource(R.drawable.play);
-//            objectAnimator.pause();
         }
-    }
-
-    private ObjectAnimator objectAnimator;
-
-    private static final float BITMAP_SCALE = 0.009f;
-    /** * 模糊图片的具体方法 * * @param context 上下文对象 * @param image 需要模糊的图片 * @return 模糊处理后的图片 */
-    public static Bitmap blurBitmap(Context context, Bitmap image) {
-        // 计算图片缩小后的长宽
-        int width = Math.round(image.getWidth() * BITMAP_SCALE);
-        int height = Math.round(image.getHeight() * BITMAP_SCALE);
-        // 将缩小后的图片做为预渲染的图片
-         Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
-        // 创建一张渲染后的输出图片
-        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
-        // 创建RenderScript内核对象
-        RenderScript rs = RenderScript.create(context);
-        // 创建一个模糊效果的RenderScript的工具对象 ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-        // 由于RenderScript并没有使用VM来分配内存,所以需要使用Allocation类来创建和分配内存空间 // 创建Allocation对象的时候其实内存是空的,需要使用copyTo()将数据填充进去 Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
-        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
-        // 设置渲染的模糊程度, 25f是最大模糊度 blurScript.setRadius(blurRadius);
-        // 设置blurScript对象的输入内存 blurScript.setInput(tmpIn);
-        // 将输出数据保存到输出内存中 blurScript.forEach(tmpOut);
-        // 将数据填充到Allocation中 tmpOut.copyTo(outputBitmap);
-        return outputBitmap;
     }
 
     @Override
