@@ -56,9 +56,6 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
             mCursor = null;
         }
     }
-//            // 释放资源
-//            cursor.close();
-//        }
 
     @Override
     public ArrayList<MusicBean> getMusicBeans() {

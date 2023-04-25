@@ -38,10 +38,10 @@ public class NavigationUtils {
     }
 
 
-    public static void navigateToGeci(Activity context, long artistID) {
+    public static void navigateToGeci(Activity context, long musicId) {
         FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
         Fragment fragment;
-        fragment = GeciFragment.newInstance(context, artistID, false);
+        fragment = GeciFragment.newInstance(context, musicId, false);
         transaction.replace(R.id.lrcy_view, fragment);
         transaction.addToBackStack(null).commit();
     }

@@ -25,6 +25,7 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.DefaultLrcParser;
 import com.example.learnandroid.data.LrcMusic;
 import com.example.learnandroid.data.LrcRow;
+import com.example.learnandroid.data.SongLoader;
 import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.Utils;
 import com.example.learnandroid.view.ShowLrcView;
@@ -63,11 +64,11 @@ public class GeciFragment extends Fragment {
         }
     };
 
-    public static Fragment newInstance(Activity context, long artistID, boolean b) {
+    public static Fragment newInstance(Activity context, long musicId, boolean b) {
         activity = (AppCompatActivity)context;
         GeciFragment fragment = new GeciFragment();
         Bundle args = new Bundle();
-        args.putLong("artistId", artistID);
+        args.putLong("musicId", musicId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,41 +86,65 @@ public class GeciFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
         Bundle arguments = getArguments();
-        long songID = arguments.getLong("artistId");
+        long songID = arguments.getLong("musicId");
         extracted(songID);
     }
 
     private void extracted(long songID) {
         ImageView songPic = rootView.findViewById(R.id.lrcy_pic);
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(songID);
+        MusicBean musicBean = SongLoader.loadSongById(songID);
+        if (musicBean==null)return;
+        String path = musicBean.getPath();
+        System.out.println(path+"--------------------------------------------");
+        ///storage/emulated/0/PMSLLM/Music/周杰伦 - 晴天.mp3
+        String path1 = path(path);
+
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getArtistId());
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
             songPic.setImageBitmap(bitmap);
         }
 
         try {
-            InputStream fileInputStream = new FileInputStream(new File(""));
+            InputStream fileInputStream = new FileInputStream(new File(path1));
+            BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
+            StringBuilder builder = new StringBuilder();
+            String s = null;
+            while (true) {
+                try {
+                    if (!((s = br.readLine()) != null)) break;
+                    if (!TextUtils.isEmpty(s)) {
+                        builder.append(s);
+                        builder.append("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            showLrcView = rootView.findViewById(R.id.view);
+            List<LrcRow> lrcRows = DefaultLrcParser.getIstance().getLrcRows(builder.toString());
+            showLrcView.setLrcRows(lrcRows);
+            showLrcView.seekTo((int) MusicManager.getCurrentPosition(),false,false);
+            MusicManager.addTimeView(runnable);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        InputStream is = getResources().openRawResource(R.raw.yyy);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder builder = new StringBuilder();
-        String s = null;
-        while (true) {
-            try {
-                if (!((s = br.readLine()) != null)) break;
-                if (!TextUtils.isEmpty(s)) {
-                    builder.append(s);
-                    builder.append("\n");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        showLrcView = rootView.findViewById(R.id.view);
-        List<LrcRow> lrcRows = DefaultLrcParser.getIstance().getLrcRows(builder.toString());
-        showLrcView.setLrcRows(lrcRows);
-        MusicManager.addTimeView(runnable);
+    }
+
+    public String path (String songPath){
+        File file = new File(songPath);
+        String parentPath = file.getParent();
+//        \storage\emulated\0\PMSLLM\Music
+        System.out.println("parent : "+ parentPath);
+        String songName = file.getName();
+        System.out.println(songName);
+        int lastIndexPoint = songName.lastIndexOf(".");
+        String substring = songName.substring(0, lastIndexPoint);
+        String lrcPath = parentPath + "/" + substring + ".lrc";
+        System.out.println(lrcPath);
+        return lrcPath;
     }
 }

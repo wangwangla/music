@@ -130,7 +130,7 @@ public class PlayFragment extends Fragment {
         ivMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationUtils.navigateToGeci(PlayFragment.this.getActivity(), (int) musicBean.getArtistId());
+                NavigationUtils.navigateToGeci(PlayFragment.this.getActivity(), (int) musicBean.getId());
             }
         });
         if (musicBean==null)return;
