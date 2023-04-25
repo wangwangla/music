@@ -213,7 +213,7 @@ public class MusicManager {
                 }
                 }
             };
-            timer.schedule(task, 5, 500);
+            timer.schedule(task, 5, 100);
         }
     }
 
