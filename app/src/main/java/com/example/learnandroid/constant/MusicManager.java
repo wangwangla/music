@@ -59,7 +59,7 @@ public class MusicManager {
         if (musicBeans.size()<=0)return false;
         if (index>=musicBeans.size())return false;
         MusicBean musicBean = musicBeans.get(index);
-        if (id == musicBean.getId())return false;
+        if (id == musicBean.getId())return true;
         isPause = false;
         position = index;
         setCurrentPlayId(musicBean.getId());

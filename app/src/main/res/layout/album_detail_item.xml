@@ -40,14 +40,15 @@
             android:layout_marginBottom="5dp">
 
         </TextView>
+
         <ImageView
             android:id="@+id/album_detail_more"
-            android:layout_centerVertical="true"
-            android:src="@drawable/more_black"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_width="30dp"
-            android:layout_height="30dp">
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_more_vert_black_24dp">
 
         </ImageView>
 
