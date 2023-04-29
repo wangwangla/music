@@ -69,7 +69,9 @@ public class ArtistDetailFragment extends Fragment {
         artistName.setText(artist.name);
 
         RecyclerView artistAlbumList = view.findViewById(R.id.artist_album_list);
-        artistAlbumList.setLayoutManager(new LinearLayoutManager(activity));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        artistAlbumList.setLayoutManager(linearLayoutManager);
         ArrayList<Album> albumsForArtist = ArtistAlbumLoader.getAlbumsForArtist(activity, artistID);
         ArtistAlbumAdpater artistAlbumAdpater = new ArtistAlbumAdpater(albumsForArtist);
         artistAlbumList.setAdapter(artistAlbumAdpater);

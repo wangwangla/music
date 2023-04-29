@@ -43,7 +43,7 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
     public void onBindViewHolder(@NonNull ArtistAlbumHolder holder, int position) {
         Album album = albums.get(position);
 //        holder.albumBg.setImageBitmap();
-        holder.albumName.setText(album.artistName);
+        holder.albumName.setText(album.title);
         holder.songNum.setText(album.songCount+"");
 
     }
