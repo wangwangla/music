@@ -148,6 +148,7 @@ public class PlayFragment extends Fragment {
         }
         currentMusicBean = musicBean;
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+        System.out.println(musicBean.getAlbumId()+"-===========================================");
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
             ivMusic.setImageBitmap(bitmap);

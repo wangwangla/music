@@ -39,6 +39,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'de.Maxr1998:track-selector-lib:1.2'
 
     implementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
 }

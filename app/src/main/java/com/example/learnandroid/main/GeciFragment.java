@@ -87,6 +87,7 @@ public class GeciFragment extends Fragment {
         this.rootView = view;
         Bundle arguments = getArguments();
         long songID = arguments.getLong("musicId");
+        System.out.println(songID +" -------------------- songId");
         extracted(songID);
     }
 
@@ -99,7 +100,8 @@ public class GeciFragment extends Fragment {
         ///storage/emulated/0/PMSLLM/Music/周杰伦 - 晴天.mp3
         String path1 = path(path);
 
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getArtistId());
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
+        System.out.println(musicBean.getArtistId());
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
             songPic.setImageBitmap(bitmap);

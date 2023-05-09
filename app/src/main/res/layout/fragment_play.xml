@@ -48,7 +48,6 @@
         android:layout_above="@+id/play_control_view"
         android:layout_below="@+id/play_song_namer"
         android:gravity="center"
-        android:orientation="horizontal"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 
