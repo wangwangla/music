@@ -21,8 +21,11 @@ import android.view.MenuItem;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import kw.learn.mylibrary.permission.PermissionUtils;
+
 /**
- * 用户需要一种简单的方法来返回到您应用程序的主屏幕。为此，请在应用栏上为除主要活动之外的所有活动提供一个向上 按钮。当用户选择向上按钮时，应用会导航到父活动。
+ * 用户需要一种简单的方法来返回到您应用程序的主屏幕。为此，请在应用栏上为除主要活动之外的所有活动提供一个
+ * 向上 按钮。当用户选择向上按钮时，应用会导航到父活动。
  */
 //注意：对应用中使用 aToolbar作为应用栏的每个 Activity 进行此更改。
 public class LoadingActivity extends AppCompatActivity {
@@ -33,26 +36,21 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-        myRequetPermission();
+        PermissionUtils.checkPermission(this,
+                new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                },
+                REQUEST_CONDE);
         Intent intent = new Intent(this, MusicMainActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private void myRequetPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }else {
-            Toast.makeText(this,"您已经申请了权限!",Toast.LENGTH_SHORT).show();
-        }
     }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         //判断我们的请求码，避免别的事件调用onRequestPermissionsResult,导致我们拿到本不该属于我们的数据
         if (requestCode==REQUEST_CONDE){
             // 如果请求被取消，则结果数组为空。

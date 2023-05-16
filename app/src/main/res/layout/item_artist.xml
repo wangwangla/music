@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="320dp"
+    android:layout_height="300dp"
     android:layout_margin="2.0dip"
     android:elevation="3dp">
 
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="fill_parent"
-        android:layout_height="320dp">
+        android:layout_height="300dp">
 
         <LinearLayout
-            android:background="@color/hui_1"
             android:layout_marginBottom="5dp"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
@@ -23,7 +22,7 @@
             <ImageView
                 android:id="@+id/artistImage"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="220dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_empty_music2"
                 android:transitionName="transition_artist_image" />
@@ -36,6 +35,8 @@
 <!--                android:transitionName="transition_artist_image" />-->
 
             <LinearLayout
+
+                android:background="@color/hui_1"
                 android:id="@+id/footer"
                 android:layout_width="fill_parent"
                 android:layout_height="68.0dip"
@@ -46,21 +47,23 @@
 
                 <TextView
                     android:text="songer"
-                    android:id="@+id/artist_name"
+                    android:id="@+id/album_song_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:singleLine="true"
+                    android:textSize="20dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <TextView
                     android:text="se"
-                    android:id="@+id/album_song_count"
+                    android:id="@+id/artist_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:singleLine="true"
                     android:textColor="@color/black"
+                    android:textSize="12dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
             </LinearLayout>
         </LinearLayout>

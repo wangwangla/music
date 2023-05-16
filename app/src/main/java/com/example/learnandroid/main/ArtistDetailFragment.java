@@ -2,6 +2,7 @@ package com.example.learnandroid.main;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,10 +74,18 @@ public class ArtistDetailFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         artistAlbumList.setLayoutManager(linearLayoutManager);
+        artistAlbumList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                       RecyclerView.State state) {
+                //设置距离为20px
+                outRect.left = 10;
+            }
+        });
         ArrayList<Album> albumsForArtist = ArtistAlbumLoader.getAlbumsForArtist(activity, artistID);
         ArtistAlbumAdpater artistAlbumAdpater = new ArtistAlbumAdpater(albumsForArtist);
         artistAlbumList.setAdapter(artistAlbumAdpater);
-
+//        artistAlbumList.addItemDecoration(new SpaceItemDecoration(getContext(),30));
         RecyclerView artistAlbumSongList = view.findViewById(R.id.artist_album_song_list);
         artistAlbumSongList.setLayoutManager(new LinearLayoutManager(activity));
 //        Album album = albumsForArtist.get(0);

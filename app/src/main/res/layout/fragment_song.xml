@@ -24,23 +24,11 @@
             android:layout_gravity="center"
             android:paddingLeft="0dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:src="@mipmap/ic_shuffle_white_36dp"
+            android:layout_marginRight="-5dp"
+            android:src="@drawable/shuffle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@color/black">
+            android:layout_height="wrap_content">
         </ImageView>
-        <TextView
-            android:id="@+id/shuffle_player"
-            android:text="随机播放(10)"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignRight="@id/shuffle_btn"
-            android:layout_marginRight="45dp">
-
-        </TextView>
 
         <View
             android:layout_width="match_parent"
@@ -52,9 +40,10 @@
     </RelativeLayout>
     <ListView
         android:id="@+id/songlist"
+        android:dividerHeight="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/white">
+        android:divider="@color/hui_1">
 
     </ListView>
 

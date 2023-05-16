@@ -22,6 +22,7 @@
         android:id="@+id/bottom_song_pic"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/default_image2"
         app:layout_constraintStart_toStartOf="parent">

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:background="@color/white"
+    android:padding="2dp">
     <ImageView
         android:id="@+id/song_pic"
         android:layout_width="60dp"
@@ -56,9 +57,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_more_vert_black_24dp"
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_centerVertical="true"
-            android:layout_height="30dp">
+            android:layout_height="25dp">
 
         </ImageView>
 

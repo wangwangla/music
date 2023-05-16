@@ -2,15 +2,15 @@ package com.example.learnandroid.main;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,10 +22,7 @@ import com.example.learnandroid.adapter.SongAdapter;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.data.ContentResolverFindMusic;
-import com.example.learnandroid.data.SaoMiaoMusicInterface;
 import com.example.learnandroid.data.SongLoader;
-import com.example.learnandroid.utils.ResourceUtils;
 
 import java.util.ArrayList;
 
@@ -34,25 +31,31 @@ public class SongFragment extends Fragment {
     private ListView songList;
     private ArrayList<MusicBean> musicBeans;
     private SongAdapter adapter;
-    private TextView shuffePlayer;
-    private int index = 0;
+    private ImageView shuffleIcon;
+    private int playmode = 0;
 
     private View.OnClickListener shuffleController = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            index ++;
-            if (index>=2){
-                index = 0;
+            playmode++;
+            if (playmode >=2){
+                playmode = 0;
             }
-            if (index == 0){
-                shuffePlayer.setText(ResourceUtils.getString(getResources(),R.string.shunxu_play));
-                Constant.playStyle = 0;
-            }else if (index == 1){
-                shuffePlayer.setText(ResourceUtils.getString(getResources(),R.string.suiji_play));
-                Constant.playStyle = 1;
-            }
+            updateShuffleMode();
         }
     };
+
+    private void updateShuffleMode() {
+        if (playmode == 0){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.repeat_all);
+            shuffleIcon.setImageBitmap(bitmap);
+            Constant.playStyle = 0;
+        }else if (playmode == 1){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shuffle);
+            shuffleIcon.setImageBitmap(bitmap);
+            Constant.playStyle = 1;
+        }
+    }
 
     @Override
     public View onCreateView(
@@ -67,10 +70,9 @@ public class SongFragment extends Fragment {
         this.rootView = view;
         new LoadingAsset().execute("");
         songList = rootView.findViewById(R.id.songlist);
-        shuffePlayer = view.findViewById(R.id.shuffle_player);
-        shuffePlayer.setText(ResourceUtils.getString(getResources(),R.string.shunxu_play));
-        View shuffle = view.findViewById(R.id.shuffle_btn);
-        shuffle.setOnClickListener(shuffleController);
+        shuffleIcon = view.findViewById(R.id.shuffle_btn);
+        shuffleIcon.setOnClickListener(shuffleController);
+        updateShuffleMode();
     }
 
     private void initSongList() {
