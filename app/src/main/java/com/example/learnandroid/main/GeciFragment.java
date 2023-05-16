@@ -40,6 +40,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import kw.learn.mylibrary.effect.BlurUtils;
+
 public class GeciFragment extends Fragment {
     private ShowLrcView showLrcView;
     private static AppCompatActivity activity;
@@ -104,7 +106,8 @@ public class GeciFragment extends Fragment {
         System.out.println(musicBean.getArtistId());
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {
-            songPic.setImageBitmap(bitmap);
+            Bitmap fastblur = BlurUtils.fastblur(bitmap, 14);
+            songPic.setImageBitmap(fastblur);
         }
 
         try {

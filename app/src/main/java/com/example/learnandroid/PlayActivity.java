@@ -47,6 +47,4 @@ public class PlayActivity extends AppCompatActivity {
         //调用commit()方法进行事务提交
         transition.commit();
     }
-
-
 }

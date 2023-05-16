@@ -35,8 +35,7 @@ public class ShowLrcView extends View {
     /**
      * 默认文字的字体大小
      **/
-    private static final float SIZE_FOR_DEFAULT_TEXT = 28;
-//            = CommonUtils.dip2px(MyApplication.getContext(), 28);
+    private static final float SIZE_FOR_DEFAULT_TEXT = px2dp(MyApplication.getMusicContent(), 8);
 
     /**
      * 画高亮歌词的画笔
@@ -45,8 +44,7 @@ public class ShowLrcView extends View {
     /**
      * 高亮歌词的默认字体大小
      ***/
-    private static final float DEFAULT_SIZE_FOR_HIGHT_LIGHT_LRC = 32;
-//            CommonUtils.dip2px(MyApplication.getContext(), 32);
+    private static final float DEFAULT_SIZE_FOR_HIGHT_LIGHT_LRC = px2dp(MyApplication.getMusicContent(), 32);
     /**
      * 高亮歌词当前的字体大小
      ***/
@@ -68,8 +66,7 @@ public class ShowLrcView extends View {
     /**
      * 其他歌词的默认字体大小
      ***/
-    private static final float DEFAULT_SIZE_FOR_OTHER_LRC = 28;
-//            CommonUtils.dip2px(MyApplication.getContext(), 28);
+    private static float DEFAULT_SIZE_FOR_OTHER_LRC = px2dp(MyApplication.getMusicContent(), 28);
     /**
      * 其他歌词当前的字体大小
      ***/
@@ -95,8 +92,7 @@ public class ShowLrcView extends View {
     /**
      * 时间文字大小
      **/
-    private static final int SIZE_FOR_TIME = 12;
-//            CommonUtils.dip2px(MyApplication.getContext(), 12);
+    private static final int SIZE_FOR_TIME = px2dp(MyApplication.getMusicContent(), 12);
     /**
      * 是否画时间线
      **/
@@ -105,7 +101,7 @@ public class ShowLrcView extends View {
     /**
      * 歌词间默认的行距
      **/
-    private static final float DEFAULT_PADDING = 17;
+    private static final float DEFAULT_PADDING = px2dp(MyApplication.getMusicContent(), 17);
 //            CommonUtils.dip2px(MyApplication.getContext(), 17);
     /**
      * 歌词当前的行距
@@ -197,7 +193,7 @@ public class ShowLrcView extends View {
         super.onDraw(canvas);
         if (mLrcRows == null || mLrcRows.size() == 0) {
             //画默认的显示文字
-            mPaintForOtherLrc.setTextSize(SIZE_FOR_DEFAULT_TEXT);
+            mPaintForOtherLrc.setTextSize(px2dp(getContext(),SIZE_FOR_DEFAULT_TEXT));
             float textWidth = mPaintForOtherLrc.measureText(DEFAULT_TEXT);
             float textX = (getWidth() - textWidth) / 2;
             canvas.drawText(DEFAULT_TEXT, textX, getHeight() / 2, mPaintForOtherLrc);
@@ -553,4 +549,15 @@ public class ShowLrcView extends View {
     public void log(Object o) {
         Log.d("LrcView", o + "");
     }
+
+    public static int px2dp(Context context, float pxValue) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue * 1 + 0.5f);// + 0.5f是为了让结果四舍五入
+    }
+
+    public static int px2sp(Context context, float pxValue) {
+        float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
 }
