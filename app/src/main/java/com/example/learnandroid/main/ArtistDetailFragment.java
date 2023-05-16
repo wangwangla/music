@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,10 +63,7 @@ public class ArtistDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         long artistID = getArguments().getLong("artistID");
         Artist artist = ArtistLoader.getArtist(activity, artistID);
-        ImageView artistBg = view.findViewById(R.id.artist_bg);
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(artistID);
-        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
-        artistBg.setImageBitmap(bitmap);
+
         TextView artistName = view.findViewById(R.id.artist_name);
         artistName.setText(artist.name);
 
@@ -82,6 +80,13 @@ public class ArtistDetailFragment extends Fragment {
             }
         });
         ArrayList<Album> albumsForArtist = ArtistAlbumLoader.getAlbumsForArtist(activity, artistID);
+        ImageView artistBg = view.findViewById(R.id.artist_bg);
+        Album album = albumsForArtist.get(0);
+        Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.id);
+        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        if(bitmap!=null) {
+            artistBg.setImageBitmap(bitmap);
+        }
         ArtistAlbumAdpater artistAlbumAdpater = new ArtistAlbumAdpater(albumsForArtist);
         artistAlbumList.setAdapter(artistAlbumAdpater);
 //        artistAlbumList.addItemDecoration(new SpaceItemDecoration(getContext(),30));
@@ -102,5 +107,15 @@ public class ArtistDetailFragment extends Fragment {
         });
         ArrayList<MusicBean> songerIDAllMusic = SongLoader.findSongerIDAllMusic(artistID);
         artistAlbumSongList.setAdapter(new AlbumSongAdapter(songerIDAllMusic));
+        View artistDetailBack = view.findViewById(R.id.artist_detail_back);
+        artistDetailBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                transaction.remove(ArtistDetailFragment.this);
+                transaction.commit();
+            }
+        });
+
     }
 }

@@ -3,7 +3,7 @@
     android:background="@color/hui_1"
     android:layout_width="100dp"
     android:layout_margin="10dp"
-    android:layout_height="100dp">
+    android:layout_height="160dp">
     <ImageView
         android:id="@+id/album_bg"
         android:src="@drawable/default_image_round"
@@ -13,21 +13,25 @@
     </ImageView>
 
     <TextView
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:id="@+id/album_name"
         android:layout_below="@id/album_bg"
         android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
+        android:singleLine="true"
         android:text="呼吸——林忆莲">
     </TextView>
     <TextView
         android:id="@+id/song_num"
         android:text="5 songs"
+        android:singleLine="true"
         android:layout_below="@id/album_name"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="4dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </TextView>

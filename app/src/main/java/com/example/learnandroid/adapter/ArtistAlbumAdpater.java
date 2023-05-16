@@ -49,6 +49,7 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
             holder.albumBg.setImageBitmap(bitmap);
         }
         holder.albumName.setText(album.title);
+        holder.albumName.setSelected(true);
         holder.songNum.setText(album.songCount+"首音乐");
 
     }

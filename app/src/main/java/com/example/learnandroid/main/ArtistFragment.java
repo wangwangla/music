@@ -36,7 +36,6 @@ public class ArtistFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.albm_recycle);
-//        recyclerView.setEmptyView(getActivity(), view.findViewById(R.id.list_empty), "No media found");
         setLayoutManager();
         if (getActivity() != null)
             new ArtistFragment.loadArtists().execute("");

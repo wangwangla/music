@@ -51,7 +51,8 @@ public class ArtistLoader {
 
     public static Cursor makeArtistCursor(Context context, String selection, String[] paramArrayOfString) {
         final String artistSortOrder = MediaStore.Audio.Artists.DEFAULT_SORT_ORDER;
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, new String[]{"_id", "artist", "number_of_albums", "number_of_tracks"}, selection, paramArrayOfString, artistSortOrder);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
+                new String[]{"_id", "artist", "number_of_albums", "number_of_tracks"}, selection, paramArrayOfString, artistSortOrder);
         return cursor;
     }
 
