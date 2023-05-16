@@ -1,5 +1,6 @@
 package com.example.learnandroid.data;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
@@ -9,6 +10,7 @@ import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther jian xian si qi
@@ -30,8 +32,6 @@ public class SongLoader {
         }
         return getSaoMiaoMusicInstance().getMusicBeans();
     }
-
-
 
     public static MusicBean loadSongById(long songId) {
         String selection = MediaStore.Audio.Media._ID + "=?";
@@ -83,5 +83,46 @@ public class SongLoader {
 
     public static void destory(){
         instance = null;
+    }
+
+    public static ArrayList<MusicBean> findSongerIDAllMusic(long artistId){
+        ArrayList<MusicBean> musicBeans = new ArrayList<>();
+        ContentResolver contentResolver = MyApplication.getMusicContent().getContentResolver();
+//
+//        String[] projection = {
+//                MediaStore.Audio.Media._ID,
+//                MediaStore.Audio.Media.TITLE,
+//                MediaStore.Audio.Media.ARTIST,
+//                MediaStore.Audio.Media.ALBUM
+//        };
+
+        String selection = MediaStore.Audio.Media.ARTIST_ID + "=?";
+        String[] selectionArgs = {artistId+""};
+        Cursor cursor = contentResolver.query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                selection,
+                selectionArgs,
+                null
+        );
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+                String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+                String album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+                int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+                int trackNumber = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TRACK));
+                long artistId1 = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST_ID));
+                long albumId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+                String path = cursor.getString(cursor.getColumnIndexOrThrow((MediaStore.Audio.Media.DATA)));
+
+                final MusicBean song = new MusicBean(id, albumId, artistId1, title, artist, album, duration, trackNumber,path);
+                musicBeans.add(song);
+            }
+            cursor.close();
+        }
+        return musicBeans;
     }
 }

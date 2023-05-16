@@ -29,10 +29,12 @@ import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.data.AlbumLoader;
 import com.example.learnandroid.data.ArtistAlbumLoader;
 import com.example.learnandroid.data.ArtistLoader;
+import com.example.learnandroid.data.SongLoader;
 import com.example.learnandroid.sign.SignListener;
 import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther jian xian si qi
@@ -58,15 +60,12 @@ public class ArtistDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView artistBg = view.findViewById(R.id.artist_bg);
         long artistID = getArguments().getLong("artistID");
         Artist artist = ArtistLoader.getArtist(activity, artistID);
-        artistBg = view.findViewById(R.id.artist_bg);
-
+        ImageView artistBg = view.findViewById(R.id.artist_bg);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(artistID);
         Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
         artistBg.setImageBitmap(bitmap);
-
         TextView artistName = view.findViewById(R.id.artist_name);
         artistName.setText(artist.name);
 
@@ -101,6 +100,7 @@ public class ArtistDetailFragment extends Fragment {
                 artistAlbumSongList.setAdapter(new AlbumSongAdapter(songsForAlbum));
             }
         });
-
+        ArrayList<MusicBean> songerIDAllMusic = SongLoader.findSongerIDAllMusic(artistID);
+        artistAlbumSongList.setAdapter(new AlbumSongAdapter(songerIDAllMusic));
     }
 }
