@@ -35,7 +35,7 @@ public class ShowLrcView extends View {
     /**
      * 默认文字的字体大小
      **/
-    private static final float SIZE_FOR_DEFAULT_TEXT = px2dp(MyApplication.getMusicContent(), 8);
+    private static final float SIZE_FOR_DEFAULT_TEXT = px2dp(MyApplication.getMusicContent(), 28);
 
     /**
      * 画高亮歌词的画笔
@@ -44,7 +44,7 @@ public class ShowLrcView extends View {
     /**
      * 高亮歌词的默认字体大小
      ***/
-    private static final float DEFAULT_SIZE_FOR_HIGHT_LIGHT_LRC = px2dp(MyApplication.getMusicContent(), 32);
+    private static final float DEFAULT_SIZE_FOR_HIGHT_LIGHT_LRC = px2dp(MyApplication.getMusicContent(), 20);
     /**
      * 高亮歌词当前的字体大小
      ***/
@@ -66,7 +66,7 @@ public class ShowLrcView extends View {
     /**
      * 其他歌词的默认字体大小
      ***/
-    private static float DEFAULT_SIZE_FOR_OTHER_LRC = px2dp(MyApplication.getMusicContent(), 28);
+    private static float DEFAULT_SIZE_FOR_OTHER_LRC = px2dp(MyApplication.getMusicContent(), 15);
     /**
      * 其他歌词当前的字体大小
      ***/
@@ -101,7 +101,7 @@ public class ShowLrcView extends View {
     /**
      * 歌词间默认的行距
      **/
-    private static final float DEFAULT_PADDING = px2dp(MyApplication.getMusicContent(), 17);
+    private static final float DEFAULT_PADDING = px2dp(MyApplication.getMusicContent(), 15);
 //            CommonUtils.dip2px(MyApplication.getContext(), 17);
     /**
      * 歌词当前的行距
@@ -552,7 +552,7 @@ public class ShowLrcView extends View {
 
     public static int px2dp(Context context, float pxValue) {
         float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue * 1 + 0.5f);// + 0.5f是为了让结果四舍五入
+        return (int) (pxValue * scale + 0.5f);// + 0.5f是为了让结果四舍五入
     }
 
     public static int px2sp(Context context, float pxValue) {
