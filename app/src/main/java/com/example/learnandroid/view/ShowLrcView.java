@@ -148,7 +148,6 @@ public class ShowLrcView extends View {
 
     public ShowLrcView(Context context) {
         super(context);
-
         init(context);
     }
 
@@ -156,7 +155,6 @@ public class ShowLrcView extends View {
         super(context, attrs);
         init(context);
     }
-
 
     /**
      * 初始化画笔等

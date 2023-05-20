@@ -12,11 +12,11 @@
     </ImageView>
 
     <com.example.learnandroid.view.ShowLrcView
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp" />
 
     <View
         android:layout_width="match_parent"

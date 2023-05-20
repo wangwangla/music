@@ -1,6 +1,7 @@
 package com.example.learnandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.learnandroid.main.GeciFragment;
 import com.example.learnandroid.main.PlayFragment;
@@ -31,7 +34,11 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         xxxx();
         setContentView(R.layout.activity_play);
-        replace(R.id.play_view,new PlayFragment());
+        RelativeLayout playTop = findViewById(R.id.play_top);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) playTop.getLayoutParams();
+        layoutParams.setMargins(0, getStatusBarHeight(this), 0, 0);
+        playTop.setLayoutParams(layoutParams);
+        replace(R.id.play_view,new PlayFragment(this));
         View topBack = findViewById(R.id.top_back);
         topBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +52,14 @@ public class PlayActivity extends AppCompatActivity {
         Window window = getWindow();
         int color = getResources().getColor(R.color.transparent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            /*
+            *             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            * */
+
             window.clearFlags( WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

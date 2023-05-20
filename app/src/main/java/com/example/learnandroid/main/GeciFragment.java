@@ -26,6 +26,7 @@ import com.example.learnandroid.data.DefaultLrcParser;
 import com.example.learnandroid.data.LrcMusic;
 import com.example.learnandroid.data.LrcRow;
 import com.example.learnandroid.data.SongLoader;
+import com.example.learnandroid.service.MusicControl;
 import com.example.learnandroid.utils.BitmapUtils;
 import com.example.learnandroid.utils.Utils;
 import com.example.learnandroid.view.ShowLrcView;
@@ -72,6 +73,7 @@ public class GeciFragment extends Fragment {
         Bundle args = new Bundle();
         args.putLong("musicId", musicId);
         fragment.setArguments(args);
+        MusicManager.addUpdateView(fragment.updateLrc);
         return fragment;
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.learnandroid.PlayActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
@@ -38,6 +39,11 @@ public class PlayFragment extends Fragment {
             upateDate();
         }
     };
+
+    private PlayActivity playActivity;
+    public PlayFragment(PlayActivity playActivity) {
+        this.playActivity = playActivity;
+    }
 
     public void upateDate(){
         try {
@@ -130,7 +136,7 @@ public class PlayFragment extends Fragment {
         ivMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationUtils.navigateToGeci(PlayFragment.this.getActivity(), (int) musicBean.getId());
+                NavigationUtils.navigateToGeci(playActivity, (int) musicBean.getId());
             }
         });
         if (musicBean==null)return;
@@ -147,6 +153,7 @@ public class PlayFragment extends Fragment {
             }
         }
         currentMusicBean = musicBean;
+
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         System.out.println(musicBean.getAlbumId()+"-===========================================");
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
