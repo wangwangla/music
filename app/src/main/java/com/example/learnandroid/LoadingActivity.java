@@ -90,20 +90,6 @@ public class LoadingActivity extends AppCompatActivity {
                 break;
         }
     }
-//
-//    public void buildNotification(){
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//        builder.setSmallIcon(R.mipmap.ic_launcher);
-//        RemoteViews rv = new RemoteViews(getPackageName(),R.layout.albmitem);
-////        rv.setTextViewText(R.id.tv,"泡沫");//修改自定义View中的歌名
-//        //修改自定义View中的图片(两种方法)
-//        //        rv.setImageViewResource(R.id.iv,R.mipmap.ic_launcher);
-////        rv.setImageViewBitmap(R.id.iv, BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
-//        builder.setContent(rv);
-//        Notification notification = builder.build();
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        notificationManager.notify(1,notification);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
