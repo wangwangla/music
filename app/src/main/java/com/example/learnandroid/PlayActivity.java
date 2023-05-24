@@ -32,23 +32,25 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        xxxx();
+        hideTop();
         setContentView(R.layout.activity_play);
-        RelativeLayout playTop = findViewById(R.id.play_top);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) playTop.getLayoutParams();
-        layoutParams.setMargins(0, getStatusBarHeight(this), 0, 0);
-        playTop.setLayoutParams(layoutParams);
+
         replace(R.id.play_view,new PlayFragment(this));
-        View topBack = findViewById(R.id.top_back);
-        topBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        RelativeLayout playTop = findViewById(R.id.play_top);
+//        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) playTop.getLayoutParams();
+//        //距离上下左右
+//        layoutParams.setMargins(0, getStatusBarHeight(this), 0, 0);
+//        playTop.setLayoutParams(layoutParams);
+//        View topBack = findViewById(R.id.top_back);
+//        topBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
     }
 
-    private void xxxx() {
+    private void hideTop() {
         Window window = getWindow();
         int color = getResources().getColor(R.color.transparent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

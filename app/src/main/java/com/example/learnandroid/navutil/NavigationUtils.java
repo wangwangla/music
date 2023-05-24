@@ -45,4 +45,8 @@ public class NavigationUtils {
         transaction.replace(R.id.lrcy_view, fragment);
         transaction.addToBackStack(null).commit();
     }
+
+    public static void repeatFragment(){
+
+    }
 }

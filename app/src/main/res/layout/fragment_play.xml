@@ -4,14 +4,22 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_weight="40"
-        android:id="@+id/play_albm_pic"
+    <RelativeLayout
+        android:layout_weight="79"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
-        android:src="@drawable/metal" />
+        android:layout_height="0dp">
+        <ImageView
+            android:id="@+id/play_albm_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/metal" />
+
+        <include layout="@layout/play_activity_title">
+
+        </include>
+    </RelativeLayout>
 
     <TextView
         android:layout_weight="1"

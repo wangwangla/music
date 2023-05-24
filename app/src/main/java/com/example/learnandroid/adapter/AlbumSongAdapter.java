@@ -30,6 +30,7 @@ import java.util.ArrayList;
  */
 public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.AlbumSongHolder> {
     private ArrayList<MusicBean> musicBeans;
+
     public AlbumSongAdapter(ArrayList<MusicBean> songsForAlbum) {
         this.musicBeans = songsForAlbum;
     }

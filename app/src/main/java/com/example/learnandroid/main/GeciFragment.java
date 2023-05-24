@@ -1,6 +1,8 @@
 package com.example.learnandroid.main;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,11 +16,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
@@ -89,10 +94,34 @@ public class GeciFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
+
+        RelativeLayout playTop = view.findViewById(R.id.play_top);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) playTop.getLayoutParams();
+        //距离上下左右
+        layoutParams.setMargins(0, getStatusBarHeight(activity), 0, 0);
+        playTop.setLayoutParams(layoutParams);
+        View topBack = playTop.findViewById(R.id.top_back);
+        topBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                transaction.remove(GeciFragment.this);
+                transaction.commit();
+            }
+        });
+
+
+
         Bundle arguments = getArguments();
         long songID = arguments.getLong("musicId");
         System.out.println(songID +" -------------------- songId");
         extracted(songID);
+    }
+
+    private static int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
     }
 
     private void extracted(long songID) {

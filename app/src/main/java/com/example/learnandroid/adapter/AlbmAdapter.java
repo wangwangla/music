@@ -79,9 +79,6 @@ public class AlbmAdapter extends RecyclerView.Adapter{
 
         @Override
         public void onClick(View v) {
-//            Intent intent = new Intent(activity, AlbumDetailActivity.class);
-//            intent.putExtra("album_id",arraylist.get(getPosition()).id);
-//            activity.startActivity(intent);
             NavigationUtils.navigateToAlbum(activity,arraylist.get(getPosition()).id);
         }
     }

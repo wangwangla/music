@@ -1,18 +1,24 @@
 package com.example.learnandroid.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.PlayActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
@@ -76,6 +82,24 @@ public class PlayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
+        RelativeLayout playTop = view.findViewById(R.id.play_top);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) playTop.getLayoutParams();
+        //距离上下左右
+        layoutParams.setMargins(0, getStatusBarHeight(playActivity), 0, 0);
+        playTop.setLayoutParams(layoutParams);
+        View topBack = playTop.findViewById(R.id.top_back);
+        topBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(playActivity, MusicMainActivity.class);
+                playActivity.startActivity(intent);
+            }
+        });
+        TextView songName = playTop.findViewById(R.id.song_name);
+        songName.setTextColor(Color.BLACK);
+        ImageView back = playTop.findViewById(R.id.top_back);
+        back.setColorFilter(Color.BLACK);
+
         MusicManager.addUpdateView(runnable);
         MusicManager.addTimeView(timeRunnable);
         playTime = view.findViewById(R.id.play_time);
@@ -130,12 +154,20 @@ public class PlayFragment extends Fragment {
         });
     }
 
+
+    private static int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
+    }
+
     private void updateLrcView() {
         MusicBean musicBean = MusicManager.getMusicBean();
         ImageView ivMusic = view.findViewById(R.id.play_albm_pic);
         ivMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeColor();
                 NavigationUtils.navigateToGeci(playActivity, (int) musicBean.getId());
             }
         });
@@ -173,6 +205,13 @@ public class PlayFragment extends Fragment {
         }else {
             songPlayBtn.setImageResource(R.drawable.play);
         }
+    }
+
+    private void changeColor() {
+        ImageView imageView = playActivity.findViewById(R.id.top_back);
+        imageView.setColorFilter(Color.BLACK);
+        TextView allSongName = playActivity.findViewById(R.id.song_name);
+        allSongName.setTextColor(Color.BLACK);
     }
 
     @Override
