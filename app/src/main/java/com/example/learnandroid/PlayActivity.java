@@ -31,7 +31,6 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         xxxx();
         setContentView(R.layout.activity_play);
-
         replace(R.id.play_view,new PlayFragment());
         View topBack = findViewById(R.id.top_back);
         topBack.setOnClickListener(new View.OnClickListener() {
@@ -44,19 +43,15 @@ public class PlayActivity extends AppCompatActivity {
 
     private void xxxx() {
         Window window = getWindow();
-//        int color = getResources().getColor(android.R.color.holo_blue_light);
         int color = getResources().getColor(R.color.transparent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.clearFlags( WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
             window.setStatusBarColor(color);
             //设置导航栏颜色
-            window.setNavigationBarColor(color);
+
             ViewGroup contentView = ((ViewGroup) findViewById(android.R.id.content));
             View childAt = contentView.getChildAt(0);
             if (childAt != null) {
@@ -65,8 +60,8 @@ public class PlayActivity extends AppCompatActivity {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            //透明导航栏
+//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             //设置contentview为fitsSystemWindows
             ViewGroup contentView = (ViewGroup) findViewById(android.R.id.content);
             View childAt = contentView.getChildAt(0);
@@ -75,7 +70,8 @@ public class PlayActivity extends AppCompatActivity {
             }
             //给statusbar着色
             View view = new View(this);
-            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(this)));
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    getStatusBarHeight(this)));
             view.setBackgroundColor(color);
             contentView.addView(view);
         }
