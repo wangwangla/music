@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.example.learnandroid.main.GeciFragment;
 import com.example.learnandroid.main.PlayFragment;
 import com.example.learnandroid.navutil.NavigationUtils;
-import com.example.learnandroid.utils.ThemeUtils;
 
 public class PlayActivity extends AppCompatActivity {
 

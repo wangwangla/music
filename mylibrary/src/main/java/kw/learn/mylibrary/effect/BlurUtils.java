@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 public class BlurUtils {
     public static Bitmap fastblur(Bitmap sentBitmap, int radius) {
         Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
-
         if (radius < 1) {
             return (null);
         }

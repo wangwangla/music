@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.media.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -41,9 +42,7 @@ import com.example.learnandroid.dialog.DialogUtils;
 import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.session.SessionUtils;
-import com.example.learnandroid.toolbar.ToolBarUtils;
 import com.example.learnandroid.utils.BitmapUtils;
-import com.example.learnandroid.utils.ThemeUtils;
 import com.example.learnandroid.utils.TimeUtils;
 import com.example.learnandroid.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
@@ -51,6 +50,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 import de.Maxr1998.trackselectorlib.NotificationHelper;
+import kw.learn.mylibrary.theme.ThemeUtils;
+import kw.learn.mylibrary.toolbar.ToolBarUtils;
 
 public class MusicMainActivity extends AppCompatActivity {
     private boolean isBottomListener;
@@ -111,12 +112,13 @@ public class MusicMainActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolBarUtils = new ToolBarUtils(this);
+        toolBarUtils = new ToolBarUtils(this,R.id.toolbar);
     }
 
     private void updateBottomPanelData() {
         BroadUtils broadUtils = new BroadUtils();
-        broadUtils.setFilter(this);
+        String str[] = {Constant.UP_DATE_BOTTOM};
+        broadUtils.setFilter(this,str);
     }
 
     public void upateDateProcess(){
@@ -234,6 +236,7 @@ public class MusicMainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("WrongConstant")
     private void buildNotification(MusicBean musicBean) {
         //设置数据
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

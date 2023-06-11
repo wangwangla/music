@@ -23,6 +23,10 @@ public class MyApplication extends Application {
         SongLoader.destory();
         //加载音乐使用的方法
         SongLoader.setLoadType(0);
+        bingService();
+    }
+
+    private void bingService() {
         //创建音乐的服务
         Intent intent = new Intent(this, MusicService.class);//创建意图对象
         //创建服务连接对象
