@@ -41,18 +41,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver
-            android:name=".broadcast.MyBroadcast"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="MUISC_LEARN" />
-                <action android:name="MUSIC_PRE" />
-                <action android:name="MUSIC_NEXT" />
-                <action android:name="MUSIC_STOP" />
-       <!--         <action android:name="UP_DATE_BOTTOM"></action>-->
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".broadcast.MyBroadcast"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="MUISC_LEARN" />-->
+<!--                <action android:name="MUSIC_PRE" />-->
+<!--                <action android:name="MUSIC_NEXT" />-->
+<!--                <action android:name="MUSIC_STOP" />-->
+<!--       &lt;!&ndash;         <action android:name="UP_DATE_BOTTOM"></action>&ndash;&gt;-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
 <!--        <receiver-->
 <!--            android:name="."-->
@@ -68,7 +68,11 @@
 
         <service
             android:name=".service.MusicService"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

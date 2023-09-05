@@ -29,7 +29,6 @@ import kw.learn.mylibrary.permission.PermissionUtils;
  */
 //注意：对应用中使用 aToolbar作为应用栏的每个 Activity 进行此更改。
 public class LoadingActivity extends AppCompatActivity {
-
     public static final int REQUEST_CONDE =0xFFFF;
 
     @Override
@@ -39,14 +38,13 @@ public class LoadingActivity extends AppCompatActivity {
         PermissionUtils.checkPermission(this,
                 new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 },
                 REQUEST_CONDE);
         Intent intent = new Intent(this, MusicMainActivity.class);
         startActivity(intent);
         finish();
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

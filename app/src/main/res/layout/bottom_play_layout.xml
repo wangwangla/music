@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/bottom_song_pic"
-        android:text="没有情人的情人节"
+        android:text="音乐让生活更美好"
         android:textSize="20dp">
 
     </TextView>
@@ -47,7 +47,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@id/bottom_song_pic"
-        android:text="孟庭苇">
+        android:text="">
 
     </TextView>
 

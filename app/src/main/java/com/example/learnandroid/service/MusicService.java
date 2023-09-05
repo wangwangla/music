@@ -10,10 +10,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.media.MediaBrowserCompat;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.media.MediaBrowserServiceCompat;
 
 import com.example.learnandroid.LoadingActivity;
 import com.example.learnandroid.PlayActivity;
@@ -21,7 +26,9 @@ import com.example.learnandroid.R;
 import com.example.learnandroid.application.MyApplication;
 import com.example.learnandroid.constant.Constant;
 
-public class MusicService extends Service {
+import java.util.List;
+
+public class MusicService extends MediaBrowserServiceCompat {
     //添加日志的TAG常量
     private MediaPlayer player;
 
@@ -47,6 +54,18 @@ public class MusicService extends Service {
         @Override
     public IBinder onBind(Intent intent) {
         return new MusicControl(player);
+    }
+
+    @Nullable
+    @Override
+    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
+//        return null;
+        return new BrowserRoot(clientPackageName, null);
+    }
+
+    @Override
+    public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
+
     }
 
     @Override

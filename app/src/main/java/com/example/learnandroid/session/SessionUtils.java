@@ -53,7 +53,8 @@ public class SessionUtils {
 
     public SessionUtils(Activity activity){
         mSession = new MediaSessionCompat(activity, "Music");
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mSession.setCallback(mediasessionBack);
         mSession.setActive(true);
     }
@@ -64,5 +65,9 @@ public class SessionUtils {
 
     public MediaSessionCompat.Token getSessionToken() {
         return mSession.getSessionToken();
+    }
+
+    public MediaSessionCompat getmSession() {
+        return mSession;
     }
 }
