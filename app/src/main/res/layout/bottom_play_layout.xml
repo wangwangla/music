@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/bottom_song_pic"
-        android:text="音乐让生活更美好"
+        android:text=""
         android:textSize="20dp">
 
     </TextView>

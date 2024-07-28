@@ -1,14 +1,9 @@
 package com.example.learnandroid.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.BaseColumns;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.utils.BitmapUtils;
@@ -78,8 +73,8 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             @Override
             public void onClick(View v) {
                 //没太明白，为什么需要这么写  因为整个应用都是呀的是这个Theme
-                MyApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
-                final PopupMenu popupMenu = new PopupMenu(MyApplication.getMusicContent(), v);
+                MusicApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
+                final PopupMenu popupMenu = new PopupMenu(MusicApplication.getMusicContent(), v);
                 popupMenu.inflate(R.menu.popup_song);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override

@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.service.MusicService;
 
 /**
@@ -113,10 +113,10 @@ public class MusicNotification {
 
 
     private final PendingIntent retrievePlaybackAction(final String action) {
-        final ComponentName serviceName = new ComponentName(MyApplication.getMusicContent(), MusicService.class);
+        final ComponentName serviceName = new ComponentName(MusicApplication.getMusicContent(), MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
-        return PendingIntent.getService(MyApplication.getMusicContent(), 0, intent, 0);
+        return PendingIntent.getService(MusicApplication.getMusicContent(), 0, intent, 0);
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {

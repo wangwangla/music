@@ -13,9 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.utils.BitmapUtils;
@@ -48,14 +47,14 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         holder.albumDetailSongName.setText(musicBean.getTitle());
         holder.albumDetailSongTime.setText(TimeUtils.longToTime(musicBean.getDuration()));
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
         holder.albumSongPic.setImageBitmap(bitmap);
 
         holder.albumDetailMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
-                final PopupMenu popupMenu = new PopupMenu(MyApplication.getMusicContent(), v);
+                MusicApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
+                final PopupMenu popupMenu = new PopupMenu(MusicApplication.getMusicContent(), v);
                 popupMenu.inflate(R.menu.popup_song);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override

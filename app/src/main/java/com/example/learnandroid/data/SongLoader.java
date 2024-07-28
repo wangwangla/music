@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Auther jian xian si qi
@@ -28,7 +27,7 @@ public class SongLoader {
         getSaoMiaoMusicInstance().findMusic();
         if (Constant.NO_SET == 0){
             Intent intent = new Intent(Constant.UP_DATE_BOTTOM);
-            MyApplication.getMusicContent().sendBroadcast(intent);
+            MusicApplication.getMusicContent().sendBroadcast(intent);
         }
         return getSaoMiaoMusicInstance().getMusicBeans();
     }
@@ -36,7 +35,7 @@ public class SongLoader {
     public static MusicBean loadSongById(long songId) {
         String selection = MediaStore.Audio.Media._ID + "=?";
         String[] selectionArgs = new String[] { songId+"" };
-        Cursor cursor = MyApplication.getMusicContent().getContentResolver().query(
+        Cursor cursor = MusicApplication.getMusicContent().getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 null,
                 selection,
@@ -87,7 +86,7 @@ public class SongLoader {
 
     public static ArrayList<MusicBean> findSongerIDAllMusic(long artistId){
         ArrayList<MusicBean> musicBeans = new ArrayList<>();
-        ContentResolver contentResolver = MyApplication.getMusicContent().getContentResolver();
+        ContentResolver contentResolver = MusicApplication.getMusicContent().getContentResolver();
 //
 //        String[] projection = {
 //                MediaStore.Audio.Media._ID,

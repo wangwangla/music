@@ -4,9 +4,8 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.util.Log;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.constant.MusicManager;
 
 import java.io.IOException;
@@ -47,7 +46,7 @@ public class MusicControl extends Binder {
 
    public MusicControl(MediaPlayer player) {
       this.player = player;
-      mAudioManager = (AudioManager) MyApplication.getMusicContent().getSystemService(Context.AUDIO_SERVICE);
+      mAudioManager = (AudioManager) MusicApplication.getMusicContent().getSystemService(Context.AUDIO_SERVICE);
 
    }
 

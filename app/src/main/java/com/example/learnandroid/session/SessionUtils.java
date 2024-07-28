@@ -50,7 +50,6 @@ public class SessionUtils {
         }
     };
 
-
     public SessionUtils(Activity activity){
         mSession = new MediaSessionCompat(activity, "Music");
         mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS

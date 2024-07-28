@@ -35,15 +35,16 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-        PermissionUtils.checkPermission(this,
+        if (PermissionUtils.checkPermission(this,
                 new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 },
-                REQUEST_CONDE);
-        Intent intent = new Intent(this, MusicMainActivity.class);
-        startActivity(intent);
-        finish();
+                REQUEST_CONDE)) {
+            Intent intent = new Intent(this, MusicMainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -52,6 +53,7 @@ public class LoadingActivity extends AppCompatActivity {
         //判断我们的请求码，避免别的事件调用onRequestPermissionsResult,导致我们拿到本不该属于我们的数据
         if (requestCode==REQUEST_CONDE){
             // 如果请求被取消，则结果数组为空。
+            boolean isSuccess = true;
             if (grantResults.length > 0) {
                 //循环一个一个地去判断结果
                 for (int k=0;k<permissions.length;k++){
@@ -63,12 +65,19 @@ public class LoadingActivity extends AppCompatActivity {
 
                     if (grantResults[k] == PackageManager.PERMISSION_DENIED){
                         // 权限请求失败，抛出结果false
+                        isSuccess = false;
                         throwPermissionResults(permissions[k],false);
                     }
                 }
             } else {
+                isSuccess = false;
                 //没有任何授权结果,直接抛出结果false
                 throwPermissionResults("Unknown_result",false);
+            }
+            if (isSuccess){
+                Intent intent = new Intent(this, MusicMainActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
     }

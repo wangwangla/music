@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.Album;
-import com.example.learnandroid.bean.Artist;
 import com.example.learnandroid.bean.MusicBean;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class AlbumLoader {
 
     public static ArrayList<Album> getArttist(){
         ArrayList<Album> artists = new ArrayList<>();
-        Cursor cursor = MyApplication.getMusicContent().getContentResolver()
+        Cursor cursor = MusicApplication.getMusicContent().getContentResolver()
                 .query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                         new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"},
                         null, null, null);

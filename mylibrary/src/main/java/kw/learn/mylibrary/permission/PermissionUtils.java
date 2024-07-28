@@ -15,11 +15,14 @@ import androidx.core.content.ContextCompat;
  * @Date 2023/5/15 22:05
  */
 public class PermissionUtils {
-    public static void checkPermission(Activity context,String[] permissions,int requestcode){
+    public static boolean checkPermission(Activity context,String[] permissions,int requestcode){
+        boolean isSuccess = true;
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(context, permission) != PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(context, new String[]{permission}, requestcode);
+                isSuccess = false;
             }
         }
+        return isSuccess;
     }
 }

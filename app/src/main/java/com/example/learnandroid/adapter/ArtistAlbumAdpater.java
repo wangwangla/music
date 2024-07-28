@@ -12,9 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.Album;
-import com.example.learnandroid.data.AlbumLoader;
 import com.example.learnandroid.sign.SignListener;
 import com.example.learnandroid.utils.BitmapUtils;
 
@@ -44,7 +43,7 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
     public void onBindViewHolder(@NonNull ArtistAlbumHolder holder, int position) {
         Album album = albums.get(position);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.id);
-        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
         if (bitmap!=null) {
             holder.albumBg.setImageBitmap(bitmap);
         }

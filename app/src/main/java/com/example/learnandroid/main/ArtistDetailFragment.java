@@ -16,14 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.adapter.AlbumSongAdapter;
 import com.example.learnandroid.adapter.ArtistAlbumAdpater;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.Album;
 import com.example.learnandroid.bean.Artist;
 import com.example.learnandroid.bean.MusicBean;
@@ -35,7 +34,6 @@ import com.example.learnandroid.sign.SignListener;
 import com.example.learnandroid.utils.BitmapUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Auther jian xian si qi
@@ -83,7 +81,7 @@ public class ArtistDetailFragment extends Fragment {
         ImageView artistBg = view.findViewById(R.id.artist_bg);
         Album album = albumsForArtist.get(0);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.id);
-        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
         if(bitmap!=null) {
             artistBg.setImageBitmap(bitmap);
         }

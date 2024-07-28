@@ -2,7 +2,6 @@ package com.example.learnandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.media.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,15 +13,11 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,10 +26,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.broad.BroadUtils;
-import com.example.learnandroid.broadcast.MainBroadCast;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
@@ -47,11 +41,7 @@ import com.example.learnandroid.utils.TimeUtils;
 import com.example.learnandroid.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
-
-import de.Maxr1998.trackselectorlib.NotificationHelper;
 import kw.learn.mylibrary.theme.ThemeUtils;
-import kw.learn.mylibrary.toolbar.ToolBarUtils;
 
 public class MusicMainActivity extends AppCompatActivity {
     private boolean isBottomListener;
@@ -265,7 +255,7 @@ public class MusicMainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         androidx.core.app.NotificationCompat.Builder builder
-                = new androidx.core.app.NotificationCompat.Builder(MyApplication.getMusicContent(), "XXX")
+                = new androidx.core.app.NotificationCompat.Builder(MusicApplication.getMusicContent(), "XXX")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())

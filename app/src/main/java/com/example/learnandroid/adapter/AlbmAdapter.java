@@ -1,7 +1,6 @@
 package com.example.learnandroid.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -11,13 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.Album;
 import com.example.learnandroid.navutil.NavigationUtils;
 import com.example.learnandroid.utils.BitmapUtils;
@@ -51,7 +47,7 @@ public class AlbmAdapter extends RecyclerView.Adapter{
         ItemHolder holder1 = (ItemHolder) (holder);
         holder1.albums.setText(album.title);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.id);
-        Bitmap bitmap = BitmapUtils.decodeUri(MyApplication.getMusicContent(),albumArtUri,300,300);
+        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
         if (bitmap!=null) {
             holder1.artistImage.setImageBitmap(bitmap);
         }

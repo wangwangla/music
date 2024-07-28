@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.example.learnandroid.adapter.ArtistAdapter;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.Artist;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 public class ArtistLoader {
     public static ArrayList<Artist> getArttist(){
         ArrayList<Artist> artists = new ArrayList<>();
-        Cursor cursor = MyApplication.getMusicContent().getContentResolver().query(
+        Cursor cursor = MusicApplication.getMusicContent().getContentResolver().query(
                 MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
                 new String[]{"_id", "artist", "number_of_albums", "number_of_tracks"},
                 null, null, null);

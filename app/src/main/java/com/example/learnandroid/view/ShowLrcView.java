@@ -14,7 +14,7 @@ import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.data.LrcRow;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class ShowLrcView extends View {
     /**
      * 默认文字的字体大小
      **/
-    private static final float SIZE_FOR_DEFAULT_TEXT = px2dp(MyApplication.getMusicContent(), 28);
+    private static final float SIZE_FOR_DEFAULT_TEXT = px2dp(MusicApplication.getMusicContent(), 28);
 
     /**
      * 画高亮歌词的画笔
@@ -44,7 +44,7 @@ public class ShowLrcView extends View {
     /**
      * 高亮歌词的默认字体大小
      ***/
-    private static final float DEFAULT_SIZE_FOR_HIGHT_LIGHT_LRC = px2dp(MyApplication.getMusicContent(), 20);
+    private static final float DEFAULT_SIZE_FOR_HIGHT_LIGHT_LRC = px2dp(MusicApplication.getMusicContent(), 20);
     /**
      * 高亮歌词当前的字体大小
      ***/
@@ -66,7 +66,7 @@ public class ShowLrcView extends View {
     /**
      * 其他歌词的默认字体大小
      ***/
-    private static float DEFAULT_SIZE_FOR_OTHER_LRC = px2dp(MyApplication.getMusicContent(), 15);
+    private static float DEFAULT_SIZE_FOR_OTHER_LRC = px2dp(MusicApplication.getMusicContent(), 15);
     /**
      * 其他歌词当前的字体大小
      ***/
@@ -92,7 +92,7 @@ public class ShowLrcView extends View {
     /**
      * 时间文字大小
      **/
-    private static final int SIZE_FOR_TIME = px2dp(MyApplication.getMusicContent(), 12);
+    private static final int SIZE_FOR_TIME = px2dp(MusicApplication.getMusicContent(), 12);
     /**
      * 是否画时间线
      **/
@@ -101,7 +101,7 @@ public class ShowLrcView extends View {
     /**
      * 歌词间默认的行距
      **/
-    private static final float DEFAULT_PADDING = px2dp(MyApplication.getMusicContent(), 15);
+    private static final float DEFAULT_PADDING = px2dp(MusicApplication.getMusicContent(), 15);
 //            CommonUtils.dip2px(MyApplication.getContext(), 17);
     /**
      * 歌词当前的行距

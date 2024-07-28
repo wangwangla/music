@@ -1,14 +1,10 @@
 package com.example.learnandroid.data;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.os.Build;
 import android.provider.MediaStore;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 
 import java.util.ArrayList;
@@ -17,7 +13,7 @@ public class ContentResolverFindMusic implements SaoMiaoMusicInterface{
     private ArrayList<MusicBean> musicBeans;
     private Context context;
     public ContentResolverFindMusic(){
-        this.context = MyApplication.getMusicContent();
+        this.context = MusicApplication.getMusicContent();
         this.musicBeans = new ArrayList<>();
     }
 

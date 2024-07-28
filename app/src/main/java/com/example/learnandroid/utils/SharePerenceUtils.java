@@ -3,7 +3,7 @@ package com.example.learnandroid.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.learnandroid.application.MyApplication;
+import com.example.learnandroid.application.MusicApplication;
 
 /**
  * @Auther jian xian si qi
@@ -14,7 +14,7 @@ public class SharePerenceUtils {
     private static SharePerenceUtils sharePerenceUtils;
     public SharePerenceUtils(){
         destoy();
-        sharedPreferences = MyApplication.getMusicContent().getSharedPreferences("test", Context.MODE_PRIVATE);
+        sharedPreferences = MusicApplication.getMusicContent().getSharedPreferences("test", Context.MODE_PRIVATE);
     }
 
     public static SharePerenceUtils getSharePerenceUtils() {
