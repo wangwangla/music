@@ -2,19 +2,13 @@ package com.example.learnandroid.main;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -23,17 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.data.DefaultLrcParser;
-import com.example.learnandroid.data.LrcMusic;
 import com.example.learnandroid.data.LrcRow;
 import com.example.learnandroid.data.SongLoader;
-import com.example.learnandroid.service.MusicControl;
-import com.example.learnandroid.utils.BitmapUtils;
-import com.example.learnandroid.utils.Utils;
+import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.view.ShowLrcView;
 
 import java.io.BufferedReader;
@@ -43,7 +33,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import kw.learn.mylibrary.effect.BlurUtils;

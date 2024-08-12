@@ -2,9 +2,12 @@ package com.example.learnandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.media.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -36,9 +39,9 @@ import com.example.learnandroid.dialog.DialogUtils;
 import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.session.SessionUtils;
-import com.example.learnandroid.utils.BitmapUtils;
-import com.example.learnandroid.utils.TimeUtils;
-import com.example.learnandroid.utils.VersionUtils;
+import com.example.learnandroid.application.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.TimeUtils;
+import com.example.learnandroid.application.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
 import kw.learn.mylibrary.theme.ThemeUtils;
@@ -49,7 +52,7 @@ public class MusicMainActivity extends AppCompatActivity {
     private SessionUtils sessionUtils;
 
 
-    private Runnable bottomStatus = new Runnable() {
+    private Runnable quickPlayPanel = new Runnable() {
         @Override
         public void run() {
             updateBottomView();
@@ -71,7 +74,7 @@ public class MusicMainActivity extends AppCompatActivity {
         initStautarbar();
         updateBottomPanelData();
         initViewPager();
-        MusicManager.addUpdateView(bottomStatus);
+        MusicManager.addUpdateView(quickPlayPanel);
         MusicManager.addTimeView(processRunnable);
         initSearch();
     }
@@ -105,8 +108,6 @@ public class MusicMainActivity extends AppCompatActivity {
         BroadUtils broadUtils = new BroadUtils();
         String str[] = {Constant.UP_DATE_BOTTOM,"MUSIC_PRE"};
         broadUtils.setFilter(this,str);
-
-
     }
 
     public void upateDateProcess(){

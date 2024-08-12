@@ -17,9 +17,9 @@ import com.example.learnandroid.R;
 import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.utils.BitmapUtils;
-import com.example.learnandroid.utils.ShareUtils;
-import com.example.learnandroid.utils.TimeUtils;
+import com.example.learnandroid.application.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.ShareUtils;
+import com.example.learnandroid.application.utils.TimeUtils;
 
 import java.util.ArrayList;
 

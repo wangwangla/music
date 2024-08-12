@@ -31,7 +31,7 @@ import com.example.learnandroid.data.ArtistAlbumLoader;
 import com.example.learnandroid.data.ArtistLoader;
 import com.example.learnandroid.data.SongLoader;
 import com.example.learnandroid.sign.SignListener;
-import com.example.learnandroid.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.BitmapUtils;
 
 import java.util.ArrayList;
 

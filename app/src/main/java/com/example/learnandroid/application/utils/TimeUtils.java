@@ -1,4 +1,4 @@
-package com.example.learnandroid.utils;
+package com.example.learnandroid.application.utils;
 
 public class TimeUtils {
     private static StringBuilder builder = new StringBuilder();

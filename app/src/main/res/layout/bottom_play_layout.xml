@@ -6,6 +6,32 @@
     android:orientation="horizontal"
     android:background="@drawable/bottom_bar_bg"
     android:layout_height="55dp">
+
+    <ImageView
+        android:id="@+id/bottom_song_pic"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/default_image2"
+        android:paddingBottom="2dp"
+        android:paddingLeft="-2dp"
+        app:layout_constraintStart_toStartOf="parent">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/bottom_song_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="100dp"
+        android:layout_toEndOf="@+id/bottom_song_pic"
+        android:text=""
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        android:textSize="20dp">
+
+    </TextView>
     <ProgressBar
         android:id="@+id/bottom_play_process"
         android:max="100"
@@ -17,35 +43,14 @@
         android:layout_height="3dp">
 
     </ProgressBar>
-
-    <ImageView
-        android:id="@+id/bottom_song_pic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/default_image2"
-        app:layout_constraintStart_toStartOf="parent">
-    </ImageView>
-
-    <TextView
-        android:id="@+id/bottom_song_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_toEndOf="@+id/bottom_song_pic"
-        android:text=""
-        android:textSize="20dp">
-
-    </TextView>
-
     <TextView
         android:id="@+id/bottom_song_songer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginBottom="5dp"
+        android:textColor="@color/black"
         android:layout_toEndOf="@id/bottom_song_pic"
         android:text="">
 
@@ -53,8 +58,8 @@
 
     <ImageView
         android:id="@+id/bottom_song_next"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -64,8 +69,8 @@
 
     <ImageView
         android:id="@+id/bottom_song_playorstop"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

@@ -22,19 +22,19 @@ import com.example.learnandroid.main.GeciFragment;
 public class NavigationUtils {
 
     public static void navigateToAlbum(Activity context, long albumID) {
-        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-        Fragment fragment;
-        fragment = AlbumDetailFragment.newInstance(context,albumID, false);
-        transaction.add(R.id.frame_content, fragment);
-        transaction.addToBackStack(null).commit();
+//        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+//        Fragment fragment;
+//        fragment = AlbumDetailFragment.newInstance(context,albumID, false);
+//        transaction.add(R.id.frame_content, fragment);
+//        transaction.addToBackStack(null).commit();
     }
 
     public static void navigateToArtist(Activity context, long artistID) {
-        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-        Fragment fragment;
-        fragment = ArtistDetailFragment.newInstance(context, artistID, false);
-        transaction.replace(R.id.frame_content, fragment);
-        transaction.addToBackStack(null).commit();
+//        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+//        Fragment fragment;
+//        fragment = ArtistDetailFragment.newInstance(context, artistID, false);
+//        transaction.replace(R.id.frame_content, fragment);
+//        transaction.addToBackStack(null).commit();
     }
 
 

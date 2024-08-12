@@ -5,30 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".MusicMainActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:layout_scrollFlags="scroll|enterAlways">
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            style="@style/TextAppearance.Headline5.MyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:text="@string/tool_title" />
-
-        <ImageView
-            android:id="@+id/btnSearch"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_marginStart="-11dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:padding="12dp"
-            android:src="@drawable/search" />
-    </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

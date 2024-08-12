@@ -1,10 +1,6 @@
 package com.example.learnandroid.main;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,7 +21,7 @@ import com.example.learnandroid.R;
 import com.example.learnandroid.adapter.AlbumSongAdapter;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.data.AlbumLoader;
-import com.example.learnandroid.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.BitmapUtils;
 
 import java.util.ArrayList;
 

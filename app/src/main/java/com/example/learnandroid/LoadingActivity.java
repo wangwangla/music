@@ -57,12 +57,10 @@ public class LoadingActivity extends AppCompatActivity {
             if (grantResults.length > 0) {
                 //循环一个一个地去判断结果
                 for (int k=0;k<permissions.length;k++){
-
                     if (grantResults[k] == PackageManager.PERMISSION_GRANTED){
                         // 权限请求成功，抛出结果true
                         throwPermissionResults(permissions[k],true);
                     }
-
                     if (grantResults[k] == PackageManager.PERMISSION_DENIED){
                         // 权限请求失败，抛出结果false
                         isSuccess = false;
@@ -96,20 +94,5 @@ public class LoadingActivity extends AppCompatActivity {
                 Log.d("fxHou","READ_EXTERNAL_STORAGE授权结果："+isSuccess);
                 break;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    /**
-     * 处理事件
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 }

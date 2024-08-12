@@ -1,4 +1,4 @@
-package com.example.learnandroid.utils;
+package com.example.learnandroid.application.utils;
 
 import android.content.Context;
 import android.content.Intent;

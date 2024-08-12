@@ -15,7 +15,7 @@ import com.example.learnandroid.R;
 import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.Album;
 import com.example.learnandroid.sign.SignListener;
-import com.example.learnandroid.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.BitmapUtils;
 
 import java.util.ArrayList;
 

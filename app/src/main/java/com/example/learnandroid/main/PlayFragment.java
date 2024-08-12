@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -24,8 +23,8 @@ import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.navutil.NavigationUtils;
-import com.example.learnandroid.utils.BitmapUtils;
-import com.example.learnandroid.utils.TimeUtils;
+import com.example.learnandroid.application.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.TimeUtils;
 
 public class PlayFragment extends Fragment {
     private TextView playTime;
