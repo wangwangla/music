@@ -181,7 +181,7 @@ public class ShowLrcView extends View {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inDensity = 30;
         options.inTargetDensity = 30;
-        arrowBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.down_player, options);
+        arrowBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.down_player, options);
     }
 
     private int mTotleDrawRow;

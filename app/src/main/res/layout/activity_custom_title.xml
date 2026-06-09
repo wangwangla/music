@@ -40,7 +40,7 @@
                 android:layout_marginStart="-11dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:padding="12dp"
-                android:src="@drawable/search" />
+                android:src="@mipmap/search" />
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

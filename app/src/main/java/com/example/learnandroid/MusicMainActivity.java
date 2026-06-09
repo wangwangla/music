@@ -199,9 +199,9 @@ public class MusicMainActivity extends AppCompatActivity {
             MusicManager.setData();
             ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
             if (MusicManager.isPlaying()) {
-                bottomSongPlayOrStop.setImageResource(R.drawable.pause);
+                bottomSongPlayOrStop.setImageResource(R.mipmap.pause);
             }else {
-                bottomSongPlayOrStop.setImageResource(R.drawable.play);
+                bottomSongPlayOrStop.setImageResource(R.mipmap.play);
             }
         }
         createNotificationChannel();
@@ -248,25 +248,25 @@ public class MusicMainActivity extends AppCompatActivity {
                     .build();
             sessionUtils.setMetadata(metadata);
         }
-        int res = R.drawable.ic_play_white_36dp;
+        int res = R.mipmap.ic_play_white_36dp;
         if (MusicManager.isPlaying()) {
-            res = R.drawable.ic_pause_white_36dp;
+            res = R.mipmap.ic_pause_white_36dp;
         }
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         androidx.core.app.NotificationCompat.Builder builder
                 = new androidx.core.app.NotificationCompat.Builder(MusicApplication.getMusicContent(), "XXX")
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(R.mipmap.ic_notification)
                 .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())
                 .setContentText(musicBean.getArtistName())
 
-                .addAction(R.drawable.ic_skip_previous_white_36dp,
+                .addAction(R.mipmap.ic_skip_previous_white_36dp,
                         "zzz",retrievePlaybackAction(Constant.MUSIC_PRE,0)).
                 addAction(res,
                         "xxx",retrievePlaybackAction(Constant.MUSIC_STOP,1)).
-                addAction(R.drawable.ic_skip_next_white_36dp,
+                addAction(R.mipmap.ic_skip_next_white_36dp,
                         "aaa",retrievePlaybackAction(Constant.MUSIC_NEXT,2));
         if (TimberUtils.isLollipop()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);

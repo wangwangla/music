@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.learnandroid">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"></uses-permission>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"></uses-permission>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application

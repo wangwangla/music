@@ -32,7 +32,7 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:layout_gravity="left|center_vertical"
-                android:src="@drawable/default_image_round" />
+                android:src="@mipmap/default_image_round" />
 
             <ImageView
                 android:id="@+id/iv_music_play"

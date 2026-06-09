@@ -105,7 +105,7 @@ public class PlayFragment extends Fragment {
         playProcess = view.findViewById(R.id.play_sb);
         ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
         if (MusicManager.isPlaying()) {
-            songPlayBtn.setImageResource(R.drawable.pause);
+            songPlayBtn.setImageResource(R.mipmap.pause);
         }
         songPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,9 +176,9 @@ public class PlayFragment extends Fragment {
             if (currentMusicBean.getId() == musicBean.getId()){
                 ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
                 if (MusicManager.isPlaying()) {
-                    songPlayBtn.setImageResource(R.drawable.pause);
+                    songPlayBtn.setImageResource(R.mipmap.pause);
                 }else {
-                    songPlayBtn.setImageResource(R.drawable.play);
+                    songPlayBtn.setImageResource(R.mipmap.play);
                 }
                 return;
             }
@@ -200,9 +200,9 @@ public class PlayFragment extends Fragment {
         duration.setText(TimeUtils.longToTime(MusicManager.getDuration()));
         ImageView songPlayBtn = view.findViewById(R.id.play_playOrStop);
         if (MusicManager.isPlaying()) {
-            songPlayBtn.setImageResource(R.drawable.pause);
+            songPlayBtn.setImageResource(R.mipmap.pause);
         }else {
-            songPlayBtn.setImageResource(R.drawable.play);
+            songPlayBtn.setImageResource(R.mipmap.play);
         }
     }
 

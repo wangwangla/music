@@ -35,7 +35,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:src="@drawable/ic_lyrics_more">
+        android:src="@mipmap/ic_lyrics_more">
 
     </ImageView>
 </RelativeLayout>

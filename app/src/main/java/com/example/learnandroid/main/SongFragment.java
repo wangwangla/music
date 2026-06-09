@@ -47,11 +47,11 @@ public class SongFragment extends Fragment {
 
     private void updateShuffleMode() {
         if (playmode == 0){
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.repeat_all);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.repeat_all);
             shuffleIcon.setImageBitmap(bitmap);
             Constant.playStyle = 0;
         }else if (playmode == 1){
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shuffle);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.shuffle);
             shuffleIcon.setImageBitmap(bitmap);
             Constant.playStyle = 1;
         }

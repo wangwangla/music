@@ -12,7 +12,7 @@
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/default_image2"
+        android:src="@mipmap/default_image2"
         android:paddingBottom="2dp"
         android:paddingLeft="-2dp"
         app:layout_constraintStart_toStartOf="parent">
@@ -65,7 +65,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/next"></ImageView>
+        android:src="@mipmap/next"></ImageView>
 
     <ImageView
         android:id="@+id/bottom_song_playorstop"
@@ -76,7 +76,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="65dp"
-        android:src="@drawable/play">
+        android:src="@mipmap/play">
 
     </ImageView>
 

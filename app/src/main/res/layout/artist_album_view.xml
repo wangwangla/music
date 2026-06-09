@@ -6,7 +6,7 @@
     android:layout_height="160dp">
     <ImageView
         android:id="@+id/album_bg"
-        android:src="@drawable/default_image_round"
+        android:src="@mipmap/default_image_round"
         android:layout_width="100dp"
         android:layout_height="100dp">
 

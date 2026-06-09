@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,16 +23,19 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-        if (PermissionUtils.checkPermission(this,
-                new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                },
-                REQUEST_CONDE)) {
+
+        String[] permissions;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions = new String[]{Manifest.permission.READ_MEDIA_AUDIO};
+        } else {
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         }
-        Intent intent = new Intent(this, MusicMainActivity.class);
-        startActivity(intent);
-        finish();
+
+        if (PermissionUtils.checkPermission(this,
+                permissions,
+                REQUEST_CONDE)) {
+            goMain();
+        }
     }
 
     @Override
@@ -60,11 +64,15 @@ public class LoadingActivity extends AppCompatActivity {
                 throwPermissionResults("Unknown_result",false);
             }
             if (isSuccess){
-                Intent intent = new Intent(this, MusicMainActivity.class);
-                startActivity(intent);
-                finish();
+                goMain();
             }
         }
+    }
+
+    private void goMain() {
+        Intent intent = new Intent(this, MusicMainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -79,6 +87,9 @@ public class LoadingActivity extends AppCompatActivity {
                 break;
             case Manifest.permission.READ_EXTERNAL_STORAGE:
                 Log.d("fxHou","READ_EXTERNAL_STORAGE授权结果："+isSuccess);
+                break;
+            case Manifest.permission.READ_MEDIA_AUDIO:
+                Log.d("fxHou","READ_MEDIA_AUDIO授权结果："+isSuccess);
                 break;
         }
     }
