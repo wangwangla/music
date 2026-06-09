@@ -55,6 +55,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
         }
         viewHolder.songTime.setText(" | "+TimeUtils.longToTime(musicBean.getDuration()));
         viewHolder.songName.setText(musicBean.getTitle());
+        viewHolder.songName.setSelected(true);
         viewHolder.songSonger.setText(musicBean.getArtistName());
         view.setOnClickListener(new View.OnClickListener() {
             @Override

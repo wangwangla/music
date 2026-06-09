@@ -21,7 +21,7 @@ import kw.learn.mylibrary.permission.PermissionUtils;
  */
 public class LoadingActivity extends BaseActivity {
     public static final int REQUEST_CONDE =0xFFFF;
-    private static final long GO_MAIN_DELAY_MS = 5000L;
+    private static final long GO_MAIN_DELAY_MS = 1000L;
     private boolean hasScheduledGoMain;
 
     @Override
