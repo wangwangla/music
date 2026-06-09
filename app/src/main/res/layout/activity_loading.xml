@@ -5,15 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoadingActivity">
-    <ImageView
-        android:src="@mipmap/default_image2"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        app:cardCornerRadius="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </ImageView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_image2" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

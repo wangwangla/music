@@ -32,16 +32,19 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/tool_title"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/btnSearch"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="-11dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:padding="12dp"
-                android:src="@mipmap/search" />
+                android:src="@mipmap/search"
+                />
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

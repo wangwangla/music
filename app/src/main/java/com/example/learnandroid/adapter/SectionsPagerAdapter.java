@@ -66,7 +66,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         String string = mContext.getResources().getString(TAB_TITLES[position]);
         SpannableString spannableString = new SpannableString(string);
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.BLACK);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
         spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
