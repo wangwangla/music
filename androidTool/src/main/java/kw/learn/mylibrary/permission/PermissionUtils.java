@@ -1,11 +1,10 @@
 package kw.learn.mylibrary.permission;
 
-import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
-
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
-import android.widget.Toast;
+import android.content.pm.PackageManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -16,13 +15,24 @@ import androidx.core.content.ContextCompat;
  */
 public class PermissionUtils {
     public static boolean checkPermission(Activity context,String[] permissions,int requestcode){
-        boolean isSuccess = true;
+        if (permissions == null || permissions.length == 0) {
+            return true;
+        }
+
+        List<String> needRequest = new ArrayList<>();
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission) != PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(context, new String[]{permission}, requestcode);
-                isSuccess = false;
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                needRequest.add(permission);
             }
         }
-        return isSuccess;
+
+        if (needRequest.isEmpty()) {
+            return true;
+        }
+
+        ActivityCompat.requestPermissions(context,
+                needRequest.toArray(new String[0]),
+                requestcode);
+        return false;
     }
 }
