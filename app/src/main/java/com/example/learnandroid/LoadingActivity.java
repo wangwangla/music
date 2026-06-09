@@ -28,10 +28,10 @@ public class LoadingActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 },
                 REQUEST_CONDE)) {
-            Intent intent = new Intent(this, MusicMainActivity.class);
-            startActivity(intent);
-            finish();
         }
+        Intent intent = new Intent(this, MusicMainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
