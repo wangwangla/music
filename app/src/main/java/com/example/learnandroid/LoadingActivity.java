@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+
+import androidx.core.view.WindowCompat;
 
 import kw.learn.mylibrary.permission.PermissionUtils;
 
@@ -22,6 +26,13 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Window window = getWindow();
+        WindowCompat.setDecorFitsSystemWindows(window, false);
+        window.setStatusBarColor(Color.TRANSPARENT);
+        window.setNavigationBarColor(Color.TRANSPARENT);
+
+
         setContentView(R.layout.activity_loading);
 
         String[] permissions;
@@ -70,9 +81,9 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     private void goMain() {
-        Intent intent = new Intent(this, MusicMainActivity.class);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(this, MusicMainActivity.class);
+//        startActivity(intent);
+//        finish();
     }
 
 
