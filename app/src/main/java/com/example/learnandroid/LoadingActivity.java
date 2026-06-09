@@ -1,16 +1,13 @@
 package com.example.learnandroid;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.view.Window;
-
-import androidx.core.view.WindowCompat;
 
 import com.example.learnandroid.base.BaseActivity;
 
@@ -24,6 +21,8 @@ import kw.learn.mylibrary.permission.PermissionUtils;
  */
 public class LoadingActivity extends BaseActivity {
     public static final int REQUEST_CONDE =0xFFFF;
+    private static final long GO_MAIN_DELAY_MS = 5000L;
+    private boolean hasScheduledGoMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class LoadingActivity extends BaseActivity {
         if (PermissionUtils.checkPermission(this,
                 permissions,
                 REQUEST_CONDE)) {
-            goMain();
+            scheduleGoMainOnce();
         }
     }
 
@@ -74,12 +73,26 @@ public class LoadingActivity extends BaseActivity {
                 throwPermissionResults("Unknown_result",false);
             }
             if (isSuccess){
-                goMain();
+                scheduleGoMainOnce();
             }
         }
     }
 
+    private void scheduleGoMainOnce() {
+        if (hasScheduledGoMain) {
+            return;
+        }
+        hasScheduledGoMain = true;
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goMain();
+            }
+        }, GO_MAIN_DELAY_MS);
+    }
+
     private void goMain() {
+
         Intent intent = new Intent(this, MusicMainActivity.class);
         startActivity(intent);
         finish();
