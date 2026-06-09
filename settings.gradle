@@ -36,6 +36,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "LearnAndroid"
+rootProject.name = "Music"
 include ':app'
-include ':mylibrary'
+include ':androidTool'

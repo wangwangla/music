@@ -39,5 +39,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'de.Maxr1998:track-selector-lib:1.2'
     implementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
-    implementation project(":mylibrary")
+    implementation project(":androidTool")
 }
