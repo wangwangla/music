@@ -12,6 +12,8 @@ import android.view.Window;
 
 import androidx.core.view.WindowCompat;
 
+import com.example.learnandroid.base.BaseActivity;
+
 import kw.learn.mylibrary.permission.PermissionUtils;
 
 /**
@@ -20,20 +22,12 @@ import kw.learn.mylibrary.permission.PermissionUtils;
  *
  * 注意：对应用中使用 aToolbar作为应用栏的每个 Activity 进行此更改。
  */
-public class LoadingActivity extends AppCompatActivity {
+public class LoadingActivity extends BaseActivity {
     public static final int REQUEST_CONDE =0xFFFF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Window window = getWindow();
-        WindowCompat.setDecorFitsSystemWindows(window, false);
-        window.setStatusBarColor(Color.TRANSPARENT);
-        window.setNavigationBarColor(Color.TRANSPARENT);
-
-
-        setContentView(R.layout.activity_loading);
 
         String[] permissions;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -47,6 +41,11 @@ public class LoadingActivity extends AppCompatActivity {
                 REQUEST_CONDE)) {
             goMain();
         }
+    }
+
+    @Override
+    protected int getResourceId() {
+        return R.layout.activity_loading;
     }
 
     @Override
@@ -81,9 +80,9 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     private void goMain() {
-//        Intent intent = new Intent(this, MusicMainActivity.class);
-//        startActivity(intent);
-//        finish();
+        Intent intent = new Intent(this, MusicMainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 

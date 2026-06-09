@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.learnandroid.application.MusicApplication;
+import com.example.learnandroid.base.BaseActivity;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.broad.BroadUtils;
 import com.example.learnandroid.constant.Constant;
@@ -46,7 +47,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import kw.learn.mylibrary.theme.ThemeUtils;
 
-public class MusicMainActivity extends AppCompatActivity {
+public class MusicMainActivity extends BaseActivity {
     private boolean isBottomListener;
     private NotificationManager notificationManager;
     private SessionUtils sessionUtils;
@@ -69,7 +70,6 @@ public class MusicMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_title);
         initSession();
         initStautarbar();
         updateBottomPanelData();
@@ -77,6 +77,11 @@ public class MusicMainActivity extends AppCompatActivity {
         MusicManager.addUpdateView(quickPlayPanel);
         MusicManager.addTimeView(processRunnable);
         initSearch();
+    }
+
+    @Override
+    protected int getResourceId() {
+        return R.layout.activity_custom_title;
     }
 
     private void initSearch() {
