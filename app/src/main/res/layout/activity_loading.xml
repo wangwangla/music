@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".LoadingActivity">
 
-    <com.example.learnandroid.view.BzerErView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="-207dp">
+    <ImageView
+        src="@drawable/ic_launcher_monochrome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </com.example.learnandroid.view.BzerErView>
+    </ImageView>
+<!--    <com.example.learnandroid.view.BzerErView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:layout_editor_absoluteX="55dp"-->
+<!--        tools:layout_editor_absoluteY="-207dp">-->
+
+<!--    </com.example.learnandroid.view.BzerErView>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,11 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    namespace "com.example.learnandroid"
+    compileSdk 35
     defaultConfig {
         applicationId "com.example.learnandroid"
         minSdk 21
-        targetSdk 32
+        targetSdk 35
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

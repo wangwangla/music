@@ -1,6 +1,7 @@
 package com.example.learnandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -79,40 +80,22 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.play:{
-                                if (musicBean.getId() == MusicManager.getId()){
-                                    if (!MusicManager.isPlaying()){
-                                        MusicManager.continuePlay();
-                                    }
-                                }else {
-                                    //播放
-                                    MusicManager.setData(position);
-                                    MusicManager.setDataAndplay();
+                        if (item.getItemId() == R.id.play){
+                            if (musicBean.getId() == MusicManager.getId()){
+                                if (!MusicManager.isPlaying()){
+                                    MusicManager.continuePlay();
                                 }
-                                break;
+                            }else {
+                                //播放
+                                MusicManager.setData(position);
+                                MusicManager.setDataAndplay();
                             }
-                            case R.id.play_next:{
-//                                MusicManager.playNext();
-//                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//                                shareIntent.setType("audio/*"); //设置分享类型为音频
-//                                shareIntent.putExtra(Intent.EXTRA_STREAM, musicBean.getPath()); //添加音频Uri
-//                                getContext().startActivity(Intent.createChooser(shareIntent, "分享音乐到"));
-
-                                break;
-                            }
-//                            case R.id.add_to_playlist:{
-//                                break;
-//                            }
-//                            case R.id.add_to_album:{
-//                                break;
-//                            }
-//                            case R.id.add_to_aritist:{
-//                                break;
-//                            }
-//                            case R.id.delete_from_device:{
-//                                break;
-//                            }
+                        }else if (item.getItemId() == R.id.play_next){
+                            MusicManager.playNext();
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("audio/*"); //设置分享类型为音频
+                            shareIntent.putExtra(Intent.EXTRA_STREAM, musicBean.getPath()); //添加音频Uri
+                            getContext().startActivity(Intent.createChooser(shareIntent, "分享音乐到"));
                         }
                         return false;
                     }

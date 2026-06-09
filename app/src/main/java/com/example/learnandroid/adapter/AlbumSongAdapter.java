@@ -49,7 +49,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
         holder.albumSongPic.setImageBitmap(bitmap);
-
+//        从 Android Gradle Plugin 8.x 开始： R.java → 不再生成 final 常量
         holder.albumDetailMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,35 +59,18 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.play:{
-                                if (musicBean.getId() == MusicManager.getId()){
-                                    if (!MusicManager.isPlaying()){
-                                        MusicManager.continuePlay();
-                                    }
-                                }else {
-                                    //播放
-                                    MusicManager.setData(musicBean.getId());
-                                    MusicManager.setDataAndplay();
+                        if (R.id.play == item.getItemId()){
+                            if (musicBean.getId() == MusicManager.getId()){
+                                if (!MusicManager.isPlaying()){
+                                    MusicManager.continuePlay();
                                 }
-                                break;
+                            }else {
+                                //播放
+                                MusicManager.setData(musicBean.getId());
+                                MusicManager.setDataAndplay();
                             }
-                            case R.id.play_next:{
-                                ShareUtils.share(v.getContext(), musicBean.getId());
-                                break;
-                            }
-//                            case R.id.add_to_playlist:{
-//                                break;
-//                            }
-//                            case R.id.add_to_album:{
-//                                break;
-//                            }
-//                            case R.id.add_to_aritist:{
-//                                break;
-//                            }
-//                            case R.id.delete_from_device:{
-//                                break;
-//                            }
+                        }else if (item.getItemId() == R.id.play_next){
+                            ShareUtils.share(v.getContext(), musicBean.getId());
                         }
                         return false;
                     }

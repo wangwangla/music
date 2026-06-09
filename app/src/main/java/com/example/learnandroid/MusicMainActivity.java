@@ -337,12 +337,9 @@ public class MusicMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_about:
-                DialogUtils.showNormalDialog(MusicMainActivity.this);
-                break;
-            case R.id.action_setting:
-                break;
+        if (item.getItemId() == R.id.action_about){
+            DialogUtils.showNormalDialog(MusicMainActivity.this);
+        }else if (item.getItemId() == R.id.action_setting){
         }
         return super.onOptionsItemSelected(item);
     }

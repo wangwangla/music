@@ -53,7 +53,8 @@ class MusicMediaNotification {
 
     public Notification createForeNotification(String channel_id,RemoteViews remoteViews){
         Intent intent=new Intent(mContext, MusicMainActivity.class);
-        PendingIntent mainIntent=PendingIntent.getActivity(mContext,0,intent,0);
+        PendingIntent mainIntent=PendingIntent.getActivity(mContext,0,intent,
+                PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder builder=new NotificationCompat.Builder(mContext,channel_id)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())

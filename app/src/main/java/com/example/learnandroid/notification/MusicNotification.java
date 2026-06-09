@@ -116,7 +116,7 @@ public class MusicNotification {
         final ComponentName serviceName = new ComponentName(MusicApplication.getMusicContent(), MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
-        return PendingIntent.getService(MusicApplication.getMusicContent(), 0, intent, 0);
+        return PendingIntent.getService(MusicApplication.getMusicContent(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {
