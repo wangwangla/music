@@ -24,7 +24,7 @@ public final class EdgeToEdgeCompat {
         boolean lightSystemBarIcons = isLightTheme(activity);
         //系统不在系统栏周围添加任何内边距或调整内容大小以适应系统栏。应用程序负责处理系统栏和内容之间的任何重叠。
         WindowCompat.setDecorFitsSystemWindows(window, false);
-
+        //处理底部和顶部颜色的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             applyApi29Plus(window, lightSystemBarIcons);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

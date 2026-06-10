@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.media.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -77,6 +81,16 @@ public class MusicMainActivity extends BaseActivity {
         MusicManager.addUpdateView(quickPlayPanel);
         MusicManager.addTimeView(processRunnable);
         initSearch();
+        viewInset(findViewById(R.id.main_root), new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                ViewCompat.onApplyWindowInsets(v, insets);
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+                return insets;
+            }
+        });
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
+
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -45,8 +46,14 @@ public class LoadingActivity extends BaseActivity {
                 REQUEST_CONDE)) {
             scheduleGoMainOnce();
         }
-//        View viewById = findViewById(R.id.load_root);
-//        ViewCompat.getRootWindowInsets(viewById);
+
+        viewInset(findViewById(R.id.load_root),(v, insets) -> {
+            ViewCompat.onApplyWindowInsets(v, insets);
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
     }
 
     @Override
