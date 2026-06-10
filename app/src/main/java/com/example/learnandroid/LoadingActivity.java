@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.learnandroid.base.BaseActivity;
 
@@ -40,6 +45,8 @@ public class LoadingActivity extends BaseActivity {
                 REQUEST_CONDE)) {
             scheduleGoMainOnce();
         }
+//        View viewById = findViewById(R.id.load_root);
+//        ViewCompat.getRootWindowInsets(viewById);
     }
 
     @Override
