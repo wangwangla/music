@@ -51,6 +51,12 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
         return albums.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull ArtistAlbumHolder holder) {
+        super.onViewRecycled(holder);
+        AlbumArtLoader.clear(holder.albumBg, R.mipmap.default_image2);
+    }
+
     private SignListener runnable;
 
     public void setCallBackListener(SignListener runnable) {

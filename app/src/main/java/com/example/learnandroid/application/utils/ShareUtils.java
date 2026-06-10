@@ -30,24 +30,17 @@ public class ShareUtils {
         final Cursor c = context.getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection.toString(),
                 null, null);
-
         if (c == null) {
             return null;
         }
         c.moveToFirst();
-
-
         try {
-
             Uri uri = Uri.parse(c.getString(1));
             c.close();
-
             return uri;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-
 }

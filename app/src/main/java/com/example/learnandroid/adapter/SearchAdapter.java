@@ -52,6 +52,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 		return searchResults.size();
 	}
 
+	@Override
+	public void onViewRecycled(@NonNull SearchViewHolder holder) {
+		super.onViewRecycled(holder);
+		AlbumArtLoader.clear(holder.songPic, R.mipmap.default_image2);
+	}
+
 	public void updateSearchResults(List<MusicBean> results) {
 		searchResults.clear();
 		if (results != null) {

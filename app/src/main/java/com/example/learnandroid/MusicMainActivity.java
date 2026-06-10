@@ -35,7 +35,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.learnandroid.application.MusicApplication;
-import com.example.learnandroid.base.BaseActivity;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.broad.BroadUtils;
 import com.example.learnandroid.constant.Constant;
@@ -49,6 +48,8 @@ import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.application.utils.TimeUtils;
 import com.example.learnandroid.application.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
+
+import kw.learn.mylibrary.activity.BaseActivity;
 
 public class MusicMainActivity extends BaseActivity {
     private boolean isBottomListener;

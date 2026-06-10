@@ -37,12 +37,14 @@ import java.util.concurrent.Executors;
  * @Auther jian xian si qi
  * @Date 2023/4/8 8:24
  */
-public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
+public class SearchActivity
+        extends AppCompatActivity
+        implements SearchView.OnQueryTextListener, View.OnTouchListener {
     private final Executor mSearchExecutor = Executors.newSingleThreadExecutor();
     @Nullable
     private AsyncTask<String, Void, ArrayList<MusicBean>> mSearchTask = null;
     private SearchView mSearchView;
-    private InputMethodManager mImm;
+    private InputMethodManager inputMethodManager;
     private String queryString;
     private RecyclerView recyclerView;
     private TextView emptyView;
@@ -55,10 +57,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_layout);
-        mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //键盘管理器
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         Toolbar toolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         recyclerView = findViewById(R.id.search_tip_list);
         emptyView = findViewById(R.id.search_empty_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -243,8 +246,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     public void hideInputManager() {
         if (mSearchView != null) {
-            if (mImm != null) {
-                mImm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
             }
             mSearchView.clearFocus();
         }

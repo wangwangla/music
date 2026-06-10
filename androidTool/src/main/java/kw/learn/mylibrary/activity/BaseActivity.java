@@ -1,6 +1,35 @@
 package kw.learn.mylibrary.activity;
 
+import android.os.Bundle;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import kw.learn.mylibrary.edge.EdgeToEdgeCompat;
 
-public class BaseActivity extends AppCompatActivity {
+
+public abstract class BaseActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdgeCompat.enable(this);
+        setContentView(getResourceId());
+    }
+
+    /**
+     * eg:
+     *         viewInset(findViewById(R.id.load_root),(v, insets) -> {
+     *             ViewCompat.onApplyWindowInsets(v, insets);
+     *             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+     *             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+     *             return insets;
+     *         });
+     * @param view
+     * @param listener
+     */
+    public void viewInset(View view, OnApplyWindowInsetsListener listener) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, listener);
+    }
+
+    protected abstract int getResourceId();
 }

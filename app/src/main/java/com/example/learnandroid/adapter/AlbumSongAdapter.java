@@ -83,6 +83,12 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         return musicBeans.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull AlbumSongHolder holder) {
+        super.onViewRecycled(holder);
+        AlbumArtLoader.clear(holder.albumSongPic, R.mipmap.default_image2);
+    }
+
     class AlbumSongHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView albumSongPic;
         TextView albumDetailSongName;

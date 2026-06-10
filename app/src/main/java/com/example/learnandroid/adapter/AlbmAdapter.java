@@ -52,6 +52,13 @@ public class AlbmAdapter extends RecyclerView.Adapter{
         return arraylist.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        ItemHolder itemHolder = (ItemHolder) holder;
+        AlbumArtLoader.clear(itemHolder.artistImage, R.mipmap.default_image2);
+    }
+
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView name, albums;
         protected ImageView artistImage;
@@ -59,9 +66,9 @@ public class AlbmAdapter extends RecyclerView.Adapter{
 
         public ItemHolder(View view) {
             super(view);
-            this.name = (TextView) view.findViewById(R.id.artist_name);
-            this.albums = (TextView) view.findViewById(R.id.album_song_count);
-            this.artistImage = (ImageView) view.findViewById(R.id.artistImage);
+            this.name = view.findViewById(R.id.artist_name);
+            this.albums = view.findViewById(R.id.album_song_count);
+            this.artistImage = view.findViewById(R.id.artistImage);
             this.footer = view.findViewById(R.id.footer);
             view.setOnClickListener(this::onClick);
         }
