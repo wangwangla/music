@@ -34,17 +34,24 @@ public class MusicService extends MediaBrowserServiceCompat {
         if (intent == null || intent.getAction() == null) {
             return START_NOT_STICKY;
         }
+        boolean shouldRefreshUi = false;
         String action = intent.getAction();
         if (Constant.MUSIC_PRE.equals(action)) {
             MusicManager.playPre();
+            shouldRefreshUi = true;
         } else if (Constant.MUSIC_NEXT.equals(action)) {
             MusicManager.playNext();
+            shouldRefreshUi = true;
         } else if (Constant.MUSIC_STOP.equals(action)) {
             if (MusicManager.isPlaying()) {
                 MusicManager.pausePlay();
             } else {
                 MusicManager.continuePlay();
             }
+            shouldRefreshUi = true;
+        }
+        if (shouldRefreshUi) {
+            sendBroadcast(new Intent(Constant.UP_DATE_BOTTOM));
         }
         return START_NOT_STICKY;
     }

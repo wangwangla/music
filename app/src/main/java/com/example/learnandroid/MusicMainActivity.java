@@ -212,7 +212,7 @@ public class MusicMainActivity extends BaseActivity {
                 bottomSongPlayOrStop.setImageResource(R.mipmap.play);
             }
         }
-//        createNotificationChannel();
+        createNotificationChannel();
         buildNotification(musicBean);
         if (!isBottomListener) {
             isBottomListener = true;
@@ -269,6 +269,7 @@ public class MusicMainActivity extends BaseActivity {
                 .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())
                 .setContentText(musicBean.getArtistName())
+                .setOnlyAlertOnce(true)
                 .addAction(R.mipmap.ic_skip_previous_white_36dp,
                         "zzz",retrievePlaybackAction(Constant.MUSIC_PRE,0)).
                 addAction(res,
@@ -306,7 +307,8 @@ public class MusicMainActivity extends BaseActivity {
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
         Log.d("MusicMainActivity", "retrievePlaybackAction: action="+action);
-        return PendingIntent.getService(this, code, intent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getService(this, code, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     private void bottomClickListener() {
