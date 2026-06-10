@@ -1,10 +1,7 @@
 package com.example.learnandroid;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
@@ -12,7 +9,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.media.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -40,7 +36,7 @@ import com.example.learnandroid.broad.BroadUtils;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
-import com.example.learnandroid.dialog.DialogUtils;
+import com.example.learnandroid.dialog.AboutFragmentDialog;
 import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.session.SessionUtils;
@@ -80,17 +76,9 @@ public class MusicMainActivity extends BaseActivity {
         MusicManager.addUpdateView(quickPlayPanel);
         MusicManager.addTimeView(processRunnable);
         initSearch();
-        viewInset(findViewById(R.id.main_root), new OnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                ViewCompat.onApplyWindowInsets(v, insets);
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
-                return insets;
-            }
-        });
+        viewInsetArea();
     }
+
 
     @Override
     protected int getResourceId() {
@@ -348,6 +336,19 @@ public class MusicMainActivity extends BaseActivity {
         });
     }
 
+    private void viewInsetArea() {
+        viewInset(findViewById(R.id.main_root), new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                ViewCompat.onApplyWindowInsets(v, insets);
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+                return insets;
+            }
+        });
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.tool_menu,menu);
@@ -357,8 +358,9 @@ public class MusicMainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_about){
-            DialogUtils.showNormalDialog(MusicMainActivity.this);
+            AboutFragmentDialog.show(getSupportFragmentManager());
         }else if (item.getItemId() == R.id.action_setting){
+            
         }
         return super.onOptionsItemSelected(item);
     }

@@ -61,7 +61,6 @@ public class SearchActivity
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         Toolbar toolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         recyclerView = findViewById(R.id.search_tip_list);
         emptyView = findViewById(R.id.search_empty_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -295,6 +294,9 @@ public class SearchActivity
         return source != null && source.toLowerCase(Locale.getDefault()).contains(keyword);
     }
 
+    /**
+     * 获取道所有的过去，然后挨个匹配
+     */
     private class SearchTask extends AsyncTask<String,Void,ArrayList<MusicBean>> {
 
         @Override

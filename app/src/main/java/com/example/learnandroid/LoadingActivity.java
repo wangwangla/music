@@ -34,15 +34,6 @@ public class LoadingActivity extends BaseActivity {
         layoutAreas();
     }
 
-    private void layoutAreas() {
-        viewInset(findViewById(R.id.load_root),(v, insets) -> {
-            ViewCompat.onApplyWindowInsets(v, insets);
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
-
     private void requestPerssions() {
         String[] permissions;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -55,6 +46,15 @@ public class LoadingActivity extends BaseActivity {
                 REQUEST_CONDE)) {
             scheduleGoMainOnce();
         }
+    }
+
+    private void layoutAreas() {
+        viewInset(findViewById(R.id.load_root),(v, insets) -> {
+            ViewCompat.onApplyWindowInsets(v, insets);
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     @Override
@@ -101,34 +101,19 @@ public class LoadingActivity extends BaseActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                goMain();
+                openMainActivity();
             }
         }, GO_MAIN_DELAY_MS);
     }
 
-    private void goMain() {
-
+    private void openMainActivity() {
         Intent intent = new Intent(this, MusicMainActivity.class);
         startActivity(intent);
         finish();
     }
 
-
     public void throwPermissionResults(String permissionName, boolean isSuccess) {
         //拿到相应的权限，以及授权结果
-        switch (permissionName){
-            case Manifest.permission.CAMERA:
-                Log.d("fxHou","CAMERA授权结果："+isSuccess);
-                break;
-            case Manifest.permission.BODY_SENSORS:
-                Log.d("fxHou","BODY_SENSORS授权结果："+isSuccess);
-                break;
-            case Manifest.permission.READ_EXTERNAL_STORAGE:
-                Log.d("fxHou","READ_EXTERNAL_STORAGE授权结果："+isSuccess);
-                break;
-            case Manifest.permission.READ_MEDIA_AUDIO:
-                Log.d("fxHou","READ_MEDIA_AUDIO授权结果："+isSuccess);
-                break;
-        }
+        Log.d("fxHou",permissionName+"授权结果："+isSuccess);
     }
 }
