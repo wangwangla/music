@@ -15,7 +15,6 @@ public class BroadUtils {
         MainBroadCast mainBroadCast = new MainBroadCast(activity);
         IntentFilter filter = new IntentFilter();
         for (String s : str) {
-//            filter.addAction(Constant.UP_DATE_BOTTOM);
             filter.addAction(s);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

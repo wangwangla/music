@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
+import androidx.annotation.NonNull;
+
 import com.example.learnandroid.constant.MusicManager;
 
 /**
@@ -12,50 +14,54 @@ import com.example.learnandroid.constant.MusicManager;
  */
 public class SessionUtils {
     private MediaSessionCompat mSession;
-
-    private MediaSessionCompat.Callback mediasessionBack = new MediaSessionCompat.Callback() {
-
-        @Override
-        public void onPause() {
-            MusicManager.pausePlay();
-        }
-
-        @Override
-        public void onPlay() {
-            if (MusicManager.isPlaying()) {
-                MusicManager.pausePlay();
-            }else {
-                MusicManager.continuePlay();
-            }
-        }
-
-        @Override
-        public void onSeekTo(long pos) {
-            MusicManager.seekTo((int) pos);
-        }
-
-        @Override
-        public void onSkipToNext() {
-            MusicManager.playNext();
-        }
-
-        @Override
-        public void onSkipToPrevious() {
-            MusicManager.playPre();
-        }
-
-        @Override
-        public void onStop() {
-            MusicManager.stop();
-        }
-    };
+    private MediaSessionCompat.Callback mediasessionBack;
 
     public SessionUtils(Activity activity){
         mSession = new MediaSessionCompat(activity, "Music");
         mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
                 | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
+        mediasessionBack = getMediaSessionCallback();
         mSession.setCallback(mediasessionBack);
         mSession.setActive(true);
+    }
+
+    private MediaSessionCompat.Callback getMediaSessionCallback() {
+        return new MediaSessionCompat.Callback() {
+
+            @Override
+            public void onPause() {
+                MusicManager.pausePlay();
+            }
+
+            @Override
+            public void onPlay() {
+                if (MusicManager.isPlaying()) {
+                    MusicManager.pausePlay();
+                } else {
+                    MusicManager.continuePlay();
+                }
+            }
+
+            @Override
+            public void onSeekTo(long pos) {
+                MusicManager.seekTo((int) pos);
+            }
+
+            @Override
+            public void onSkipToNext() {
+                MusicManager.playNext();
+            }
+
+            @Override
+            public void onSkipToPrevious() {
+                MusicManager.playPre();
+            }
+
+            @Override
+            public void onStop() {
+                MusicManager.stop();
+            }
+        };
     }
 
     public void setMetadata(MediaMetadataCompat metadata) {

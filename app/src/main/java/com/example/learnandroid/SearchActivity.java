@@ -46,15 +46,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_layout);
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
+        Toolbar toolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        recyclerView = (RecyclerView) findViewById(R.id.search_tip_list);
+        recyclerView = findViewById(R.id.search_tip_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        adapter = new SearchAdapter(this);
-//        recyclerView.setAdapter(adapter);
-
         if(savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")){
             bundle = savedInstanceState;
         }
@@ -67,7 +63,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             outState.putString("QUERY_STRING", queryString);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -96,11 +91,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         });
 
         menu.findItem(R.id.menu_search).expandActionView();
-
         if(bundle != null && bundle.containsKey("QUERY_STRING")){
             mSearchView.setQuery(bundle.getString("QUERY_STRING"), true);
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -108,8 +101,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        MenuItem item = menu.findItem(R.id.action_search);
-//        item.setVisible(false);
         return true;
     }
 
@@ -146,8 +137,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         queryString = newText;
         if (queryString.trim().equals("")) {
             searchResults.clear();
-//            adapter.updateSearchResults(searchResults);
-//            adapter.notifyDataSetChanged();
         } else {
             mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
             Log.d("AAAABBBBBB", "TaskCanelled? " + (mSearchTask.isCancelled()));
@@ -176,8 +165,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 mImm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
             }
             mSearchView.clearFocus();
-
-//            SearchHistory.getInstance(this).addSearchString(queryString);
         }
     }
 
@@ -186,33 +173,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         @Override
         protected ArrayList<Object> doInBackground(String... params) {
             ArrayList<Object> results = new ArrayList<>(27);
-//            List<Song> songList = SongLoader.searchSongs(SearchActivity.this, params[0], 10);
-//            if (!songList.isEmpty()) {
-//                results.add(getString(R.string.songs));
-//                results.addAll(songList);
-//            }
-//            boolean canceled = isCancelled();
-//            if (canceled) {
-//                return null;
-//            }
-//            List<Album> albumList = AlbumLoader.getAlbums(SearchActivity.this, params[0], 7);
-//            if (!albumList.isEmpty()) {
-//                results.add(getString(R.string.albums));
-//                results.addAll(albumList);
-//            }
-//
-//            canceled = isCancelled();
-//            if (canceled) {
-//                return null;
-//            }
-//            List<Artist> artistList = ArtistLoader.getArtists(SearchActivity.this, params[0], 7);
-//            if (!artistList.isEmpty()) {
-//                results.add(getString(R.string.artists));
-//                results.addAll(artistList);
-//            }
-//            if (results.size() == 0) {
-//                results.add(getString(R.string.nothing_found));
-//            }
             return results;
         }
 
@@ -221,8 +181,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             super.onPostExecute(objects);
             mSearchTask = null;
             if (objects != null) {
-//                adapter.updateSearchResults(objects);
-//                adapter.notifyDataSetChanged();
             }
         }
     }

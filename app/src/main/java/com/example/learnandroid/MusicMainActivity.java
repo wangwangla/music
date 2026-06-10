@@ -50,8 +50,6 @@ import com.example.learnandroid.application.utils.TimeUtils;
 import com.example.learnandroid.application.utils.VersionUtils;
 import com.google.android.material.tabs.TabLayout;
 
-import kw.learn.mylibrary.theme.ThemeUtils;
-
 public class MusicMainActivity extends BaseActivity {
     private boolean isBottomListener;
     private NotificationManager notificationManager;
@@ -76,7 +74,6 @@ public class MusicMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initToolbar();
         initSession();
-        initStautarbar();
         updateBottomPanelData();
         initViewPager();
         MusicManager.addUpdateView(quickPlayPanel);
@@ -114,28 +111,21 @@ public class MusicMainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            //自己写了标题，不在展示默认标题
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
 
-    private void initViewPager() {
-        SectionsPagerAdapter sectionsPagerAdapter
-                = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
-    }
-
-    private void initStautarbar() {
-        ThemeUtils.updateSystemBarContent(this,true);
-    }
-
-
     private void updateBottomPanelData() {
         BroadUtils broadUtils = new BroadUtils();
-        String str[] = {Constant.UP_DATE_BOTTOM,"MUSIC_PRE"};
-        broadUtils.setFilter(this,str);
+        broadUtils.setFilter(this,new String[]{Constant.UP_DATE_BOTTOM,Constant.MUSIC_PRE});
+    }
+
+    private void initViewPager() {
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(new SectionsPagerAdapter(this, getSupportFragmentManager()));
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
     }
 
     public void upateDateProcess(){
