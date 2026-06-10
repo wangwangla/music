@@ -1,7 +1,6 @@
 package com.example.learnandroid.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.PlayActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.bean.MusicBean;
@@ -90,8 +88,8 @@ public class PlayFragment extends Fragment {
         topBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(playActivity, MusicMainActivity.class);
-                playActivity.startActivity(intent);
+                // Return to the existing main page instead of creating a new one.
+                playActivity.finish();
             }
         });
         TextView songName = playTop.findViewById(R.id.song_name);

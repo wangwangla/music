@@ -72,6 +72,8 @@ public class MusicMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initToolbar();
         initSession();
+        bottomClickListener();
+        isBottomListener = true;
         updateBottomPanelData();
         initViewPager();
         MusicManager.addUpdateView(quickPlayPanel);
@@ -214,10 +216,6 @@ public class MusicMainActivity extends BaseActivity {
         }
         createNotificationChannel();
         buildNotification(musicBean);
-        if (!isBottomListener) {
-            isBottomListener = true;
-            bottomClickListener();
-        }
     }
 
     private void createNotificationChannel() {
