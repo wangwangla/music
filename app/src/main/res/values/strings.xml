@@ -17,8 +17,10 @@
     <string name="shunxu_play">orderplay</string>
     <string name="suiji_play">randomplay</string>
     <string name="search">search</string>
-    <string name="search_library">search_library</string>
+    <string name="search_library">Search songs, artists, albums</string>
     <string name="song_name">songname</string>
     <string name="all_songs">All songs</string>
     <string name="play_share">share</string>
+    <string name="search_empty_hint" translatable="false">Search by song title, artist, or album</string>
+    <string name="search_no_result" translatable="false">No matching songs found</string>
 </resources>

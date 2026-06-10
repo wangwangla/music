@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +19,14 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import com.example.learnandroid.adapter.SearchAdapter;
+import com.example.learnandroid.adapter.SearchAdapter;
+import com.example.learnandroid.bean.MusicBean;
+import com.example.learnandroid.constant.MusicManager;
+import com.example.learnandroid.data.SongLoader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -33,13 +37,16 @@ import java.util.concurrent.Executors;
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
     private final Executor mSearchExecutor = Executors.newSingleThreadExecutor();
     @Nullable
-    private AsyncTask mSearchTask = null;
+    private AsyncTask<String, Void, ArrayList<MusicBean>> mSearchTask = null;
     private SearchView mSearchView;
     private InputMethodManager mImm;
     private String queryString;
     private RecyclerView recyclerView;
-    private List<Object> searchResults = Collections.emptyList();
-    Bundle bundle;
+    private TextView emptyView;
+    private final ArrayList<MusicBean> allSongs = new ArrayList<>();
+    private final ArrayList<MusicBean> searchResults = new ArrayList<>();
+    private SearchAdapter searchAdapter;
+    private Bundle bundle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.search_tip_list);
+        emptyView = findViewById(R.id.search_empty_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setOnTouchListener(this);
+        searchAdapter = new SearchAdapter();
+        recyclerView.setAdapter(searchAdapter);
+        updateSearchResults(new ArrayList<>());
         if(savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")){
             bundle = savedInstanceState;
         }
@@ -94,7 +106,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         if(bundle != null && bundle.containsKey("QUERY_STRING")){
             mSearchView.setQuery(bundle.getString("QUERY_STRING"), true);
         }
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
 
@@ -136,7 +148,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         }
         queryString = newText;
         if (queryString.trim().equals("")) {
-            searchResults.clear();
+            updateSearchResults(new ArrayList<>());
         } else {
             mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
             Log.d("AAAABBBBBB", "TaskCanelled? " + (mSearchTask.isCancelled()));
@@ -168,20 +180,77 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         }
     }
 
-    private class SearchTask extends AsyncTask<String,Void,ArrayList<Object>> {
+    private void updateSearchResults(List<MusicBean> results) {
+        searchResults.clear();
+        if (results != null) {
+            searchResults.addAll(results);
+        }
+        searchAdapter.updateSearchResults(searchResults);
+        if (queryString == null || queryString.trim().isEmpty()) {
+            emptyView.setText(R.string.search_empty_hint);
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else if (searchResults.isEmpty()) {
+            emptyView.setText(R.string.search_no_result);
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private ArrayList<MusicBean> loadAllSongsIfNeeded() {
+        if (allSongs.isEmpty()) {
+            ArrayList<MusicBean> musicBeans = SongLoader.loadAllSongList();
+            allSongs.clear();
+            if (musicBeans != null) {
+                allSongs.addAll(musicBeans);
+                MusicManager.setSongList(musicBeans);
+            }
+        }
+        return new ArrayList<>(allSongs);
+    }
+
+    private boolean matchSong(MusicBean musicBean, String keyword) {
+        return containsIgnoreCase(musicBean.getTitle(), keyword)
+                || containsIgnoreCase(musicBean.getArtistName(), keyword)
+                || containsIgnoreCase(musicBean.getAlbumName(), keyword);
+    }
+
+    private boolean containsIgnoreCase(String source, String keyword) {
+        return source != null && source.toLowerCase(Locale.getDefault()).contains(keyword);
+    }
+
+    private class SearchTask extends AsyncTask<String,Void,ArrayList<MusicBean>> {
 
         @Override
-        protected ArrayList<Object> doInBackground(String... params) {
-            ArrayList<Object> results = new ArrayList<>(27);
+        protected ArrayList<MusicBean> doInBackground(String... params) {
+            String keyword = params[0].trim().toLowerCase(Locale.getDefault());
+            ArrayList<MusicBean> songs = loadAllSongsIfNeeded();
+            ArrayList<MusicBean> results = new ArrayList<>();
+            for (MusicBean musicBean : songs) {
+                if (isCancelled()) {
+                    return results;
+                }
+                if (matchSong(musicBean, keyword)) {
+                    results.add(musicBean);
+                }
+            }
             return results;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Object> objects) {
+        protected void onPostExecute(ArrayList<MusicBean> objects) {
             super.onPostExecute(objects);
             mSearchTask = null;
-            if (objects != null) {
-            }
+            updateSearchResults(objects);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            mSearchTask = null;
         }
     }
 }
