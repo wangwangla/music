@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.Menu;
@@ -214,8 +215,7 @@ public class MusicMainActivity extends BaseActivity {
                 bottomSongPlayOrStop.setImageResource(R.mipmap.play);
             }
         }
-        createNotificationChannel();
-        buildNotification(musicBean);
+        MusicService.refreshMediaSessionState();
     }
 
     private void createNotificationChannel() {
@@ -229,75 +229,6 @@ public class MusicMainActivity extends BaseActivity {
             NotificationChannel mChannel = new NotificationChannel("XXX", name, importance);
             manager.createNotificationChannel(mChannel);
         }
-    }
-
-    @SuppressLint("WrongConstant")
-    private void buildNotification(MusicBean musicBean) {
-        //设置数据
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
-            Bitmap albumArt = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
-
-            if (albumArt != null) {
-                Bitmap.Config config = albumArt.getConfig();
-                if (config == null) {
-                    config = Bitmap.Config.ARGB_8888;
-                }
-                albumArt = albumArt.copy(config, false);
-            }
-            MediaMetadataCompat metadata = new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, musicBean.getTitle())
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, musicBean.getArtistName())
-                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, musicBean.getAlbumName())
-                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION,100)
-                    .build();
-            sessionUtils.setMetadata(metadata);
-        }
-        int res = R.mipmap.ic_play_white_36dp;
-        if (MusicManager.isPlaying()) {
-            res = R.mipmap.ic_pause_white_36dp;
-        }
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        androidx.core.app.NotificationCompat.Builder builder
-                = new androidx.core.app.NotificationCompat.Builder(MusicApplication.getMusicContent(), "XXX")
-                .setSmallIcon(R.mipmap.ic_notification)
-                .setLargeIcon(bitmap)
-                .setContentTitle(musicBean.getTitle())
-                .setContentText(musicBean.getArtistName())
-                .setOnlyAlertOnce(true)
-                .addAction(R.mipmap.ic_skip_previous_white_36dp,
-                        "zzz",retrievePlaybackAction(Constant.MUSIC_PRE,0)).
-                addAction(res,
-                        "xxx",retrievePlaybackAction(Constant.MUSIC_STOP,1)).
-                addAction(R.mipmap.ic_skip_next_white_36dp,
-                        "aaa",retrievePlaybackAction(Constant.MUSIC_NEXT,2))
-                .setDeleteIntent(retrievePlaybackAction(Constant.MUSIC_STOP,1));
-        if (TimberUtils.isLollipop()) {
-            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
-            NotificationCompat.MediaStyle style
-                    = new androidx.media.app.NotificationCompat.MediaStyle()
-                    .setMediaSession(sessionUtils.getSessionToken())
-                    .setShowActionsInCompactView(0, 1,2);
-            builder.setStyle(style);
-        }
-        notificationManager.notify(0, builder.build());
-        //指定可以接收的来自锁屏页面的按键信息
-        long MEDIA_SESSION_ACTIONS =
-                PlaybackStateCompat.ACTION_PLAY
-                        | PlaybackStateCompat.ACTION_PAUSE
-                        | PlaybackStateCompat.ACTION_PLAY_PAUSE
-                        | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-                        | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-                        | PlaybackStateCompat.ACTION_STOP
-                        | PlaybackStateCompat.ACTION_SEEK_TO;
-        int state = PlaybackStateCompat.STATE_PLAYING;
-        sessionUtils.getmSession().setPlaybackState(new PlaybackStateCompat.Builder()
-                .setActions(MEDIA_SESSION_ACTIONS)
-                .setState(state, 0, 1)
-                .build());
     }
 
     private PendingIntent retrievePlaybackAction(final String action,int code) {

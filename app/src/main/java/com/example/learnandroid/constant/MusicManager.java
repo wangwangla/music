@@ -71,6 +71,7 @@ public class MusicManager {
     }
 
     public static long getCurrentPosition(){
+        if (musicController == null) return 0L;
         return musicController.getCurrentPosition();
     }
 
@@ -174,12 +175,14 @@ public class MusicManager {
     }
 
     public static boolean checkposition(int position){
+        if (musicBeans == null) return false;
         if (position < 0 )return false;
         if (position >= musicBeans.size())return false;
         return true;
     }
 
     public static boolean isPlaying(){
+        if (musicController == null) return false;
         return musicController.isPlaying();
     }
 

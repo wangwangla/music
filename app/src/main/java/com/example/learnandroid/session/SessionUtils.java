@@ -1,10 +1,9 @@
 package com.example.learnandroid.session;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
-import androidx.annotation.NonNull;
 
 import com.example.learnandroid.constant.MusicManager;
 
@@ -16,8 +15,8 @@ public class SessionUtils {
     private MediaSessionCompat mSession;
     private MediaSessionCompat.Callback mediasessionBack;
 
-    public SessionUtils(Activity activity){
-        mSession = new MediaSessionCompat(activity, "Music");
+    public SessionUtils(Context context){
+        mSession = new MediaSessionCompat(context, "Music");
         mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
                 | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mediasessionBack = getMediaSessionCallback();
