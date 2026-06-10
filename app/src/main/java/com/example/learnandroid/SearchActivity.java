@@ -1,6 +1,7 @@
 package com.example.learnandroid;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -82,6 +85,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
         mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+        adjustSearchViewStartSpacing();
 
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setQueryHint(getString(R.string.search_library));
@@ -107,6 +111,72 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             mSearchView.setQuery(bundle.getString("QUERY_STRING"), true);
         }
         return true;
+    }
+
+    private void adjustSearchViewStartSpacing() {
+        ViewGroup.LayoutParams searchViewParams = mSearchView.getLayoutParams();
+        if (searchViewParams != null) {
+            searchViewParams.height = dpToPx(40);
+            mSearchView.setLayoutParams(searchViewParams);
+        }
+        mSearchView.setBackgroundColor(Color.TRANSPARENT);
+        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+
+        View editFrame = mSearchView.findViewById(androidx.appcompat.R.id.search_edit_frame);
+        if (editFrame != null) {
+            ViewGroup.LayoutParams layoutParams = editFrame.getLayoutParams();
+            if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) layoutParams;
+                marginLayoutParams.setMarginStart(dpToPx(2));
+                marginLayoutParams.leftMargin = dpToPx(2);
+                marginLayoutParams.topMargin = 0;
+                marginLayoutParams.bottomMargin = 0;
+                editFrame.setLayoutParams(marginLayoutParams);
+            }
+            editFrame.setPadding(0, 0, 0, 0);
+        }
+
+        View searchPlate = mSearchView.findViewById(androidx.appcompat.R.id.search_plate);
+        if (searchPlate != null) {
+            searchPlate.setBackgroundResource(R.drawable.bg_search_view_plate);
+            ViewGroup.LayoutParams layoutParams = searchPlate.getLayoutParams();
+            if (layoutParams != null) {
+                layoutParams.height = dpToPx(40);
+                searchPlate.setLayoutParams(layoutParams);
+            }
+            searchPlate.setPadding(dpToPx(4), 0, dpToPx(12), 0);
+        }
+
+        TextView searchText = mSearchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        if (searchText != null) {
+            searchText.setTextSize(16f);
+            searchText.setHintTextColor(getResources().getColor(R.color.hui_2));
+            searchText.setTextColor(getResources().getColor(R.color.black));
+            searchText.setPadding(dpToPx(2), 0, 0, 0);
+            searchText.setMinHeight(dpToPx(40));
+            searchText.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        }
+
+        View searchIcon = mSearchView.findViewById(androidx.appcompat.R.id.search_mag_icon);
+        if (searchIcon != null) {
+            ViewGroup.LayoutParams layoutParams = searchIcon.getLayoutParams();
+            if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) layoutParams;
+                marginLayoutParams.setMarginStart(dpToPx(8));
+                marginLayoutParams.leftMargin = dpToPx(8);
+                searchIcon.setLayoutParams(marginLayoutParams);
+            }
+            searchIcon.setPadding(0, 0, 0, 0);
+        }
+
+        ImageView closeButton = mSearchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        if (closeButton != null) {
+            closeButton.setPadding(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4));
+        }
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
 

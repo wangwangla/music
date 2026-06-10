@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.util.LruCache;
 import android.util.Log;
 
 import com.example.learnandroid.R;
@@ -15,6 +16,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class BitmapUtils {
+    private static final int DEFAULT_DECODE_SIZE = 300;
+    private static final LruCache<String, Bitmap> BITMAP_CACHE = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / 8)) {
+        @Override
+        protected int sizeOf(String key, Bitmap value) {
+            return value == null ? 0 : value.getByteCount();
+        }
+    };
 
     public static Uri getAlbumArtUri(long albumId) {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
@@ -25,18 +33,53 @@ public class BitmapUtils {
     }
 
     public static Bitmap decodeUri(Context context, Uri uri, int maxWidth, int maxHeight) {
+        if (context == null || uri == null) {
+            return null;
+        }
+        int targetWidth = maxWidth > 0 ? maxWidth : DEFAULT_DECODE_SIZE;
+        int targetHeight = maxHeight > 0 ? maxHeight : DEFAULT_DECODE_SIZE;
+        String cacheKey = buildCacheKey(uri, targetWidth, targetHeight);
+        Bitmap cachedBitmap = BITMAP_CACHE.get(cacheKey);
+        if (cachedBitmap != null && !cachedBitmap.isRecycled()) {
+            return cachedBitmap;
+        }
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true; //只读取图片尺寸
         resolveUri(context, uri, options);
+        options.inSampleSize = calculateInSampleSize(options, targetWidth, targetHeight);
         options.inJustDecodeBounds = false;//读取图片内容
         options.inPreferredConfig = Bitmap.Config.RGB_565; //根据情况进行修改
+        options.inDither = true;
         Bitmap bitmap = null;
         try {
             bitmap = resolveUriForBitmap(context, uri, options);
         } catch (Throwable e) {
             e.printStackTrace();
         }
+        if (bitmap != null) {
+            BITMAP_CACHE.put(cacheKey, bitmap);
+        }
         return bitmap;
+    }
+
+    private static String buildCacheKey(Uri uri, int targetWidth, int targetHeight) {
+        return uri.toString() + "_" + targetWidth + "x" + targetHeight;
+    }
+
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height <= 0 || width <= 0 || reqWidth <= 0 || reqHeight <= 0) {
+            return inSampleSize;
+        }
+
+        while ((height / inSampleSize) > reqHeight * 2 || (width / inSampleSize) > reqWidth * 2) {
+            inSampleSize *= 2;
+        }
+        return Math.max(inSampleSize, 1);
     }
 
     public static void resolveUri(Context context, Uri uri, BitmapFactory.Options options) {

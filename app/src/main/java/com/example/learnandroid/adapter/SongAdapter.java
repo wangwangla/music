@@ -48,6 +48,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             viewHolder= (ViewHolder) view.getTag();//重新获取 viewHolder
         }
 
+        viewHolder.songPic.setImageResource(R.mipmap.default_image2);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
         if (bitmap!=null) {

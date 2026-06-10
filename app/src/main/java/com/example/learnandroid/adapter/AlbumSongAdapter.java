@@ -1,4 +1,4 @@
-package com.example.learnandroid.adapter;
+ package com.example.learnandroid.adapter;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -38,7 +38,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
     @Override
     public AlbumSongAdapter.AlbumSongHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AlbumSongHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.album_detail_item,null));
+                .inflate(R.layout.album_detail_item, parent, false));
     }
 
     @Override
@@ -46,9 +46,12 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         MusicBean musicBean = musicBeans.get(position);
         holder.albumDetailSongName.setText(musicBean.getTitle());
         holder.albumDetailSongTime.setText(TimeUtils.longToTime(musicBean.getDuration()));
+        holder.albumSongPic.setImageResource(R.mipmap.default_image2);
         Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
         Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
-        holder.albumSongPic.setImageBitmap(bitmap);
+        if (bitmap != null) {
+            holder.albumSongPic.setImageBitmap(bitmap);
+        }
 //        从 Android Gradle Plugin 8.x 开始： R.java → 不再生成 final 常量
         holder.albumDetailMore.setOnClickListener(new View.OnClickListener() {
             @Override
