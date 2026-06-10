@@ -12,6 +12,6 @@
     <color name="hui_1">#11000000</color>
     <color name="line">#33000000</color>
     <color name="hui_2">#FFBBBBBB</color>
-    <color name="test">#ECECEC</color>
+    <color name="test">#000000</color>
     <color name="transparent" tools:ignore="MissingDefaultResource">#00110000</color>
 </resources>

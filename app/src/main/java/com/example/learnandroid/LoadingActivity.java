@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-
 
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -33,27 +31,31 @@ public class LoadingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestPerssions();
+        layoutAreas();
+    }
 
-        String[] permissions;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions = new String[]{Manifest.permission.READ_MEDIA_AUDIO};
-        } else {
-            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
-        }
-
-        if (PermissionUtils.checkPermission(this,
-                permissions,
-                REQUEST_CONDE)) {
-            scheduleGoMainOnce();
-        }
-
+    private void layoutAreas() {
         viewInset(findViewById(R.id.load_root),(v, insets) -> {
             ViewCompat.onApplyWindowInsets(v, insets);
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
 
+    private void requestPerssions() {
+        String[] permissions;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions = new String[]{Manifest.permission.READ_MEDIA_AUDIO};
+        } else {
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+        if (PermissionUtils.checkPermission(this,
+                permissions,
+                REQUEST_CONDE)) {
+            scheduleGoMainOnce();
+        }
     }
 
     @Override

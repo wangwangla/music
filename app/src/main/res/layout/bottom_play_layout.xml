@@ -1,83 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
+    android:layout_height="65dp"
     android:background="@drawable/bottom_bar_bg"
-    android:layout_height="55dp">
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
 
-    <ImageView
-        android:id="@+id/bottom_song_pic"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_gravity="center_vertical"
-        android:src="@mipmap/default_image2"
-        android:paddingBottom="2dp"
-        android:paddingLeft="-2dp"
-        app:layout_constraintStart_toStartOf="parent">
-    </ImageView>
-
-    <TextView
-        android:id="@+id/bottom_song_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="100dp"
-        android:layout_toEndOf="@+id/bottom_song_pic"
-        android:text=""
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/black"
-        android:textSize="20dp">
-
-    </TextView>
-    <ProgressBar
-        android:id="@+id/bottom_play_process"
-        android:max="100"
-        android:progress="0"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:progressDrawable="@drawable/process_process_bar"
-        android:layout_height="3dp">
-
-    </ProgressBar>
-    <TextView
-        android:id="@+id/bottom_song_songer"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_song_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/black"
-        android:layout_toEndOf="@id/bottom_song_pic"
-        android:text="">
+        app:layout_constraintBottom_toTopOf="@id/bottom_play_process"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/bottom_song_pic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/song_name"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_image2" />
 
-    </TextView>
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/bottom_song_next"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="12dp"
-        android:src="@mipmap/next"></ImageView>
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/play_next"
+        android:padding="2dp"
+        android:src="@mipmap/next"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_song_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottom_song_card" />
 
     <ImageView
         android:id="@+id/bottom_song_playorstop"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="65dp"
-        android:src="@mipmap/play">
+        android:layout_marginEnd="18dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/play"
+        android:padding="2dp"
+        android:src="@mipmap/play"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_song_card"
+        app:layout_constraintEnd_toStartOf="@id/bottom_song_next"
+        app:layout_constraintTop_toTopOf="@id/bottom_song_card" />
 
-    </ImageView>
+    <TextView
+        android:id="@+id/bottom_song_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/bottom_song_playorstop"
+        app:layout_constraintStart_toEndOf="@id/bottom_song_card"
+        app:layout_constraintTop_toTopOf="@id/bottom_song_card"
+        tools:text="七里香" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/bottom_song_songer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/hui_2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_song_card"
+        app:layout_constraintEnd_toStartOf="@id/bottom_song_playorstop"
+        app:layout_constraintStart_toEndOf="@id/bottom_song_card"
+        tools:text="周杰伦" />
+
+    <ProgressBar
+        android:id="@+id/bottom_play_process"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/process_process_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

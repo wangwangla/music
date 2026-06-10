@@ -60,18 +60,20 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_play_view" />
 
     <include
         android:id="@+id/bottom_play_view"
         layout="@layout/bottom_play_layout"
-        android:layout_height="55dp"
-        android:layout_width="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"></include>
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

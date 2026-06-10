@@ -2,6 +2,7 @@ package com.example.learnandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.graphics.Insets;
@@ -56,7 +57,6 @@ public class MusicMainActivity extends BaseActivity {
     private NotificationManager notificationManager;
     private SessionUtils sessionUtils;
 
-
     private Runnable quickPlayPanel = new Runnable() {
         @Override
         public void run() {
@@ -74,6 +74,7 @@ public class MusicMainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initToolbar();
         initSession();
         initStautarbar();
         updateBottomPanelData();
@@ -107,6 +108,14 @@ public class MusicMainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
     }
 
     private void initViewPager() {
