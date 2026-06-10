@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
 import com.example.learnandroid.constant.Constant;
+import com.example.learnandroid.constant.MusicManager;
 
 import java.util.List;
 
@@ -30,10 +31,21 @@ public class MusicService extends MediaBrowserServiceCompat {
 
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
+        if (intent == null || intent.getAction() == null) {
+            return START_NOT_STICKY;
+        }
         String action = intent.getAction();
-        Intent inten = new Intent(Constant.MUSIC_TYPE);
-        inten.putExtra(Constant.MUSIC_KEY,action);
-        sendBroadcast(inten);
+        if (Constant.MUSIC_PRE.equals(action)) {
+            MusicManager.playPre();
+        } else if (Constant.MUSIC_NEXT.equals(action)) {
+            MusicManager.playNext();
+        } else if (Constant.MUSIC_STOP.equals(action)) {
+            if (MusicManager.isPlaying()) {
+                MusicManager.pausePlay();
+            } else {
+                MusicManager.continuePlay();
+            }
+        }
         return START_NOT_STICKY;
     }
 

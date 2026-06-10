@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -211,7 +212,7 @@ public class MusicMainActivity extends BaseActivity {
                 bottomSongPlayOrStop.setImageResource(R.mipmap.play);
             }
         }
-        createNotificationChannel();
+//        createNotificationChannel();
         buildNotification(musicBean);
         if (!isBottomListener) {
             isBottomListener = true;
@@ -268,13 +269,13 @@ public class MusicMainActivity extends BaseActivity {
                 .setLargeIcon(bitmap)
                 .setContentTitle(musicBean.getTitle())
                 .setContentText(musicBean.getArtistName())
-
                 .addAction(R.mipmap.ic_skip_previous_white_36dp,
                         "zzz",retrievePlaybackAction(Constant.MUSIC_PRE,0)).
                 addAction(res,
                         "xxx",retrievePlaybackAction(Constant.MUSIC_STOP,1)).
                 addAction(R.mipmap.ic_skip_next_white_36dp,
-                        "aaa",retrievePlaybackAction(Constant.MUSIC_NEXT,2));
+                        "aaa",retrievePlaybackAction(Constant.MUSIC_NEXT,2))
+                .setDeleteIntent(retrievePlaybackAction(Constant.MUSIC_STOP,1));
         if (TimberUtils.isLollipop()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationCompat.MediaStyle style
@@ -300,10 +301,11 @@ public class MusicMainActivity extends BaseActivity {
                 .build());
     }
 
-    private final PendingIntent retrievePlaybackAction(final String action,int code) {
+    private PendingIntent retrievePlaybackAction(final String action,int code) {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
+        Log.d("MusicMainActivity", "retrievePlaybackAction: action="+action);
         return PendingIntent.getService(this, code, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
