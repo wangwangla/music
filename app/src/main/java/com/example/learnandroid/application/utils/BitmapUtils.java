@@ -5,12 +5,9 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.util.LruCache;
 import android.util.Log;
-
-import com.example.learnandroid.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +27,19 @@ public class BitmapUtils {
 
     public static Bitmap decodeUri(Context context, Uri uri) {
         return decodeUri(context,uri,0,0);
+    }
+
+    public static Bitmap getCachedBitmap(Uri uri, int maxWidth, int maxHeight) {
+        if (uri == null) {
+            return null;
+        }
+        int targetWidth = maxWidth > 0 ? maxWidth : DEFAULT_DECODE_SIZE;
+        int targetHeight = maxHeight > 0 ? maxHeight : DEFAULT_DECODE_SIZE;
+        Bitmap bitmap = BITMAP_CACHE.get(buildCacheKey(uri, targetWidth, targetHeight));
+        if (bitmap != null && !bitmap.isRecycled()) {
+            return bitmap;
+        }
+        return null;
     }
 
     public static Bitmap decodeUri(Context context, Uri uri, int maxWidth, int maxHeight) {
@@ -55,7 +65,7 @@ public class BitmapUtils {
         try {
             bitmap = resolveUriForBitmap(context, uri, options);
         } catch (Throwable e) {
-            e.printStackTrace();
+            Log.w("BitmapUtils", "decodeUri failed: " + uri, e);
         }
         if (bitmap != null) {
             BITMAP_CACHE.put(cacheKey, bitmap);

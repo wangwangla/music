@@ -1,8 +1,6 @@
 package com.example.learnandroid.adapter;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MusicApplication;
+import com.example.learnandroid.application.utils.AlbumArtLoader;
 import com.example.learnandroid.bean.Album;
 import com.example.learnandroid.navutil.NavigationUtils;
-import com.example.learnandroid.application.utils.BitmapUtils;
 
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class AlbmAdapter extends RecyclerView.Adapter{
     @NonNull
     @Override
     public AlbmAdapter.ItemHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, viewGroup, false);
         AlbmAdapter.ItemHolder ml = new AlbmAdapter.ItemHolder(v);
         return ml;
     }
@@ -46,11 +43,7 @@ public class AlbmAdapter extends RecyclerView.Adapter{
         Album album = arraylist.get(position);
         ItemHolder holder1 = (ItemHolder) (holder);
         holder1.albums.setText(album.title);
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.id);
-        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
-        if (bitmap!=null) {
-            holder1.artistImage.setImageBitmap(bitmap);
-        }
+        AlbumArtLoader.load(holder1.artistImage, album.id, 300, 300, R.mipmap.default_image2);
         holder1.name.setText(album.artistName);
     }
 

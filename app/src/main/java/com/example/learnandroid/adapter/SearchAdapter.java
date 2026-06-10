@@ -1,7 +1,5 @@
 package com.example.learnandroid.adapter;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MusicApplication;
-import com.example.learnandroid.application.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.AlbumArtLoader;
 import com.example.learnandroid.application.utils.ShareUtils;
 import com.example.learnandroid.application.utils.TimeUtils;
 import com.example.learnandroid.bean.MusicBean;
@@ -43,13 +41,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 		holder.songSonger.setText(musicBean.getArtistName());
 		holder.songTime.setText(" | " + TimeUtils.longToTime(musicBean.getDuration()));
 
-		Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
-		Bitmap bitmap = BitmapUtils.decodeUri(holder.itemView.getContext(), albumArtUri, 300, 300);
-		if (bitmap != null) {
-			holder.songPic.setImageBitmap(bitmap);
-		} else {
-			holder.songPic.setImageResource(R.mipmap.default_image2);
-		}
+		AlbumArtLoader.load(holder.songPic, musicBean.getAlbumId(), 300, 300, R.mipmap.default_image2);
 
 		holder.itemView.setOnClickListener(v -> playSong(musicBean));
 		holder.more.setOnClickListener(v -> showPopupMenu(v, musicBean));

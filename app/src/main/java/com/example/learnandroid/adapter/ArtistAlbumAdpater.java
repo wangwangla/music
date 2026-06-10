@@ -1,7 +1,5 @@
 package com.example.learnandroid.adapter;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
-import com.example.learnandroid.application.MusicApplication;
+import com.example.learnandroid.application.utils.AlbumArtLoader;
 import com.example.learnandroid.bean.Album;
 import com.example.learnandroid.sign.SignListener;
-import com.example.learnandroid.application.utils.BitmapUtils;
 
 import java.util.ArrayList;
 
@@ -34,7 +31,7 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
     @NonNull
     @Override
     public ArtistAlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.artist_album_view, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.artist_album_view, parent, false);
         ArtistAlbumHolder ml = new ArtistAlbumHolder(v);
         return ml;
     }
@@ -42,11 +39,7 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
     @Override
     public void onBindViewHolder(@NonNull ArtistAlbumHolder holder, int position) {
         Album album = albums.get(position);
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(album.id);
-        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
-        if (bitmap!=null) {
-            holder.albumBg.setImageBitmap(bitmap);
-        }
+        AlbumArtLoader.load(holder.albumBg, album.id, 300, 300, R.mipmap.default_image2);
         holder.albumName.setText(album.title);
         holder.albumName.setSelected(true);
         holder.songNum.setText(album.songCount+"首音乐");

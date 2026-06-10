@@ -1,7 +1,6 @@
  package com.example.learnandroid.adapter;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MusicApplication;
+import com.example.learnandroid.application.utils.AlbumArtLoader;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.application.utils.ShareUtils;
 import com.example.learnandroid.application.utils.TimeUtils;
 
@@ -46,12 +45,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         MusicBean musicBean = musicBeans.get(position);
         holder.albumDetailSongName.setText(musicBean.getTitle());
         holder.albumDetailSongTime.setText(TimeUtils.longToTime(musicBean.getDuration()));
-        holder.albumSongPic.setImageResource(R.mipmap.default_image2);
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = BitmapUtils.decodeUri(MusicApplication.getMusicContent(),albumArtUri,300,300);
-        if (bitmap != null) {
-            holder.albumSongPic.setImageBitmap(bitmap);
-        }
+        AlbumArtLoader.load(holder.albumSongPic, musicBean.getAlbumId(), 300, 300, R.mipmap.default_image2);
 //        从 Android Gradle Plugin 8.x 开始： R.java → 不再生成 final 常量
         holder.albumDetailMore.setOnClickListener(new View.OnClickListener() {
             @Override

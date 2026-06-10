@@ -2,8 +2,6 @@ package com.example.learnandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +16,9 @@ import androidx.annotation.Nullable;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.MusicApplication;
+import com.example.learnandroid.application.utils.AlbumArtLoader;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.MusicManager;
-import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.application.utils.TimeUtils;
 
 import java.util.List;
@@ -48,12 +46,7 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
             viewHolder= (ViewHolder) view.getTag();//重新获取 viewHolder
         }
 
-        viewHolder.songPic.setImageResource(R.mipmap.default_image2);
-        Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
-        Bitmap bitmap = BitmapUtils.decodeUri(getContext(),albumArtUri,300,300);
-        if (bitmap!=null) {
-            viewHolder.songPic.setImageBitmap(bitmap);
-        }
+        AlbumArtLoader.load(viewHolder.songPic, musicBean.getAlbumId(), 300, 300, R.mipmap.default_image2);
         viewHolder.songTime.setText(" | "+TimeUtils.longToTime(musicBean.getDuration()));
         viewHolder.songName.setText(musicBean.getTitle());
         viewHolder.songName.setSelected(true);
