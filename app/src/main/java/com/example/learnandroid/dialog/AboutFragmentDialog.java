@@ -26,7 +26,6 @@ public class AboutFragmentDialog extends DialogFragment {
         if (fragmentManager.isStateSaved()) {
             return;
         }
-
         if (fragmentManager.findFragmentByTag(TAG) != null) {
 			return;
 		}

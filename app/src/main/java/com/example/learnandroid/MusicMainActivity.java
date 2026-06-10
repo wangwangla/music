@@ -343,7 +343,7 @@ public class MusicMainActivity extends BaseActivity {
             public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
                 ViewCompat.onApplyWindowInsets(v, insets);
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
                 return insets;
             }
         });
@@ -360,7 +360,8 @@ public class MusicMainActivity extends BaseActivity {
         if (item.getItemId() == R.id.action_about){
             AboutFragmentDialog.show(getSupportFragmentManager());
         }else if (item.getItemId() == R.id.action_setting){
-            
+            Intent intent = new Intent(MusicMainActivity.this,SettingActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -37,7 +37,9 @@ public class LoadingActivity extends BaseActivity {
     private void requestPerssions() {
         String[] permissions;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions = new String[]{Manifest.permission.READ_MEDIA_AUDIO};
+            permissions = new String[]{
+                    Manifest.permission.READ_MEDIA_AUDIO
+                    ,Manifest.permission.POST_NOTIFICATIONS};
         } else {
             permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         }
