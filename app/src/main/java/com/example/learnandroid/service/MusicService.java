@@ -32,6 +32,8 @@ import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.session.SessionUtils;
 
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MusicService extends MediaBrowserServiceCompat {
     //添加日志的TAG常量
@@ -42,6 +44,7 @@ public class MusicService extends MediaBrowserServiceCompat {
     private SessionUtils sessionUtils;
     private NotificationManager notificationManager;
     private boolean isForeground;
+    private final Set<Long> likedSongIds = new HashSet<>();
     private final Runnable sessionSyncRunnable = new Runnable() {
         @Override
         public void run() {
@@ -152,6 +155,8 @@ public class MusicService extends MediaBrowserServiceCompat {
         String title = musicBean != null ? musicBean.getTitle() : getString(R.string.app_name);
         String artist = musicBean != null ? musicBean.getArtistName() : "未在播放";
         int playRes = MusicManager.isPlaying() ? R.mipmap.ic_pause_white_36dp : R.mipmap.ic_play_white_36dp;
+        boolean isLiked = isCurrentSongLiked(musicBean);
+        int likeRes = isLiked ? R.mipmap.ic_notification_favorite_added : R.mipmap.ic_notification_favorite_add;
 
         Intent openIntent = new Intent(this, MusicMainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(
@@ -176,12 +181,31 @@ public class MusicService extends MediaBrowserServiceCompat {
                 .addAction(playRes,
                         "play_pause", retrievePlaybackAction(Constant.MUSIC_STOP, 1))
                 .addAction(R.mipmap.ic_skip_next_white_36dp,
-                        "next", retrievePlaybackAction(Constant.MUSIC_NEXT, 2));
+                        "next", retrievePlaybackAction(Constant.MUSIC_NEXT, 2))
+                .addAction(likeRes,
+                        "like", retrievePlaybackAction(Constant.MUSIC_LIKE_TOGGLE, 3));
 
         builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(sessionUtils.getSessionToken())
                 .setShowActionsInCompactView(0, 1, 2));
         return builder.build();
+    }
+
+    private boolean isCurrentSongLiked(@Nullable MusicBean musicBean) {
+        return musicBean != null && likedSongIds.contains(musicBean.getId());
+    }
+
+    private void toggleCurrentSongLike() {
+        MusicBean musicBean = MusicManager.getMusicBean();
+        if (musicBean == null) {
+            return;
+        }
+        long songId = musicBean.getId();
+        if (likedSongIds.contains(songId)) {
+            likedSongIds.remove(songId);
+        } else {
+            likedSongIds.add(songId);
+        }
     }
 
     private Bitmap getAlbumArtBitmap(@Nullable MusicBean musicBean) {
@@ -232,6 +256,9 @@ public class MusicService extends MediaBrowserServiceCompat {
                 } else {
                     MusicManager.continuePlay();
                 }
+                shouldRefreshUi = true;
+            } else if (Constant.MUSIC_LIKE_TOGGLE.equals(action)) {
+                toggleCurrentSongLike();
                 shouldRefreshUi = true;
             }
         } catch (Exception ignored) {

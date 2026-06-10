@@ -13,6 +13,7 @@ public class Constant {
     public static String MUSIC_PRE = "MUSIC_PRE";
     public static String MUSIC_NEXT = "MUSIC_NEXT";
     public static String MUSIC_STOP = "MUSIC_STOP";
+    public static String MUSIC_LIKE_TOGGLE = "MUSIC_LIKE_TOGGLE";
     public static String MUSIC_TYPE = "MUISC_LEARN";
 
 
