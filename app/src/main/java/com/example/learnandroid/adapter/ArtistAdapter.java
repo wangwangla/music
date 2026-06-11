@@ -48,9 +48,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         builder.append("张专辑");
         builder.append(artist.songCount);
         builder.append("首歌");
-        holder.albums.setText(builder.toString());
+        holder.albums.setText(artist.name);
         holder.artistImage.setImageResource(R.mipmap.default_image2);
-        holder.name.setText(artist.name);
+        holder.name.setText(builder.toString());
     }
 
     @Override

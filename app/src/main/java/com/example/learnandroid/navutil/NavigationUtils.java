@@ -1,11 +1,7 @@
 package com.example.learnandroid.navutil;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.Context;
-import android.util.Pair;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,8 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.learnandroid.R;
 import com.example.learnandroid.main.AlbumDetailActivity;
-import com.example.learnandroid.main.AlbumDetailFragment;
-import com.example.learnandroid.main.ArtistDetailFragment;
+import com.example.learnandroid.main.ArtistDetailActivity;
 import com.example.learnandroid.main.GeciFragment;
 
 /**
@@ -30,11 +25,9 @@ public class NavigationUtils {
     }
 
     public static void navigateToArtist(Activity context, long artistID) {
-//        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-//        Fragment fragment;
-//        fragment = ArtistDetailFragment.newInstance(context, artistID, false);
-//        transaction.replace(R.id.frame_content, fragment);
-//        transaction.addToBackStack(null).commit();
+        Intent intent = new Intent(context, ArtistDetailActivity.class);
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_ID, artistID);
+        context.startActivity(intent);
     }
 
 

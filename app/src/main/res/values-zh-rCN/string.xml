@@ -23,6 +23,9 @@
     <string name="play_share">分享</string>
     <string name="album_detail_meta">%1$s · %2$d 首歌曲</string>
     <string name="album_empty_message">这个专辑里还没有歌曲</string>
+    <string name="artist_detail_meta">%1$d 张专辑 · %2$d 首歌曲</string>
+    <string name="artist_empty_message">这个歌手还没有歌曲</string>
+    <string name="artist_album_empty_message">这个歌手的专辑里还没有歌曲</string>
     <string name="widget_description">桌面音乐控制组件</string>
     <string name="widget_not_playing">未在播放</string>
     <string name="widget_action_previous">上一首</string>

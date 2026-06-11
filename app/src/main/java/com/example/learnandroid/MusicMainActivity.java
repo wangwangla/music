@@ -253,6 +253,7 @@ public class MusicMainActivity extends BaseActivity {
         });
     }
 
+    //安全区域
     private void viewInsetArea() {
         viewInset(findViewById(R.id.main_root), new OnApplyWindowInsetsListener() {
             @NonNull
@@ -265,7 +266,8 @@ public class MusicMainActivity extends BaseActivity {
             }
         });
     }
-    
+
+    //创建菜单，以及响应菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.tool_menu,menu);

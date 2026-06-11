@@ -67,6 +67,7 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
         public ImageView albumBg;
         public TextView albumName;
         public TextView songNum;
+
         public ArtistAlbumHolder(@NonNull View itemView) {
             super(itemView);
             albumBg = itemView.findViewById(R.id.album_bg);
@@ -75,7 +76,11 @@ public class ArtistAlbumAdpater extends RecyclerView.Adapter<ArtistAlbumAdpater.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    runnable.sign(albums.get(getPosition()).id);
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION || runnable == null) {
+                        return;
+                    }
+                    runnable.sign(albums.get(position).id);
                 }
             });
         }

@@ -40,6 +40,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".main.ArtistDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SearchActivity"
             android:screenOrientation="portrait" />
         <activity

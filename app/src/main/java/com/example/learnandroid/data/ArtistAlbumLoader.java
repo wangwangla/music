@@ -14,7 +14,7 @@ import java.util.List;
 public class ArtistAlbumLoader {
     public static ArrayList<Album> getAlbumsForArtist(Context context, long artistID) {
         if (artistID == -1)
-            return null;
+            return new ArrayList<>();
         List<Album> allAlbums = AlbumLoader.getAllAlbums(context);
         ArrayList<Album> artistAlbums = new ArrayList<>();
         for (Album album: allAlbums) {

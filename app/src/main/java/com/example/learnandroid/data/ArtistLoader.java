@@ -28,6 +28,7 @@ public class ArtistLoader {
                             cursor.getInt(3)));
                 }while (cursor.moveToNext());
             }
+            cursor.close();
         }
         return artists;
     }
