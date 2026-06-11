@@ -21,4 +21,9 @@
     <string name="song_name">歌曲名</string>
     <string name="all_songs">所有歌曲</string>
     <string name="play_share">分享</string>
+    <string name="widget_description">桌面音乐控制组件</string>
+    <string name="widget_not_playing">未在播放</string>
+    <string name="widget_action_previous">上一首</string>
+    <string name="widget_action_play_pause">播放或暂停</string>
+    <string name="widget_action_next">下一首</string>
 </resources>

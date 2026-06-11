@@ -25,4 +25,9 @@
     <string name="search_no_result" translatable="false">No matching songs found</string>
     <string name="about_version_format" translatable="false">Version %1$s</string>
     <string name="about_dialog_message" translatable="false">A simple local music player project used for Android learning and practice.</string>
+    <string name="widget_description" translatable="false">Music control widget</string>
+    <string name="widget_not_playing" translatable="false">Not playing</string>
+    <string name="widget_action_previous" translatable="false">Previous</string>
+    <string name="widget_action_play_pause" translatable="false">Play or pause</string>
+    <string name="widget_action_next" translatable="false">Next</string>
 </resources>

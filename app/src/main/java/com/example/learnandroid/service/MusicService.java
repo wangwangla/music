@@ -30,6 +30,7 @@ import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.session.SessionUtils;
+import com.example.learnandroid.widget.MusicControlWidgetUpdater;
 
 import java.util.List;
 import java.util.HashSet;
@@ -84,6 +85,7 @@ public class MusicService extends MediaBrowserServiceCompat {
 
     private void refreshMediaSessionStateInternal() {
         if (sessionUtils == null || sessionUtils.getmSession() == null) {
+            MusicControlWidgetUpdater.updateAllWidgets(this);
             return;
         }
         MusicBean musicBean = MusicManager.getMusicBean();
@@ -118,6 +120,7 @@ public class MusicService extends MediaBrowserServiceCompat {
                 .setState(state, position, speed)
                 .build());
         updateServiceNotification();
+        MusicControlWidgetUpdater.updateAllWidgets(this);
     }
 
     private void updateServiceNotification() {
@@ -296,6 +299,8 @@ public class MusicService extends MediaBrowserServiceCompat {
             stopForeground(true);
             isForeground = false;
         }
+        MusicManager.musicController = null;
+        MusicControlWidgetUpdater.updateAllWidgets(this);
         if (player == null) return;
         if (player.isPlaying()) player.stop();//停止播放音乐
         player.release();                         //释放占用的资源
