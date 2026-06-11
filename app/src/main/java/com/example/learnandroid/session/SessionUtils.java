@@ -17,11 +17,11 @@ public class SessionUtils {
 
     public SessionUtils(Context context){
         mSession = new MediaSessionCompat(context, "Music");
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+        mSession.setFlags(
+                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
                 | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mediasessionBack = getMediaSessionCallback();
         mSession.setCallback(mediasessionBack);
-        mSession.setActive(true);
     }
 
     private MediaSessionCompat.Callback getMediaSessionCallback() {

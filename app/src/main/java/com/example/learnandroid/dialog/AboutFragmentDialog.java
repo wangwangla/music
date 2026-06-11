@@ -40,7 +40,6 @@ public class AboutFragmentDialog extends DialogFragment {
 		versionView.setText(getString(R.string.about_version_format, getVersionName()));
 
 		return new AlertDialog.Builder(requireContext())
-				.setTitle(R.string.action_about)
 				.setView(contentView)
 				.setPositiveButton(android.R.string.ok, null)
 				.create();

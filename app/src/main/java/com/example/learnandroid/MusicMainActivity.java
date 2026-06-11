@@ -72,7 +72,6 @@ public class MusicMainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolbar();
-        initSession();
         bottomClickListener();
         isBottomListener = true;
         updateBottomPanelData();
@@ -128,7 +127,6 @@ public class MusicMainActivity extends BaseActivity {
                 public void run() {
                     ProgressBar progressBar = findViewById(R.id.bottom_play_process);
                     progressBar.setProgress(TimeUtils.miao(MusicManager.getCurrentPosition()));
-//                    updateNotification();
                 }
             });
         }catch (Exception e){
@@ -136,58 +134,8 @@ public class MusicMainActivity extends BaseActivity {
         }
     }
 
-    private void updateNotification() {
-        if (!VersionUtils.isOreo())return;
-        // 更新播放进度和播放状态
-        PlaybackStateCompat playbackState
-                = new PlaybackStateCompat
-                .Builder()
-                .setState(PlaybackStateCompat.STATE_PLAYING,
-                        MusicManager.getCurrentPosition(), 1.0f)
-                .setBufferedPosition(MusicManager.getCurrentPosition())
-                .setActions(PlaybackStateCompat.ACTION_PLAY
-                        | PlaybackStateCompat.ACTION_PAUSE
-                        | PlaybackStateCompat.ACTION_PLAY_PAUSE
-                        | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-                        | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
-                .build();
-        sessionUtils.getmSession().setPlaybackState(playbackState);
-//        // 更新播放进度条
-        updatePlaybackProgress();
-    }
-
-    private void updatePlaybackProgress() {
-        if (sessionUtils.getmSession() == null) {
-            return;
-        }
-        MusicBean musicBean = MusicManager.getMusicBean();
-        sessionUtils.getmSession().setMetadata(new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, musicBean.getArtistName())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, musicBean.getArtistName())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, musicBean.getAlbumName())
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, musicBean.getTitle())
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, MusicManager.getDuration())
-//                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getQueuePosition() + 1)
-//                .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getQueue().length)
-//                .putString(MediaMetadataCompat.METADATA_KEY_GENRE, getGenreName())
-//                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                .build());
-        // 获取当前播放位置和总时长
-        long currentPosition = MusicManager.getCurrentPosition();
-        long duration = MusicManager.getDuration();
-        // 更新播放进度条
-        PlaybackStateCompat playbackState = sessionUtils.getmSession().getController().getPlaybackState();
-        if (playbackState != null && playbackState.getState() == PlaybackStateCompat.STATE_PLAYING) {
-            if (duration > 0) {
-                int progress = (int) (currentPosition * 100 / duration);
-//                builder.setProgress(100, progress, false);
-//                notificationManager.notify(0,builder.build());
-            }
-        }
-    }
-
     private void initSession() {
-        sessionUtils = new SessionUtils(this);
+
     }
 
     public void updateBottomView(){
@@ -216,28 +164,6 @@ public class MusicMainActivity extends BaseActivity {
             }
         }
         MusicService.refreshMediaSessionState();
-    }
-
-    private void createNotificationChannel() {
-        //大于26的需要通过通道来创建
-        if (VersionUtils.isOreo()) {
-            CharSequence name = "Music";
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            //得到manager
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            //创建通道   id  名字  重要性
-            NotificationChannel mChannel = new NotificationChannel("XXX", name, importance);
-            manager.createNotificationChannel(mChannel);
-        }
-    }
-
-    private PendingIntent retrievePlaybackAction(final String action,int code) {
-        final ComponentName serviceName = new ComponentName(this, MusicService.class);
-        Intent intent = new Intent(action);
-        intent.setComponent(serviceName);
-        Log.d("MusicMainActivity", "retrievePlaybackAction: action="+action);
-        return PendingIntent.getService(this, code, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     private void bottomClickListener() {
