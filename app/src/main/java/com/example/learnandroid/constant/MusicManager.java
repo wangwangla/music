@@ -1,5 +1,6 @@
 package com.example.learnandroid.constant;
 
+import com.example.learnandroid.application.utils.PlaybackStateStore;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.service.MusicControl;
 
@@ -24,6 +25,10 @@ public class MusicManager {
         musicListener.remove(runnable);
     }
 
+    public static boolean hasSongList() {
+        return musicBeans != null && !musicBeans.isEmpty();
+    }
+
     public static void setData(){
         setData(position);
     }
@@ -40,6 +45,7 @@ public class MusicManager {
      * @return
      */
     public static boolean setData(long index) {
+        if (!hasSongList()) return false;
         int tempIndex = -1;
         for (MusicBean musicBean : musicBeans) {
             tempIndex++;
@@ -56,14 +62,16 @@ public class MusicManager {
     }
 
     public static boolean setData(int index,boolean isListener){
-        if (musicBeans.size()<=0)return false;
-        if (index>=musicBeans.size())return false;
+        if (!hasSongList())return false;
+        if (index < 0 || index>=musicBeans.size())return false;
+        if (musicController == null) return false;
         MusicBean musicBean = musicBeans.get(index);
         if (id == musicBean.getId())return true;
         isPause = false;
         position = index;
         setCurrentPlayId(musicBean.getId());
         musicController.setData(musicBean.getPath());
+        persistStateSnapshot();
         if (isListener) {
             updateListener();
         }
@@ -76,21 +84,32 @@ public class MusicManager {
     }
 
     public static void setDataAndplay() {
+        if (musicController == null) return;
         addTimer();
         musicController.play();
+        isPause = false;
+        persistStateSnapshot();
         updateListener();
     }
 
     public static void pausePlay() {
+        if (musicController == null) {
+            isPause = true;
+            persistStateSnapshot();
+            return;
+        }
         isPause = true;
         musicController.pausePlay();           //暂停播放音乐
+        persistStateSnapshot();
         updateListener();
     }
 
     public static void continuePlay() {
+        if (musicController == null) return;
         if (isPause){
             isPause = false;
             musicController.continuePlay();           //继续播放音乐
+            persistStateSnapshot();
             updateListener();
             addTimer();
         }else {
@@ -100,7 +119,9 @@ public class MusicManager {
     }
 
     public static void seekTo(int progress) {
+        if (musicController == null) return;
         musicController.seekTo(progress);//设置音乐的播放位置
+        persistStateSnapshot();
     }
 
     public static void setCurrentPlayId(long _id) {
@@ -120,11 +141,15 @@ public class MusicManager {
     }
 
     public static void setSongList(ArrayList<MusicBean> _musicBeans) {
-        musicBeans = _musicBeans;
+        musicBeans = _musicBeans == null ? new ArrayList<MusicBean>() : new ArrayList<>(_musicBeans);
+        if (!checkposition(position)) {
+            position = 0;
+        }
+        persistStateSnapshot();
     }
 
     public static void playNext() {
-        if (musicBeans.size() <= 0) return;
+        if (!hasSongList()) return;
         int index = 0;
         if (Constant.playStyle == 0) {
             position++;
@@ -134,7 +159,14 @@ public class MusicManager {
             index = position;
         } else {
             int size = musicBeans.size();
-            position = (int) Math.random() * (size - 1);
+            int previousPosition = position;
+            if (size == 1) {
+                position = 0;
+            } else {
+                do {
+                    position = (int) (Math.random() * size);
+                } while (position == previousPosition);
+            }
             index = position;
         }
         setDataAndplay(index);
@@ -142,9 +174,9 @@ public class MusicManager {
 
 
     public static void playPre() {
-        if (musicBeans.size() <= 0) return;
+        if (!hasSongList()) return;
         int index = 0;
-        if (Constant.playStyle == Constant.playOrder) {
+        if (Constant.playStyle == 0) {
             position--;
             if (position<0) {
                 position = musicBeans.size()-1;
@@ -155,7 +187,7 @@ public class MusicManager {
             copy.addAll(musicBeans);
             if (copy.size()>1) {
                 copy.remove(musicBeans.get(position));
-                int v = (int)(Math.random() * (copy.size()-1));
+                int v = (int)(Math.random() * copy.size());
                 MusicBean musicBean = copy.get(v);
                 for (int i = 0; i < musicBeans.size(); i++) {
                     if (musicBeans.get(i).getId() == musicBean.getId()) {
@@ -231,7 +263,10 @@ public class MusicManager {
     }
 
     public static void stop() {
+        if (musicController == null) return;
         musicController.stop();
+        isPause = true;
+        persistStateSnapshot();
     }
 
     public static void setDataAndplay(long id) {
@@ -248,8 +283,11 @@ public class MusicManager {
     }
 
     public static void play(){
+        if (musicController == null) return;
         musicController.continuePlay();
+        isPause = false;
         addTimer();
+        persistStateSnapshot();
         updateListener();
     }
 
@@ -260,5 +298,25 @@ public class MusicManager {
 
     public static int getLossFocuStatus(){
         return audioFocusStatus;
+    }
+
+    public static void persistStateSnapshot() {
+        MusicBean currentSong = getMusicBean();
+        String currentPath = currentSong != null ? currentSong.getPath() : null;
+        int seekPosition = 0;
+        try {
+            seekPosition = (int) getCurrentPosition();
+        } catch (Exception ignored) {
+        }
+        boolean wasPlaying = musicController != null ? musicController.isPlaying() : (!isPause && currentSong != null);
+        PlaybackStateStore.saveSnapshot(
+                musicBeans,
+                position,
+                currentSong != null ? currentSong.getId() : id,
+                currentPath,
+                wasPlaying,
+                seekPosition,
+                Constant.playStyle
+        );
     }
 }

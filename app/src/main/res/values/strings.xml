@@ -30,4 +30,7 @@
     <string name="widget_action_previous" translatable="false">Previous</string>
     <string name="widget_action_play_pause" translatable="false">Play or pause</string>
     <string name="widget_action_next" translatable="false">Next</string>
+    <string name="widget_tap_to_open" translatable="false">Tap to open player</string>
+    <string name="widget_status_playing" translatable="false">Now playing</string>
+    <string name="widget_status_paused" translatable="false">Paused</string>
 </resources>

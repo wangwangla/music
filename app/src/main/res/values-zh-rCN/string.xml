@@ -26,4 +26,7 @@
     <string name="widget_action_previous">上一首</string>
     <string name="widget_action_play_pause">播放或暂停</string>
     <string name="widget_action_next">下一首</string>
+    <string name="widget_tap_to_open">点击打开播放器</string>
+    <string name="widget_status_playing">正在播放</string>
+    <string name="widget_status_paused">已暂停</string>
 </resources>

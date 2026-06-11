@@ -2,6 +2,9 @@ package com.example.learnandroid.application;
 
 import android.app.Application;
 import android.content.Intent;
+
+import com.example.learnandroid.application.utils.PlaybackStateStore;
+import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.data.SongLoader;
 import com.example.learnandroid.service.MusicService;
 import com.example.learnandroid.service.MusicServiceConn;
@@ -14,6 +17,7 @@ public class MusicApplication extends Application {
     public void onCreate() {
         super.onCreate();
          instance= this;
+        Constant.playStyle = PlaybackStateStore.getSavedPlayStyle();
         SongLoader.destory();
         //加载音乐使用的方法
         SongLoader.setLoadType(0);

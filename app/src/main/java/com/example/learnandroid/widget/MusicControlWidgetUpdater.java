@@ -2,6 +2,7 @@ package com.example.learnandroid.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.os.Bundle;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +17,14 @@ import androidx.annotation.Nullable;
 import com.example.learnandroid.LoadingActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.utils.BitmapUtils;
+import com.example.learnandroid.application.utils.PlaybackStateStore;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.service.MusicService;
 
 public final class MusicControlWidgetUpdater {
+    private static final float LARGE_WIDGET_MIN_HEIGHT_DP = 110f;
     private static final int REQUEST_OPEN_APP = 300;
     private static final int REQUEST_PREVIOUS = 301;
     private static final int REQUEST_PLAY_PAUSE = 302;
@@ -43,25 +46,38 @@ public final class MusicControlWidgetUpdater {
         if (appWidgetIds == null || appWidgetIds.length == 0) {
             return;
         }
-        RemoteViews remoteViews = buildRemoteViews(context);
         for (int appWidgetId : appWidgetIds) {
+            RemoteViews remoteViews = buildRemoteViews(context, appWidgetManager, appWidgetId);
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 
     @NonNull
-    private static RemoteViews buildRemoteViews(@NonNull Context context) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_music_control);
-        MusicBean musicBean = MusicManager.getMusicBean();
-        boolean isPlaying = MusicManager.isPlaying();
+    private static RemoteViews buildRemoteViews(@NonNull Context context,
+                                                @NonNull AppWidgetManager appWidgetManager,
+                                                int appWidgetId) {
+        boolean useLargeLayout = shouldUseLargeLayout(context, appWidgetManager, appWidgetId);
+        RemoteViews remoteViews = new RemoteViews(
+                context.getPackageName(),
+                useLargeLayout ? R.layout.widget_music_control_large : R.layout.widget_music_control
+        );
+        MusicBean musicBean = resolveWidgetSong();
+        boolean isPlaying = resolveWidgetPlaybackState();
+        int duration = musicBean != null ? Math.max(musicBean.getDuration(), 0) : 0;
+        int progress = musicBean != null ? resolveProgress(duration) : 0;
 
         remoteViews.setTextViewText(R.id.widget_song_name, getSongTitle(context, musicBean));
         remoteViews.setTextViewText(R.id.widget_song_artist, getSongArtist(context, musicBean));
+        remoteViews.setTextViewText(R.id.widget_status_text, getStatusText(context, musicBean, isPlaying));
         remoteViews.setImageViewBitmap(R.id.widget_album_art, getAlbumArtBitmap(context, musicBean));
+        remoteViews.setProgressBar(R.id.widget_progress, Math.max(duration, 100), Math.min(progress, Math.max(duration, 100)), false);
         remoteViews.setImageViewResource(
                 R.id.widget_action_play_pause,
                 isPlaying ? R.mipmap.ic_pause_white_36dp : R.mipmap.ic_play_white_36dp
         );
+        if (useLargeLayout) {
+            remoteViews.setTextViewText(R.id.widget_hint_text, getHintText(context, musicBean));
+        }
 
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 context,
@@ -87,6 +103,18 @@ public final class MusicControlWidgetUpdater {
         return remoteViews;
     }
 
+    private static boolean shouldUseLargeLayout(@NonNull Context context,
+                                                @NonNull AppWidgetManager appWidgetManager,
+                                                int appWidgetId) {
+        Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+        int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0);
+        return minHeight >= dpToPx(context, LARGE_WIDGET_MIN_HEIGHT_DP);
+    }
+
+    private static int dpToPx(@NonNull Context context, float dp) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
+    }
+
     @NonNull
     private static Intent buildOpenAppIntent(@NonNull Context context) {
         Intent intent = new Intent(context, LoadingActivity.class);
@@ -106,6 +134,51 @@ public final class MusicControlWidgetUpdater {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
+    }
+
+    @Nullable
+    private static MusicBean resolveWidgetSong() {
+        MusicBean musicBean = MusicManager.getMusicBean();
+        if (musicBean != null) {
+            return musicBean;
+        }
+        return PlaybackStateStore.getSavedCurrentSong();
+    }
+
+    private static boolean resolveWidgetPlaybackState() {
+        return MusicManager.musicController != null ? MusicManager.isPlaying() : PlaybackStateStore.wasPlaying();
+    }
+
+    @NonNull
+    private static String getStatusText(@NonNull Context context,
+                                        @Nullable MusicBean musicBean,
+                                        boolean isPlaying) {
+        if (musicBean == null) {
+            return context.getString(R.string.widget_not_playing);
+        }
+        return context.getString(isPlaying ? R.string.widget_status_playing : R.string.widget_status_paused);
+    }
+
+    @NonNull
+    private static String getHintText(@NonNull Context context, @Nullable MusicBean musicBean) {
+        if (musicBean == null) {
+            return context.getString(R.string.widget_tap_to_open);
+        }
+        return context.getString(R.string.widget_tap_to_open);
+    }
+
+    private static int resolveProgress(int duration) {
+        if (duration <= 0) {
+            return 0;
+        }
+        int progress = PlaybackStateStore.getSavedSeekPosition();
+        try {
+            if (MusicManager.musicController != null) {
+                progress = (int) MusicManager.getCurrentPosition();
+            }
+        } catch (Exception ignored) {
+        }
+        return Math.max(progress, 0);
     }
 
     @NonNull

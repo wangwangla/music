@@ -25,6 +25,7 @@ import androidx.media.MediaBrowserServiceCompat;
 
 import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
+import com.example.learnandroid.application.utils.PlaybackStateStore;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.constant.Constant;
@@ -42,6 +43,7 @@ public class MusicService extends MediaBrowserServiceCompat {
     private static final String MEDIA_CHANNEL_ID = "XXX";
     private static final int MEDIA_NOTIFICATION_ID = 1001;
     private MediaPlayer player;
+    private MusicControl musicControl;
     private SessionUtils sessionUtils;
     private NotificationManager notificationManager;
     private boolean isForeground;
@@ -62,10 +64,15 @@ public class MusicService extends MediaBrowserServiceCompat {
         super.onCreate();
         instance = this;
         player = new MediaPlayer();//创建音乐播放器对象
+        musicControl = new MusicControl(player);
+        MusicManager.musicController = musicControl;
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         sessionUtils = new SessionUtils(this);
         setSessionToken(sessionUtils.getSessionToken());
         MusicManager.addUpdateView(sessionSyncRunnable);
+        if (PlaybackStateStore.getSavedCurrentSong() != null) {
+            restorePlaybackStateIfNeeded();
+        }
         refreshMediaSessionStateInternal();
     }
 
@@ -228,6 +235,41 @@ public class MusicService extends MediaBrowserServiceCompat {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
+    private boolean restorePlaybackStateIfNeeded() {
+        if (MusicManager.hasSongList() && MusicManager.musicController != null && MusicManager.getMusicBean() != null) {
+            return true;
+        }
+        PlaybackStateStore.RestoredState restoredState = PlaybackStateStore.restoreState();
+        if (restoredState.getQueue().isEmpty()) {
+            return false;
+        }
+        Constant.playStyle = restoredState.getPlayStyle();
+        MusicManager.setSongList(restoredState.getQueue());
+        int currentIndex = restoredState.getCurrentIndex();
+        if (currentIndex < 0 || currentIndex >= restoredState.getQueue().size()) {
+            currentIndex = 0;
+        }
+        MusicManager.setCurrentPlayId(-1L);
+        if (!MusicManager.setData(currentIndex)) {
+            return false;
+        }
+        if (restoredState.getSeekPosition() > 0) {
+            try {
+                MusicManager.seekTo(restoredState.getSeekPosition());
+            } catch (Exception ignored) {
+            }
+        }
+        MusicManager.persistStateSnapshot();
+        return true;
+    }
+
+    private boolean needsRestoreForAction(@Nullable String action) {
+        return Constant.MUSIC_PRE.equals(action)
+                || Constant.MUSIC_NEXT.equals(action)
+                || Constant.MUSIC_STOP.equals(action)
+                || Constant.MUSIC_LIKE_TOGGLE.equals(action);
+    }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
@@ -247,6 +289,9 @@ public class MusicService extends MediaBrowserServiceCompat {
         boolean shouldRefreshUi = false;
         try {
             String action = intent.getAction();
+            if (needsRestoreForAction(action)) {
+                restorePlaybackStateIfNeeded();
+            }
             if (Constant.MUSIC_PRE.equals(action)) {
                 MusicManager.playPre();
                 shouldRefreshUi = true;
@@ -273,9 +318,9 @@ public class MusicService extends MediaBrowserServiceCompat {
         return START_NOT_STICKY;
     }
 
-        @Override
+    @Override
     public IBinder onBind(Intent intent) {
-        return new MusicControl(player);
+        return musicControl;
     }
 
     @Nullable
@@ -300,6 +345,7 @@ public class MusicService extends MediaBrowserServiceCompat {
             isForeground = false;
         }
         MusicManager.musicController = null;
+        musicControl = null;
         MusicControlWidgetUpdater.updateAllWidgets(this);
         if (player == null) return;
         if (player.isPlaying()) player.stop();//停止播放音乐

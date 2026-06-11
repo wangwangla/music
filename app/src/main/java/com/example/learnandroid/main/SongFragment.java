@@ -55,6 +55,7 @@ public class SongFragment extends Fragment {
             shuffleIcon.setImageBitmap(bitmap);
             Constant.playStyle = 1;
         }
+        MusicManager.persistStateSnapshot();
     }
 
     @Override
@@ -72,6 +73,7 @@ public class SongFragment extends Fragment {
         songList = rootView.findViewById(R.id.songlist);
         shuffleIcon = view.findViewById(R.id.shuffle_btn);
         shuffleIcon.setOnClickListener(shuffleController);
+        playmode = Constant.playStyle;
         updateShuffleMode();
     }
 
