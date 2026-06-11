@@ -23,6 +23,8 @@
     <string name="play_share">share</string>
     <string name="search_empty_hint" translatable="false">Search by song title, artist, or album</string>
     <string name="search_no_result" translatable="false">No matching songs found</string>
+    <string name="album_detail_meta" translatable="false">%1$s · %2$d songs</string>
+    <string name="album_empty_message" translatable="false">No songs found in this album</string>
     <string name="about_version_format" translatable="false">Version %1$s</string>
     <string name="about_dialog_message" translatable="false">A simple local music player project used for Android learning and practice.</string>
     <string name="widget_description" translatable="false">Music control widget</string>

@@ -146,10 +146,6 @@ public class MusicMainActivity extends BaseActivity {
         }
     }
 
-    private void initSession() {
-
-    }
-
     public void updateBottomView(){
         runOnUiThread(new Runnable() {
             @Override

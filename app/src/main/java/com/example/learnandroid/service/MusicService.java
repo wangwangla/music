@@ -41,7 +41,7 @@ import java.util.Set;
 public class MusicService extends MediaBrowserServiceCompat {
     //添加日志的TAG常量
     private static MusicService instance;
-    private static final String MEDIA_CHANNEL_ID = "XXX";
+    private static final String MEDIA_CHANNEL_ID = "MEDIA_CHANNEL_ID_JOKER";
     private static final int MEDIA_NOTIFICATION_ID = 1001;
     private MediaPlayer player;
     private MusicControl musicControl;
@@ -56,10 +56,6 @@ public class MusicService extends MediaBrowserServiceCompat {
             refreshMediaSessionStateInternal();
         }
     };
-
-    public MusicService() {
-
-    }
 
     @Override
     public void onCreate() {

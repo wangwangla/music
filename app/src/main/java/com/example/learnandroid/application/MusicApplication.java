@@ -17,9 +17,9 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-         instance= this;
-        Constant.playStyle = PlaybackStateStore.getSavedPlayStyle();
         SongLoader.destory();
+        instance= this;
+        Constant.playStyle = PlaybackStateStore.getSavedPlayStyle();
         //加载音乐使用的方法
         SongLoader.setLoadType(0);
         bingService();
@@ -56,6 +56,7 @@ public class MusicApplication extends Application {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
+        SongLoader.destory();
         releaseMusicServiceConnection();
         instance = null;
     }

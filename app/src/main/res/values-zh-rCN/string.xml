@@ -21,6 +21,8 @@
     <string name="song_name">歌曲名</string>
     <string name="all_songs">所有歌曲</string>
     <string name="play_share">分享</string>
+    <string name="album_detail_meta">%1$s · %2$d 首歌曲</string>
+    <string name="album_empty_message">这个专辑里还没有歌曲</string>
     <string name="widget_description">桌面音乐控制组件</string>
     <string name="widget_not_playing">未在播放</string>
     <string name="widget_action_previous">上一首</string>

@@ -1,6 +1,4 @@
- package com.example.learnandroid.adapter;
-
-import android.graphics.Bitmap;
+  package com.example.learnandroid.adapter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +48,11 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
         holder.albumDetailMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION) {
+                    return;
+                }
+                MusicBean currentMusicBean = musicBeans.get(adapterPosition);
                 MusicApplication.getMusicContent().setTheme(R.style.Theme_LearnAndroid);
                 final PopupMenu popupMenu = new PopupMenu(MusicApplication.getMusicContent(), v);
                 popupMenu.inflate(R.menu.popup_song);
@@ -57,17 +60,17 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (R.id.play == item.getItemId()){
-                            if (musicBean.getId() == MusicManager.getId()){
+                            if (currentMusicBean.getId() == MusicManager.getId()){
                                 if (!MusicManager.isPlaying()){
                                     MusicManager.continuePlay();
                                 }
                             }else {
                                 //播放
-                                MusicManager.setData(musicBean.getId());
-                                MusicManager.setDataAndplay();
+                                syncAlbumQueue();
+                                MusicManager.setDataAndplay(adapterPosition);
                             }
                         }else if (item.getItemId() == R.id.play_next){
-                            ShareUtils.share(v.getContext(), musicBean.getId());
+                            ShareUtils.share(v.getContext(), currentMusicBean.getId());
                         }
                         return false;
                     }
@@ -106,8 +109,16 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.Albu
 
         @Override
         public void onClick(View v) {
-            MusicBean musicBean = musicBeans.get(getPosition());
-            MusicManager.setDataAndplay(musicBean.getId());
+            int position = getAdapterPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                return;
+            }
+            syncAlbumQueue();
+            MusicManager.setDataAndplay(position);
         }
+    }
+
+    private void syncAlbumQueue() {
+        MusicManager.setSongList(new ArrayList<>(musicBeans));
     }
 }

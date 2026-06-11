@@ -84,6 +84,27 @@ public class AlbumLoader {
         return artists;
     }
 
+    public static Album getAlbum(Context context, long albumId) {
+        Cursor cursor = makeAlbumCursor(context, "_id=?", new String[]{String.valueOf(albumId)});
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return new Album(
+                            cursor.getLong(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getLong(3),
+                            cursor.getInt(4),
+                            cursor.getInt(5)
+                    );
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
     public static List<Album> getAllAlbums(Context context) {
         return getAlbumsForCursor(makeAlbumCursor(context, null, null));
     }

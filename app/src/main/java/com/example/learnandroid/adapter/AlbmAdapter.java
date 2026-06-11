@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.utils.AlbumArtLoader;
 import com.example.learnandroid.bean.Album;
@@ -44,7 +45,7 @@ public class AlbmAdapter extends RecyclerView.Adapter{
         ItemHolder holder1 = (ItemHolder) (holder);
         holder1.albums.setText(album.title);
         AlbumArtLoader.load(holder1.artistImage, album.id, 300, 300, R.mipmap.default_image2);
-        holder1.name.setText(album.artistName);
+        holder1.name.setText(activity.getString(R.string.album_detail_meta, album.artistName, album.songCount));
     }
 
     @Override
@@ -75,7 +76,11 @@ public class AlbmAdapter extends RecyclerView.Adapter{
 
         @Override
         public void onClick(View v) {
-            NavigationUtils.navigateToAlbum(activity,arraylist.get(getPosition()).id);
+            int position = getAdapterPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                return;
+            }
+            NavigationUtils.navigateToAlbum(activity, arraylist.get(position).id);
         }
     }
 }

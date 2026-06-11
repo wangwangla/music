@@ -36,6 +36,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".main.AlbumDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SearchActivity"
             android:screenOrientation="portrait" />
         <activity
