@@ -33,4 +33,6 @@
     <string name="widget_tap_to_open" translatable="false">Tap to open player</string>
     <string name="widget_status_playing" translatable="false">Now playing</string>
     <string name="widget_status_paused" translatable="false">Paused</string>
+    <string name="bottom_bar_empty_title" translatable="false">No song selected</string>
+    <string name="bottom_bar_empty_subtitle" translatable="false">Choose a song to start playing</string>
 </resources>

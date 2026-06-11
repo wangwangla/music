@@ -136,6 +136,10 @@ public class MusicManager {
         persistStateSnapshot();
     }
 
+    public static void setPauseState(boolean pause) {
+        isPause = pause;
+    }
+
     public static void setCurrentPlayId(long _id) {
         id = _id;
     }
@@ -154,10 +158,49 @@ public class MusicManager {
 
     public static void setSongList(ArrayList<MusicBean> _musicBeans) {
         musicBeans = _musicBeans == null ? new ArrayList<MusicBean>() : new ArrayList<>(_musicBeans);
-        if (!checkposition(position)) {
+        int restoredIndex = findPreferredIndex(musicBeans);
+        if (restoredIndex >= 0) {
+            position = restoredIndex;
+            MusicBean currentSong = musicBeans.get(position);
+            if (currentSong != null) {
+                setCurrentPlayId(currentSong.getId());
+            }
+        } else if (!checkposition(position)) {
             position = 0;
         }
         persistStateSnapshot();
+    }
+
+    private static int findPreferredIndex(ArrayList<MusicBean> queue) {
+        if (queue == null || queue.isEmpty()) {
+            return -1;
+        }
+        if (id >= 0) {
+            for (int i = 0; i < queue.size(); i++) {
+                MusicBean musicBean = queue.get(i);
+                if (musicBean != null && musicBean.getId() == id) {
+                    return i;
+                }
+            }
+        }
+        MusicBean savedSong = PlaybackStateStore.getSavedCurrentSong();
+        if (savedSong == null) {
+            return -1;
+        }
+        for (int i = 0; i < queue.size(); i++) {
+            MusicBean musicBean = queue.get(i);
+            if (musicBean == null) {
+                continue;
+            }
+            if (savedSong.getId() >= 0 && musicBean.getId() == savedSong.getId()) {
+                return i;
+            }
+            if (savedSong.getPath() != null && !savedSong.getPath().isEmpty()
+                    && savedSong.getPath().equals(musicBean.getPath())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void playNext() {
@@ -315,12 +358,16 @@ public class MusicManager {
     public static void persistStateSnapshot() {
         MusicBean currentSong = getMusicBean();
         String currentPath = currentSong != null ? currentSong.getPath() : null;
-        int seekPosition = 0;
-        try {
-            seekPosition = (int) getCurrentPosition();
-        } catch (Exception ignored) {
+        int seekPosition = PlaybackStateStore.getSavedSeekPosition();
+        if (musicController != null) {
+            try {
+                seekPosition = (int) getCurrentPosition();
+            } catch (Exception ignored) {
+            }
         }
-        boolean wasPlaying = musicController != null ? musicController.isPlaying() : (!isPause && currentSong != null);
+        boolean wasPlaying = musicController != null
+                ? musicController.isPlaying()
+                : (currentSong != null && PlaybackStateStore.wasPlaying() && !isPause);
         PlaybackStateStore.saveSnapshot(
                 musicBeans,
                 position,

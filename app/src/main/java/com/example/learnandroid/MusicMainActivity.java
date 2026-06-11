@@ -33,11 +33,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.learnandroid.application.MusicApplication;
+import com.example.learnandroid.application.utils.PlaybackStateStore;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.broad.BroadUtils;
 import com.example.learnandroid.constant.Constant;
 import com.example.learnandroid.constant.MusicManager;
 import com.example.learnandroid.adapter.SectionsPagerAdapter;
+import com.example.learnandroid.data.SongLoader;
 import com.example.learnandroid.dialog.AboutFragmentDialog;
 import com.example.learnandroid.notification.TimberUtils;
 import com.example.learnandroid.service.MusicService;
@@ -80,6 +82,13 @@ public class MusicMainActivity extends BaseActivity {
         MusicManager.addTimeView(processRunnable);
         initSearch();
         viewInsetArea();
+        updateBottomView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBottomView();
     }
 
 
@@ -126,6 +135,9 @@ public class MusicMainActivity extends BaseActivity {
                 @Override
                 public void run() {
                     ProgressBar progressBar = findViewById(R.id.bottom_play_process);
+                    if (MusicManager.getMusicBean() == null) {
+                        return;
+                    }
                     progressBar.setProgress(TimeUtils.miao(MusicManager.getCurrentPosition()));
                 }
             });
@@ -139,30 +151,81 @@ public class MusicMainActivity extends BaseActivity {
     }
 
     public void updateBottomView(){
-        MusicBean musicBean = MusicManager.getMusicBean();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+        ImageView bottomSongPic = findViewById(R.id.bottom_song_pic);
+        TextView bottomSongName = findViewById(R.id.bottom_song_name);
+        TextView bottomSongSonger = findViewById(R.id.bottom_song_songer);
+        ProgressBar bottomProcess = findViewById(R.id.bottom_play_process);
+        ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
+        MusicBean musicBean = resolveBottomDisplaySong();
         if (musicBean == null){
-            return;
+            bottomSongPic.setImageResource(R.mipmap.default_image2);
+            bottomSongName.setText(R.string.bottom_bar_empty_title);
+            bottomSongSonger.setText(R.string.bottom_bar_empty_subtitle);
+            bottomProcess.setMax(100);
+            bottomProcess.setProgress(0);
+            bottomSongPlayOrStop.setImageResource(R.mipmap.play);
         }else {
-            ImageView bottomSongPic = findViewById(R.id.bottom_song_pic);
-            TextView bottomSongName = findViewById(R.id.bottom_song_name);
-            TextView bottomSongSonger = findViewById(R.id.bottom_song_songer);
-            ProgressBar bottomProcess = findViewById(R.id.bottom_play_process);
             Uri albumArtUri = BitmapUtils.getAlbumArtUri(musicBean.getAlbumId());
             Bitmap bitmap = BitmapUtils.decodeUri(MusicMainActivity.this.getBaseContext(),albumArtUri,300,300);
             if (bitmap!=null) {
                 bottomSongPic.setImageBitmap(bitmap);
+            } else {
+                bottomSongPic.setImageResource(R.mipmap.default_image2);
             }
-            bottomProcess.setMax(TimeUtils.miao(musicBean.getDuration()));
+            bottomProcess.setMax(Math.max(1, TimeUtils.miao(musicBean.getDuration())));
+            bottomProcess.setProgress(resolveBottomProgress(musicBean));
             bottomSongName.setText(musicBean.getTitle());
             bottomSongSonger.setText(musicBean.getArtistName());
-            ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
             if (MusicManager.isPlaying()) {
                 bottomSongPlayOrStop.setImageResource(R.mipmap.pause);
             }else {
                 bottomSongPlayOrStop.setImageResource(R.mipmap.play);
             }
         }
-        MusicService.refreshMediaSessionState();
+            }
+        });
+    }
+
+    private MusicBean resolveBottomDisplaySong() {
+        MusicBean currentSong = MusicManager.getMusicBean();
+        if (currentSong != null) {
+            return currentSong;
+        }
+        MusicBean savedSong = PlaybackStateStore.getSavedCurrentSong();
+        if (savedSong != null) {
+            return savedSong;
+        }
+        if (MusicManager.hasSongList() && !MusicManager.getSongListSnapshot().isEmpty()) {
+            return MusicManager.getSongListSnapshot().get(0);
+        }
+        if (!SongLoader.getCachedSongList().isEmpty()) {
+            return SongLoader.getCachedSongList().get(0);
+        }
+        return null;
+    }
+
+    private int resolveBottomProgress(MusicBean displaySong) {
+        MusicBean currentSong = MusicManager.getMusicBean();
+        if (currentSong != null && isSameSong(currentSong, displaySong)) {
+            return TimeUtils.miao(MusicManager.getCurrentPosition());
+        }
+        return Math.min(
+                Math.max(0, TimeUtils.miao(PlaybackStateStore.getSavedSeekPosition())),
+                Math.max(1, TimeUtils.miao(displaySong.getDuration()))
+        );
+    }
+
+    private boolean isSameSong(MusicBean first, MusicBean second) {
+        if (first == null || second == null) {
+            return false;
+        }
+        if (first.getId() >= 0 && second.getId() >= 0 && first.getId() == second.getId()) {
+            return true;
+        }
+        return first.getPath() != null && !first.getPath().isEmpty() && first.getPath().equals(second.getPath());
     }
 
     private void bottomClickListener() {

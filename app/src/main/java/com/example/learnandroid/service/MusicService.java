@@ -248,10 +248,16 @@ public class MusicService extends MediaBrowserServiceCompat {
         Constant.playStyle = restoredState.getPlayStyle();
         MusicManager.setSongList(restoredState.getQueue());
         int currentIndex = restoredState.getCurrentIndex();
+        MusicBean restoredSong = restoredState.getCurrentSong();
+        if (restoredSong != null) {
+            int queueIndex = restoredState.getQueue().indexOf(restoredSong);
+            if (queueIndex >= 0) {
+                currentIndex = queueIndex;
+            }
+        }
         if (currentIndex < 0 || currentIndex >= restoredState.getQueue().size()) {
             currentIndex = 0;
         }
-        MusicManager.setCurrentPlayId(-1L);
         if (!MusicManager.setData(currentIndex)) {
             return false;
         }
@@ -261,7 +267,9 @@ public class MusicService extends MediaBrowserServiceCompat {
             } catch (Exception ignored) {
             }
         }
+        MusicManager.setPauseState(!restoredState.wasPlaying());
         MusicManager.persistStateSnapshot();
+        sendBroadcast(new Intent(Constant.UP_DATE_BOTTOM));
         return true;
     }
 
@@ -288,6 +296,7 @@ public class MusicService extends MediaBrowserServiceCompat {
             return;
         }
         isShuttingDown = true;
+        MusicManager.persistStateSnapshot();
         MusicApplication musicApplication = MusicApplication.getMusicContent();
         if (musicApplication != null) {
             musicApplication.releaseMusicServiceConnection();

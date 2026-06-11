@@ -1,6 +1,7 @@
 package com.example.learnandroid.main;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -104,6 +105,9 @@ public class SongFragment extends Fragment {
             songList.setAdapter(adapter);
             TextView songNum = rootView.findViewById(R.id.song_num);
             songNum.setText(adapter.getCount()+" songs");
+            if (getContext() != null) {
+                getContext().sendBroadcast(new Intent(Constant.UP_DATE_BOTTOM));
+            }
         }
     }
 }
