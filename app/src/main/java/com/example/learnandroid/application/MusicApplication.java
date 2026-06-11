@@ -12,6 +12,7 @@ import com.example.learnandroid.service.MusicServiceConn;
 public class MusicApplication extends Application {
     private static MusicApplication instance;
     private MusicServiceConn musicServiceConn;
+    private boolean isServiceBound;
 
     @Override
     public void onCreate() {
@@ -25,11 +26,27 @@ public class MusicApplication extends Application {
     }
 
     private void bingService() {
+        if (isServiceBound) {
+            return;
+        }
         //创建音乐的服务
         Intent intent = new Intent(this, MusicService.class);//创建意图对象
         //创建服务连接对象
         musicServiceConn = new MusicServiceConn();
         bindService(intent, musicServiceConn, BIND_AUTO_CREATE);  //绑定服务
+        isServiceBound = true;
+    }
+
+    public void releaseMusicServiceConnection() {
+        if (!isServiceBound || musicServiceConn == null) {
+            return;
+        }
+        try {
+            unbindService(musicServiceConn);
+        } catch (Exception ignored) {
+        }
+        musicServiceConn = null;
+        isServiceBound = false;
     }
 
     public static MusicApplication getMusicContent() {
@@ -39,10 +56,7 @@ public class MusicApplication extends Application {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        if (musicServiceConn!=null) {
-            unbindService(musicServiceConn);
-            musicServiceConn = null;
-        }
+        releaseMusicServiceConnection();
         instance = null;
     }
 }

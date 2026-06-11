@@ -25,6 +25,7 @@ import androidx.media.MediaBrowserServiceCompat;
 
 import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
+import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.application.utils.PlaybackStateStore;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.application.utils.BitmapUtils;
@@ -287,6 +288,10 @@ public class MusicService extends MediaBrowserServiceCompat {
             return;
         }
         isShuttingDown = true;
+        MusicApplication musicApplication = MusicApplication.getMusicContent();
+        if (musicApplication != null) {
+            musicApplication.releaseMusicServiceConnection();
+        }
         MusicManager.removeRunnable(sessionSyncRunnable);
         MusicManager.musicController = null;
         musicControl = null;
