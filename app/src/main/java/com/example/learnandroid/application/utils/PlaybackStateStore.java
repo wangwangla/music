@@ -11,6 +11,10 @@ import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.bean.MusicBean;
 import com.example.learnandroid.data.SongLoader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.Map;
 public final class PlaybackStateStore {
     private static final String PREFS_NAME = "playback_state_store";
     private static final String KEY_QUEUE_IDS = "queue_ids";
+    private static final String KEY_QUEUE_SNAPSHOT = "queue_snapshot";
     private static final String KEY_CURRENT_INDEX = "current_index";
     private static final String KEY_CURRENT_SONG_ID = "current_song_id";
     private static final String KEY_CURRENT_PATH = "current_path";
@@ -43,6 +48,7 @@ public final class PlaybackStateStore {
                                     int playStyle) {
         SharedPreferences.Editor editor = prefs().edit();
         editor.putString(KEY_QUEUE_IDS, serializeQueueIds(queue));
+        editor.putString(KEY_QUEUE_SNAPSHOT, serializeQueueSnapshot(queue));
         editor.putInt(KEY_CURRENT_INDEX, currentIndex);
         editor.putLong(KEY_CURRENT_SONG_ID, currentSongId);
         editor.putString(KEY_CURRENT_PATH, currentPath == null ? "" : currentPath);
@@ -70,10 +76,29 @@ public final class PlaybackStateStore {
     @NonNull
     public static RestoredState restoreState() {
         Snapshot snapshot = readSnapshot();
-        ArrayList<MusicBean> allSongs = SongLoader.loadAllSongList();
-        ArrayList<MusicBean> restoredQueue = rebuildQueue(allSongs, snapshot.queueIds);
+        ArrayList<MusicBean> queueSnapshot = new ArrayList<>(snapshot.queueSnapshot);
+        if (queueSnapshot.isEmpty() && snapshot.queueIds != null && !snapshot.queueIds.isEmpty()) {
+            queueSnapshot = rebuildQueue(SongLoader.loadAllSongList(), snapshot.queueIds);
+        }
+
+        ArrayList<MusicBean> restoredQueue = SongLoader.restoreQueueFromSnapshot(queueSnapshot);
+        MusicBean currentSnapshot = buildCurrentSnapshot(snapshot, queueSnapshot);
         MusicBean currentSong = findCurrentSong(restoredQueue, snapshot.currentSongId, snapshot.currentPath, snapshot.currentIndex);
-        int currentIndex = currentSong == null ? normalizeIndex(snapshot.currentIndex, restoredQueue.size()) : restoredQueue.indexOf(currentSong);
+        if (currentSong == null && currentSnapshot != null) {
+            currentSong = SongLoader.restoreSongFromSnapshot(currentSnapshot);
+            if (currentSong != null && !containsSong(restoredQueue, currentSong)) {
+                int insertIndex = normalizeIndex(snapshot.currentIndex, restoredQueue.size() + 1);
+                if (insertIndex < 0 || insertIndex > restoredQueue.size()) {
+                    restoredQueue.add(currentSong);
+                } else {
+                    restoredQueue.add(insertIndex, currentSong);
+                }
+            }
+        }
+
+        int currentIndex = currentSong == null
+                ? normalizeIndex(snapshot.currentIndex, restoredQueue.size())
+                : restoredQueue.indexOf(currentSong);
         if (currentSong == null && currentIndex >= 0 && currentIndex < restoredQueue.size()) {
             currentSong = restoredQueue.get(currentIndex);
         }
@@ -83,6 +108,10 @@ public final class PlaybackStateStore {
     @Nullable
     public static MusicBean getSavedCurrentSong() {
         Snapshot snapshot = readSnapshot();
+        MusicBean currentSong = buildCurrentSnapshot(snapshot, snapshot.queueSnapshot);
+        if (currentSong != null) {
+            return currentSong;
+        }
         if (TextUtils.isEmpty(snapshot.title) && TextUtils.isEmpty(snapshot.artist) && snapshot.albumId < 0) {
             return null;
         }
@@ -125,6 +154,31 @@ public final class PlaybackStateStore {
     }
 
     @Nullable
+    private static MusicBean buildCurrentSnapshot(@NonNull Snapshot snapshot, @Nullable List<MusicBean> queueSnapshot) {
+        MusicBean queueSong = findCurrentSong(queueSnapshot, snapshot.currentSongId, snapshot.currentPath, snapshot.currentIndex);
+        if (queueSong != null) {
+            return queueSong;
+        }
+        if (TextUtils.isEmpty(snapshot.title)
+                && TextUtils.isEmpty(snapshot.artist)
+                && TextUtils.isEmpty(snapshot.currentPath)
+                && snapshot.currentSongId < 0) {
+            return null;
+        }
+        return new MusicBean(
+                snapshot.currentSongId,
+                snapshot.albumId,
+                -1L,
+                safeString(snapshot.title),
+                safeString(snapshot.artist),
+                safeString(snapshot.album),
+                snapshot.duration,
+                0,
+                safeString(snapshot.currentPath)
+        );
+    }
+
+    @Nullable
     private static MusicBean findCurrentSong(@Nullable List<MusicBean> queue,
                                              long currentSongId,
                                              @Nullable String currentPath,
@@ -153,6 +207,24 @@ public final class PlaybackStateStore {
         return null;
     }
 
+    private static boolean containsSong(@Nullable List<MusicBean> queue, @NonNull MusicBean target) {
+        if (queue == null || queue.isEmpty()) {
+            return false;
+        }
+        for (MusicBean musicBean : queue) {
+            if (musicBean == null) {
+                continue;
+            }
+            if (musicBean.getId() == target.getId()) {
+                return true;
+            }
+            if (!TextUtils.isEmpty(musicBean.getPath()) && musicBean.getPath().equals(target.getPath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @NonNull
     private static ArrayList<MusicBean> rebuildQueue(@Nullable List<MusicBean> allSongs, @Nullable List<Long> queueIds) {
         ArrayList<MusicBean> queue = new ArrayList<>();
@@ -176,7 +248,6 @@ public final class PlaybackStateStore {
                 queue.add(musicBean);
             }
         }
-        queue.addAll(songMap.values());
         return queue;
     }
 
@@ -199,10 +270,61 @@ public final class PlaybackStateStore {
     }
 
     @NonNull
+    private static String serializeQueueSnapshot(@Nullable List<MusicBean> queue) {
+        JSONArray jsonArray = new JSONArray();
+        if (queue != null) {
+            for (MusicBean musicBean : queue) {
+                if (musicBean == null) {
+                    continue;
+                }
+                jsonArray.put(toJson(musicBean));
+            }
+        }
+        return jsonArray.toString();
+    }
+
+    @NonNull
+    private static JSONObject toJson(@NonNull MusicBean musicBean) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", musicBean.getId());
+            jsonObject.put("albumId", musicBean.getAlbumId());
+            jsonObject.put("artistId", musicBean.getArtistId());
+            jsonObject.put("title", safeString(musicBean.getTitle()));
+            jsonObject.put("artist", safeString(musicBean.getArtistName()));
+            jsonObject.put("album", safeString(musicBean.getAlbumName()));
+            jsonObject.put("duration", musicBean.getDuration());
+            jsonObject.put("trackNumber", musicBean.getTrackNumber());
+            jsonObject.put("path", safeString(musicBean.getPath()));
+        } catch (JSONException ignored) {
+        }
+        return jsonObject;
+    }
+
+    @Nullable
+    private static MusicBean fromJson(@Nullable JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return null;
+        }
+        return new MusicBean(
+                jsonObject.optLong("id", -1L),
+                jsonObject.optLong("albumId", -1L),
+                jsonObject.optLong("artistId", -1L),
+                jsonObject.optString("title", ""),
+                jsonObject.optString("artist", ""),
+                jsonObject.optString("album", ""),
+                jsonObject.optInt("duration", 0),
+                jsonObject.optInt("trackNumber", 0),
+                jsonObject.optString("path", "")
+        );
+    }
+
+    @NonNull
     private static Snapshot readSnapshot() {
         SharedPreferences sharedPreferences = prefs();
         Snapshot snapshot = new Snapshot();
         snapshot.queueIds = parseQueueIds(sharedPreferences.getString(KEY_QUEUE_IDS, ""));
+        snapshot.queueSnapshot = parseQueueSnapshot(sharedPreferences.getString(KEY_QUEUE_SNAPSHOT, ""));
         snapshot.currentIndex = sharedPreferences.getInt(KEY_CURRENT_INDEX, -1);
         snapshot.currentSongId = sharedPreferences.getLong(KEY_CURRENT_SONG_ID, -1L);
         snapshot.currentPath = sharedPreferences.getString(KEY_CURRENT_PATH, "");
@@ -215,6 +337,25 @@ public final class PlaybackStateStore {
         snapshot.albumId = sharedPreferences.getLong(KEY_ALBUM_ID, -1L);
         snapshot.duration = sharedPreferences.getInt(KEY_DURATION, 0);
         return snapshot;
+    }
+
+    @NonNull
+    private static ArrayList<MusicBean> parseQueueSnapshot(@Nullable String value) {
+        ArrayList<MusicBean> queueSnapshot = new ArrayList<>();
+        if (TextUtils.isEmpty(value)) {
+            return queueSnapshot;
+        }
+        try {
+            JSONArray jsonArray = new JSONArray(value);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                MusicBean musicBean = fromJson(jsonArray.optJSONObject(i));
+                if (musicBean != null) {
+                    queueSnapshot.add(musicBean);
+                }
+            }
+        } catch (JSONException ignored) {
+        }
+        return queueSnapshot;
     }
 
     @NonNull
@@ -248,6 +389,7 @@ public final class PlaybackStateStore {
 
     private static final class Snapshot {
         private ArrayList<Long> queueIds;
+        private ArrayList<MusicBean> queueSnapshot;
         private int currentIndex;
         private long currentSongId;
         private String currentPath;
@@ -311,4 +453,3 @@ public final class PlaybackStateStore {
         }
     }
 }
-

@@ -83,7 +83,9 @@ public class SongFragment extends Fragment {
                 (Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
         }
         musicBeans = SongLoader.loadAllSongList();
-        MusicManager.setSongList(musicBeans);
+        if (!MusicManager.hasSongList()) {
+            MusicManager.setSongList(musicBeans);
+        }
         adapter = new SongAdapter(getContext(), R.layout.songlist_view_layout, musicBeans);
     }
 

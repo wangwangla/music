@@ -47,6 +47,7 @@ public class MusicService extends MediaBrowserServiceCompat {
     private SessionUtils sessionUtils;
     private NotificationManager notificationManager;
     private boolean isForeground;
+    private boolean isShuttingDown;
     private final Set<Long> likedSongIds = new HashSet<>();
     private final Runnable sessionSyncRunnable = new Runnable() {
         @Override
@@ -281,6 +282,47 @@ public class MusicService extends MediaBrowserServiceCompat {
         }
     }
 
+    private void shutdownService(boolean removeNotification) {
+        if (isShuttingDown) {
+            return;
+        }
+        isShuttingDown = true;
+        MusicManager.removeRunnable(sessionSyncRunnable);
+        MusicManager.musicController = null;
+        musicControl = null;
+        if (sessionUtils != null && sessionUtils.getmSession() != null) {
+            try {
+                sessionUtils.getmSession().setActive(false);
+                sessionUtils.getmSession().release();
+            } catch (Exception ignored) {
+            }
+            sessionUtils = null;
+        }
+        if (player != null) {
+            try {
+                if (player.isPlaying()) {
+                    player.stop();
+                }
+            } catch (Exception ignored) {
+            }
+            try {
+                player.release();
+            } catch (Exception ignored) {
+            }
+            player = null;
+        }
+        if (isForeground) {
+            stopForeground(true);
+            isForeground = false;
+        } else if (removeNotification && notificationManager != null) {
+            notificationManager.cancel(MEDIA_NOTIFICATION_ID);
+        }
+        if (removeNotification && notificationManager != null) {
+            notificationManager.cancel(MEDIA_NOTIFICATION_ID);
+        }
+        MusicControlWidgetUpdater.updateAllWidgets(this);
+    }
+
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         if (intent == null || intent.getAction() == null) {
@@ -319,6 +361,13 @@ public class MusicService extends MediaBrowserServiceCompat {
     }
 
     @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        shutdownService(true);
+        stopSelf();
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
         return musicControl;
     }
@@ -339,17 +388,6 @@ public class MusicService extends MediaBrowserServiceCompat {
     public void onDestroy() {
         super.onDestroy();
         instance = null;
-        MusicManager.removeRunnable(sessionSyncRunnable);
-        if (isForeground) {
-            stopForeground(true);
-            isForeground = false;
-        }
-        MusicManager.musicController = null;
-        musicControl = null;
-        MusicControlWidgetUpdater.updateAllWidgets(this);
-        if (player == null) return;
-        if (player.isPlaying()) player.stop();//停止播放音乐
-        player.release();                         //释放占用的资源
-        player = null;                            //将player置为空
+        shutdownService(true);
     }
 }

@@ -66,7 +66,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 		notifyDataSetChanged();
 	}
 
+	private void syncQueueToSearchResults() {
+		MusicManager.setSongList(new ArrayList<>(searchResults));
+	}
+
 	private void playSong(MusicBean musicBean) {
+		syncQueueToSearchResults();
 		if (musicBean.getId() == MusicManager.getId()) {
 			if (!MusicManager.isPlaying()) {
 				MusicManager.continuePlay();

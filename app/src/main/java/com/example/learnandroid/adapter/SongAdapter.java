@@ -29,6 +29,22 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
     }
 
     @NonNull
+    private List<MusicBean> buildQueueSnapshot() {
+        List<MusicBean> queueSnapshot = new java.util.ArrayList<>();
+        for (int i = 0; i < getCount(); i++) {
+            MusicBean musicBean = getItem(i);
+            if (musicBean != null) {
+                queueSnapshot.add(musicBean);
+            }
+        }
+        return queueSnapshot;
+    }
+
+    private void syncQueueToAdapter() {
+        MusicManager.setSongList(new java.util.ArrayList<>(buildQueueSnapshot()));
+    }
+
+    @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
@@ -61,8 +77,8 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                     return;
                 }
                 //播放
-                MusicManager.setData(position);
-                MusicManager.setDataAndplay();
+                syncQueueToAdapter();
+                MusicManager.setDataAndplay(position);
             }
         });
         viewHolder.more.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +98,8 @@ public class SongAdapter extends ArrayAdapter<MusicBean> {
                                 }
                             }else {
                                 //播放
-                                MusicManager.setData(position);
-                                MusicManager.setDataAndplay();
+                                syncQueueToAdapter();
+                                MusicManager.setDataAndplay(position);
                             }
                         }else if (item.getItemId() == R.id.play_next){
                             MusicManager.playNext();

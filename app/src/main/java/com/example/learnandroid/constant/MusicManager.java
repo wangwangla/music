@@ -29,6 +29,10 @@ public class MusicManager {
         return musicBeans != null && !musicBeans.isEmpty();
     }
 
+    public static ArrayList<MusicBean> getSongListSnapshot() {
+        return musicBeans == null ? new ArrayList<MusicBean>() : new ArrayList<>(musicBeans);
+    }
+
     public static void setData(){
         setData(position);
     }
@@ -50,8 +54,7 @@ public class MusicManager {
         for (MusicBean musicBean : musicBeans) {
             tempIndex++;
             if (musicBean.getId() == index) {
-                setData(tempIndex);
-                return true;
+                return setData(tempIndex);
             }
         }
         return false;
@@ -65,17 +68,25 @@ public class MusicManager {
         if (!hasSongList())return false;
         if (index < 0 || index>=musicBeans.size())return false;
         if (musicController == null) return false;
-        MusicBean musicBean = musicBeans.get(index);
-        if (id == musicBean.getId())return true;
-        isPause = false;
-        position = index;
-        setCurrentPlayId(musicBean.getId());
-        musicController.setData(musicBean.getPath());
-        persistStateSnapshot();
-        if (isListener) {
-            updateListener();
+        for (int offset = 0; offset < musicBeans.size(); offset++) {
+            int candidateIndex = (index + offset) % musicBeans.size();
+            MusicBean musicBean = musicBeans.get(candidateIndex);
+            if (musicBean == null) {
+                continue;
+            }
+            if (!musicController.setData(musicBean.getPath())) {
+                continue;
+            }
+            isPause = false;
+            position = candidateIndex;
+            setCurrentPlayId(musicBean.getId());
+            persistStateSnapshot();
+            if (isListener) {
+                updateListener();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public static long getCurrentPosition(){
@@ -113,8 +124,9 @@ public class MusicManager {
             updateListener();
             addTimer();
         }else {
-            setData();
-            setDataAndplay();
+            if (setData(position)) {
+                setDataAndplay();
+            }
         }
     }
 

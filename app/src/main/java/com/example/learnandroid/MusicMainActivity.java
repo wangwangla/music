@@ -155,7 +155,6 @@ public class MusicMainActivity extends BaseActivity {
             bottomProcess.setMax(TimeUtils.miao(musicBean.getDuration()));
             bottomSongName.setText(musicBean.getTitle());
             bottomSongSonger.setText(musicBean.getArtistName());
-            MusicManager.setData();
             ImageView bottomSongPlayOrStop = findViewById(R.id.bottom_song_playorstop);
             if (MusicManager.isPlaying()) {
                 bottomSongPlayOrStop.setImageResource(R.mipmap.pause);

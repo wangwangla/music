@@ -7,9 +7,6 @@ import android.os.Binder;
 
 import com.example.learnandroid.application.MusicApplication;
 import com.example.learnandroid.constant.MusicManager;
-
-import java.io.IOException;
-
 public class MusicControl extends Binder {
    private MediaPlayer player;
    private AudioManager mAudioManager;
@@ -50,18 +47,30 @@ public class MusicControl extends Binder {
 
    }
 
-   public void setData(String path) {
+   public boolean setData(String path) {
+      if (path == null || path.trim().isEmpty()) {
+         return false;
+      }
       try {
          player.reset();
          player.setDataSource(path);
          player.prepare();
-      } catch (IOException e) {
-         throw new RuntimeException(e);
+         return true;
+      } catch (Exception e) {
+         try {
+            player.reset();
+         } catch (Exception ignored) {
+         }
+         return false;
       }
    }
 
    public long getCurrentPosition(){
-      return player.getCurrentPosition();
+      try {
+         return player.getCurrentPosition();
+      } catch (Exception ignored) {
+         return 0L;
+      }
    }
 
    public void play() {
@@ -80,42 +89,60 @@ public class MusicControl extends Binder {
    }
 
    public void pausePlay() {
-      player.pause();           //暂停播放音乐
+      try {
+         if (player.isPlaying()) {
+            player.pause();           //暂停播放音乐
+         }
+      } catch (Exception ignored) {
+      }
       mAudioManager.abandonAudioFocus(null); // 指定焦点变化的回调，可以为null
    }
 
    public void continuePlay() {
-      //获取焦点
       int result = mAudioManager.requestAudioFocus(
-              focusChangeListener, // 指定焦点变化的回调，可以为null
-              AudioManager.STREAM_MUSIC, // 指定音频流的类型
-              AudioManager.AUDIOFOCUS_GAIN // 指定请求焦点类型
+              focusChangeListener,
+              AudioManager.STREAM_MUSIC,
+              AudioManager.AUDIOFOCUS_GAIN
       );
       if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-         // 成功获得焦点，可以播放音频
-//         mAudioManager.requestAudioFocus(, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-         player.start();           //继续播放音乐
+         try {
+            player.start();           //继续播放音乐
+         } catch (Exception ignored) {
+         }
       } else {
-         // 未获得焦点，需要停止播放音频
          mAudioManager.abandonAudioFocus(null); // 指定焦点变化的回调，可以为null
       }
    }
 
    public void seekTo(int progress) {
-      player.seekTo(progress);//设置音乐的播放位置
+      try {
+         player.seekTo(progress);//设置音乐的播放位置
+      } catch (Exception ignored) {
+      }
    }
 
 
    public boolean isPlaying() {
-      return player.isPlaying();
+      try {
+         return player.isPlaying();
+      } catch (Exception ignored) {
+         return false;
+      }
    }
 
    public int getPosition(){
-      return player.getCurrentPosition();
+      try {
+         return player.getCurrentPosition();
+      } catch (Exception ignored) {
+         return 0;
+      }
    }
 
    public void stop() {
-      player.stop();
+      try {
+         player.stop();
+      } catch (Exception ignored) {
+      }
       backAudioFocus();
    }
 

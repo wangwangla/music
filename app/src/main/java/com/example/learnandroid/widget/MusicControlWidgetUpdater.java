@@ -1,11 +1,13 @@
 package com.example.learnandroid.widget;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.os.Bundle;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,8 +15,10 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.example.learnandroid.LoadingActivity;
+import com.example.learnandroid.MusicMainActivity;
 import com.example.learnandroid.R;
 import com.example.learnandroid.application.utils.BitmapUtils;
 import com.example.learnandroid.application.utils.PlaybackStateStore;
@@ -117,9 +121,19 @@ public final class MusicControlWidgetUpdater {
 
     @NonNull
     private static Intent buildOpenAppIntent(@NonNull Context context) {
-        Intent intent = new Intent(context, LoadingActivity.class);
+        Intent intent = new Intent(
+                context,
+                hasMediaPermission(context) ? MusicMainActivity.class : LoadingActivity.class
+        );
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return intent;
+    }
+
+    private static boolean hasMediaPermission(@NonNull Context context) {
+        String permission = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU
+                ? Manifest.permission.READ_MEDIA_AUDIO
+                : Manifest.permission.READ_EXTERNAL_STORAGE;
+        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     @NonNull

@@ -38,7 +38,9 @@ public class PlayerOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<MusicBean> musicBeans = SongLoader.loadAllSongList();
+        ArrayList<MusicBean> musicBeans = MusicManager.hasSongList()
+                ? MusicManager.getSongListSnapshot()
+                : SongLoader.loadAllSongList();
         ListView songList = view.findViewById(R.id.playlist);
         SongAdapter adapter
                 = new SongAdapter(
@@ -46,7 +48,9 @@ public class PlayerOrderFragment extends Fragment {
                 R.layout.songlist_view_layout,
                 musicBeans
         );
-        MusicManager.setSongList(musicBeans);
+        if (!MusicManager.hasSongList()) {
+            MusicManager.setSongList(musicBeans);
+        }
         songList.setAdapter(adapter);
     }
 

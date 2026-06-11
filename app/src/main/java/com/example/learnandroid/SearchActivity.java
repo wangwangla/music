@@ -278,7 +278,6 @@ public class SearchActivity
             allSongs.clear();
             if (musicBeans != null) {
                 allSongs.addAll(musicBeans);
-                MusicManager.setSongList(musicBeans);
             }
         }
         return new ArrayList<>(allSongs);
